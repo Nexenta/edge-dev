@@ -1,0 +1,36 @@
+{
+    "devices": [
+    {
+        "name": "ata-VBOX_HARDDISK_VB370b5369-7d9ecbe0",
+        "device": "/dev/sdb",
+	"readahead": 1024,
+	"wal_disabled": 1,
+	"plevel_override": 4,
+	"sync": 0
+    },
+    {
+        "name": "ata-VBOX_HARDDISK_VBd216059f-af9a543e",
+        "device": "/dev/sdc",
+	"readahead": 1024,
+	"wal_disabled": 1,
+	"plevel_override": 4,
+	"sync": 0
+    },
+    {
+        "name": "ata-VBOX_HARDDISK_VBd6aa9f3d-21ab325e",
+        "device": "/dev/sdd",
+	"readahead": 1024,
+	"wal_disabled": 1,
+	"plevel_override": 4,
+	"sync": 0
+    },
+    {
+        "name": "ata-VBOX_HARDDISK_VB001dd984-88d250f1",
+        "device": "/dev/sde",
+	"readahead": 1024,
+	"wal_disabled": 1,
+	"plevel_override": 4,
+	"sync": 0
+    }
+    ]
+}

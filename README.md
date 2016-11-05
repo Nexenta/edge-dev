@@ -17,6 +17,7 @@ If your requirements extend beyond the scope of DevOps Edition, then please cont
 ## Reference
 
 ## Description of ccow.json 
+This file defines configuration used by CCOW client library.
 
 | Field     | Description                                                                                                    | Example                              | Required |
 |-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
@@ -24,6 +25,7 @@ If your requirements extend beyond the scope of DevOps Edition, then please cont
 | network/broker_interfaces  | The network interface for GW function, can be same as in ccowd.json                           | eth0                                 | required |
 
 ## Description of ccowd.json 
+This file defines configuration used by CCOW daemon.
 
 | Field     | Description                                                                                                    | Example                              | Required |
 |-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
@@ -31,26 +33,37 @@ If your requirements extend beyond the scope of DevOps Edition, then please cont
 | transport | Default transport mechanism. Supported options: rtrd (RAW Disk Interface), rtlfs (On top of FileSystem)        | rtrd                                 | required |
 
 ## Description of corosync.conf (only important parameters)
+This file defines configuration used by CCOW coordination service.
 
 | Field     | Description                                                                                                    | Example                              | Required |
 |-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
 | nodeid    | Unique int64 number. Has to be globally cluster unique value.                                                  | 1                                    | required |
 | interface/bindnetaddr | Default networking interface for Corosync communication, can be same as in ccowd.json              | eth0                                 | required |
 
-## Description of rt-rd.json (Recommended for High Performance and better Disk space utilization)
+## Description of rt-rd.json
+This file defines device configuration. Recommended for High Performance and better Disk space utilization as there is no filesytem overhead and data blobs written directly to device.
 
 | Field     | Description                                                                                                    | Example                              | Required |
 |-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
 | devices/name  | Unique device name as listed in /dev/disk/by-id/NAME                                                       | ata-VBOX_HARDDISK_VB370b5369-7d9ecbe0| required |
 | devices/device | Kernel device name (used only for device description)                                                     | /dev/sdb                             | required |
+| devices/journal | Unique device name as listed in /dev/disk/by-id/NAME (SSD) to be used as WAL journal and caching         | ata-VBOX_HARDDISK_VB370b5369-8e7a88e7| optional |
 
 ## Description of rt-lfs.json 
+This file defines device configuration.
 
 | Field     | Description                                                                                                    | Example                              | Required |
 |-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
 | devices/name  | Unique device name as listed in /dev/disk/by-id/NAME                                                       | disk1                                | required |
 | devices/path | Mountpoint to use. Supported file systems: EXT4, XFS and ZFS                                                | /data/disk1                          | required |
 | devices/device | Kernel device name (used only for device description)                                                     | /dev/sdb                             | required |
+
+## Description of auditd.ini
+This file defines StatsD protocol compatible statistic aggregator configuration.
+
+| Field     | Description                                                                                                    | Example                              | Required |
+|-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
+| is_aggregator | Marks Data Container to become an aggregator and primary management endpoint                               | 0                                    | required |
 
 ## Requirements and Limitations
 It is highly recommended that you run NexentaEdge DevOps Edition on a system with at least 16GB RAM.
@@ -60,6 +73,7 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 |Kernel Version|4.4 or higher|
 |Docker Version|1.12 or higher|
 |CPU|4 cores minimally recommended|
+|Network|Dedicated, VLAN isolated networking interface for Replicast I/O|
 |Memory|16GB Minimum|
 |Cloud|If running in the cloud, AWS Ubuntu 16.04 LTS (HVM) CentOS7.2 with Updates HVM|
 
@@ -68,4 +82,5 @@ Other limitations:
 | Resource | Limit |
 |------------|-------|
 | Max Total Phyisical Capacity | 32TB |
+| Minimal number of disks per Data Container | 4 |
 
