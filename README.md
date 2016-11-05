@@ -1,4 +1,4 @@
-![logo](http://i.imgur.com/DPMRSfB.gif)
+![logo](https://nexenta.com/rs/nexenta2/images/Nexenta-GL-logo-600-dpi.jpg)
 
 # NexentaEdge DevOps Edition
 
@@ -12,7 +12,7 @@ NexentaEdge designed to run in Linux containers, as baremetal on-premis or in th
 # Contact Us
 As you use NexentaEdge, please share your feedback and ask questions. Find the team on [NexentaEdge Forum](https://community.nexenta.com/s/topic/0TOU0000000brtXOAQ/nexentaedge).
 
-If your requirements extend beyond the scope of DevOps Edition, then please contact [Nexenta](https://nexenta.com/contact-us) for information on PX-Enterprise.
+If your requirements extend beyond the scope of DevOps Edition, then please contact [Nexenta](https://nexenta.com/contact-us) for information on NexentaEdge Enterprise Edition.
 
 ## Reference
 
