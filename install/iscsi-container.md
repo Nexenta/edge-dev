@@ -15,7 +15,7 @@ neadm service create iscsi iscsi-mongodb
 neadm service serve company-branch1/finance/databases/mongodb
 ```
 
-### Step 4: Run NexentaEdge GW NFS service across cluster
+### Step 4: Run NexentaEdge GW iSCSI scale-out block service across cluster
 There is no limits on how many GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
 ```
 docker run --network host --name nedge-iscsi-mongodb \
