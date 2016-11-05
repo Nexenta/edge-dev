@@ -1,5 +1,5 @@
 ## Initialization and setting up DevOps license
-Once one more more Data Containers successfully installed, system needs to be initialized and can then be fully managed via NEADM management tool
+Once one or more Data Containers successfully installed, system needs to be initialized and can then be fully managed via NEADM management tool
 
 ### Step 1: Install NEADM management tool
 
