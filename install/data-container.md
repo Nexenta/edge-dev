@@ -13,7 +13,7 @@ docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 repne
 ```
 
 ### Step 2: Prepare local host configuration for Data Container
-There are 4 configuration files (see conf directory) to modify. Adjust networking port. Typicaly first port assigned will be eth0. Adjust rt-rd.json file to point to the correct devices.
+There are example configuration files (see conf directory) to modify. Adjust networking interface. Typicaly first port assigned will be eth0. Adjust rt-rd.json file to point to the correct devices.
 
 ### Step 3: Run NexentaEdge Data Nodes across cluster
 Start the NexentaEdge data container with the following run command:
