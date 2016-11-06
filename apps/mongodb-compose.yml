@@ -1,0 +1,19 @@
+version: '2'
+services:
+  db:
+    image: mongo:latest
+    volumes:
+      - mvol1:/data/configdb
+      - mvol2:/data/db
+
+volumes:
+  mvol1:
+    driver: ndvol
+    driver_opts:
+      size: 5gb
+      ratelim: 1000
+  mvol2:
+    driver: ndvol
+    driver_opts:
+      size: 5gb
+      ratelim: 1000
