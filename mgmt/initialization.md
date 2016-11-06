@@ -2,18 +2,22 @@
 Once one or more Data Containers successfully installed, system needs to be initialized and can then be fully managed via NEADM management tool
 
 ### Step 1: Install NEADM management tool
+NexentaEdge defines set of well described REST APIs which provides easy way to manage complex cluster designs. Once REST module is enabled, container can be managed via NEADM management tool. Enterprise Edition provides additonal way of managing Storage, Networking and Compute via central graphical interface.
 
-TODO
+To enable NEADM tool, modify .neadmrc file to point to the right IPv4 address, port 8080 if not local and set the following or similar alias:
+```
+alias neadm="docker run --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc nexenta/nedge-neadm /opt/neadm/neadm"
+```
 
 ### Step 2: Obtain license and activate cluster
 ```
-root@host:~/neadm ./neadm system init
+neadm system init
 STATUS: Cluster in consistent state
 NexentaEdge cluster initialized successfully.
 System GUID: 39E2BABD-E550-4872-892C-6A537FEA8CC3
 Service checkpoint created successfully
 
-root@host:~/neadm ./neadm system license set online LICENSE-KEY
+neadm system license set online LICENSE-KEY
 ```
 
 ### Step 3: Create cluster namespace and at least one tenant within it
@@ -25,7 +29,7 @@ root@host:~/neadm ./neadm tenant create company-branch1/finance
 
 ### To see running cluster nodes and its devices
 ```
-root@host:~/neadm ./neadm device list
+neadm device list
 ZONE:HOST:CID                           SID/DEVID                        UTIL CAP  RLAT WLAT REPQ STATE
 0:nexentaedge2:nexentaedge2             000443D7E9501E4E9878FFE78178637C
   ata-VBOX_HARDDISK_VB370b5369-7d9ecbe0 27FAB8C7E65F2F1EC8F0A0D437503430 0%   4.5G 8    10   0    ONLINE
