@@ -22,9 +22,9 @@ neadm system license set online LICENSE-KEY
 
 ### Step 3: Create cluster namespace and at least one tenant within it
 ```
-root@host:~/neadm ./neadm cluster create company-branch1
+neadm cluster create company-branch1
 
-root@host:~/neadm ./neadm tenant create company-branch1/finance
+neadm tenant create company-branch1/finance
 ```
 
 ### To see running cluster nodes and its devices
