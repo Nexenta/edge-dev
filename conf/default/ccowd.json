@@ -1,8 +1,0 @@
-{
-	"network": {
-		"server_interfaces": "eth0"
-	},
-	"transport": [
-		"rtrd"
-	]
-}

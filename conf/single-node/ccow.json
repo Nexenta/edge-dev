@@ -1,8 +1,0 @@
-{
-        "tenant": {
-                "failure_domain": 0
-        },
-        "network": {
-                "broker_interfaces": "eth0"
-        }
-}

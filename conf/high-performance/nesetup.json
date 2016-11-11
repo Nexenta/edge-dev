@@ -1,0 +1,45 @@
+{
+	"ccow": {
+		"tenant": {
+			"failure_domain": 1
+		},
+		"network": {
+			"broker_interfaces": "eth0"
+		}
+	},
+	"ccowd": {
+		"network": {
+			"server_interfaces": "eth0"
+		},
+		"transport": [
+			"rtrd"
+		]
+	},
+	"auditd": {
+		"is_aggregator": 0
+	},
+	"rtrd": {
+		"devices": [
+			{
+				"name": "ata-VBOX_HARDDISK_VB370b5369-7d9ecbe0",
+				"device": "/dev/sdb",
+				"journal": "ata-VBOX_HARDDISK_VB877b5388-2344ff88"
+			},
+			{
+				"name": "ata-VBOX_HARDDISK_VBd216059f-af9a543e",
+				"device": "/dev/sdc",
+				"journal": "ata-VBOX_HARDDISK_VB877b5388-2344ff88"
+			},
+			{
+				"name": "ata-VBOX_HARDDISK_VBd6aa9f3d-21ab325e",
+				"device": "/dev/sdd",
+				"journal": "ata-VBOX_HARDDISK_VB877b5388-2344ff88"
+			},
+			{
+				"name": "ata-VBOX_HARDDISK_VB001dd984-88d250f1",
+				"device": "/dev/sde",
+				"journal": "ata-VBOX_HARDDISK_VB877b5388-2344ff88"
+			}
+		]
+	}
+}

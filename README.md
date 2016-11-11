@@ -44,8 +44,56 @@ The NexentaEdge is the only software-defined solution built with the above capab
 
 >**Note:**<br/>The full NexentaEdge Documentation is [available here](http://www.nexenta.com)
 
-## Install and Quick Start Guides
+## Install and Quick Start
 NexentaEdge designed to run in Linux containers, as baremetal on-premis or in the cloud. It is true object storage high-performance scale out solution with File, Block and Object interfaces tightly integrated with container applications. Purporse built for usage with containers, to help design massively scalable and large data greedy applications.
+
+Example of single node setup, running S3 service
+
+### Step 1. Prepare nesetup.json file
+
+* use nesetup.json from "single-node" profile
+* adjust broker_interfaces (for S3 service to be served on), example eth1
+* server_interfaces point to the same name, example eth1
+* adjust rtrd section to point to the devices to be used. Use nezap utility to clear device, example:
+
+```
+docker run nexenta/nedge /opt/nedge/sbin/nezap --do-as-i-say ata-VBOX_HARDDISK_VBd6aa9f3d-21ab325e
+```
+### Step 2. Start Data Container
+
+```
+docker run --network host --name nedge-data-s3 \
+	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
+	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json \
+	-v /dev:/dev \
+	-v /etc/localtime:/etc/localtime:ro \
+	-v /etc/timezone:/etc/timezone:ro \
+        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -jccowserv -jccowgws3
+```
+
+### Step 3: Initialize cluster and obtain license
+
+Use NEADM management tool to setup service parameters
+```
+alias neadm="docker run --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc nexenta/nedge-neadm /opt/neadm/neadm"
+neadm system init
+neadm system license set online LICENSE-KEY
+```
+
+### Step 4: Create service configuration
+
+Use NEADM management tool to setup service parameters
+```
+neadm system license set online LICENSE-KEY
+neadm service create s3 s3finance
+neadm service serve company-branch1/finance
+```
+
+### Step 5: Verify that service is running
+
+```
+curl http://localhost:9982/
+```
 
 # Contact Us
 As you use NexentaEdge, please share your feedback and ask questions. Find the team on [NexentaEdge Forum](https://community.nexenta.com/s/topic/0TOU0000000brtXOAQ/nexentaedge).
@@ -54,7 +102,9 @@ If your requirements extend beyond the scope of DevOps Edition, then please cont
 
 ## Reference
 
-## Description of ccow.json 
+## Description of nesetup.json 
+
+### Section "ccow"
 This file defines configuration used by CCOW client library.
 
 | Field     | Description                                                                                                    | Example                              | Required |
@@ -62,7 +112,7 @@ This file defines configuration used by CCOW client library.
 | tenant/failure_domain | Defines desirable failure domain for the container. 0 - single node, 1 - server, 2 - zone          | 1                                    | required |
 | network/broker_interfaces  | The network interface for GW function, can be same as in ccowd.json                           | eth0                                 | required |
 
-## Description of ccowd.json 
+### Section "ccowd"
 This file defines configuration used by CCOW daemon.
 
 | Field     | Description                                                                                                    | Example                              | Required |
@@ -70,15 +120,7 @@ This file defines configuration used by CCOW daemon.
 | network/server_interfaces  | The network interface for DATA function                                                       | eth0                                 | required |
 | transport | Default transport mechanism. Supported options: rtrd (RAW Disk Interface), rtlfs (On top of FileSystem)        | rtrd                                 | required |
 
-## Description of corosync.conf (only important parameters)
-This file defines configuration used by CCOW coordination service.
-
-| Field     | Description                                                                                                    | Example                              | Required |
-|-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
-| nodeid    | Unique int64 number. Has to be globally cluster unique value.                                                  | 1                                    | required |
-| interface/bindnetaddr | Default networking interface for Corosync communication, can be same as in ccowd.json              | eth0                                 | required |
-
-## Description of rt-rd.json
+### Section "rtrd"
 This file defines device configuration. Recommended for High Performance and better Disk space utilization as there is no filesytem overhead and data blobs written directly to device.
 
 | Field     | Description                                                                                                    | Example                              | Required |
@@ -87,7 +129,7 @@ This file defines device configuration. Recommended for High Performance and bet
 | devices/device | Kernel device name (used only for device description)                                                     | /dev/sdb                             | required |
 | devices/journal | Unique device name as listed in /dev/disk/by-id/NAME (SSD) to be used as WAL journal and caching         | ata-VBOX_HARDDISK_VB370b5369-8e7a88e7| optional |
 
-## Description of rt-lfs.json 
+### Section "rtlfs"
 This file defines device configuration.
 
 | Field     | Description                                                                                                    | Example                              | Required |
@@ -96,7 +138,7 @@ This file defines device configuration.
 | devices/path | Mountpoint to use. Supported file systems: EXT4, XFS and ZFS                                                | /data/disk1                          | required |
 | devices/device | Kernel device name (used only for device description)                                                     | /dev/sdb                             | required |
 
-## Description of auditd.ini
+### Section "auditd"
 This file defines StatsD protocol compatible statistic aggregator configuration.
 
 | Field     | Description                                                                                                    | Example                              | Required |
@@ -119,6 +161,7 @@ Other limitations:
 
 | Resource | Limit |
 |------------|-------|
-| Max Total Phyisical Capacity | 32TB |
+| Max Total Used | 10TB |
+| Max Number of Data Containers | 3 |
 | Minimal number of disks per Data Container | 4 |
 

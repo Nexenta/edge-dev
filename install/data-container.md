@@ -20,11 +20,7 @@ Start the NexentaEdge data container with the following run command:
 ```
 docker run --network host --name nedge-data0 \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
-	-v /root/c0/rt-rd.json:/opt/nedge/etc/ccow/rt-rd.json \
-	-v /root/c0/ccow.json:/opt/nedge/etc/ccow/ccow.json \
-	-v /root/c0/ccowd.json:/opt/nedge/etc/ccow/ccowd.json \
-	-v /root/c0/auditd.ini:/opt/nedge/etc/ccow/auditd.ini \
-	-v /root/c0/corosync.conf:/opt/nedge/etc/corosync/corosync.conf \
+	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v /etc/timezone:/etc/timezone:ro \
