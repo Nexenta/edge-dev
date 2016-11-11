@@ -57,7 +57,7 @@ Example of single node setup, running S3 service
 * adjust rtrd section to point to the devices to be used. Use nezap utility to clear device, example:
 
 ```
-docker run nexenta/nedge /opt/nedge/sbin/nezap --do-as-i-say ata-VBOX_HARDDISK_VBd6aa9f3d-21ab325e
+docker run nexenta/nedge /opt/nedge/sbin/nezap --privileged=true -v /dev:/dev --do-as-i-say ata-VBOX_HARDDISK_VBd6aa9f3d-21ab325e
 ```
 ### Step 2. Start Data Container
 
