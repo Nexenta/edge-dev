@@ -58,9 +58,13 @@ Example of single node setup, running S3 service
 
 ```
 ls -l /dev/disk/by-id
-docker run --privileged=true -v /dev:/dev nexenta/nedge /opt/nedge/sbin/nezap --do-as-i-say DEVID
+docker run --privileged=true -v /dev:/dev nexenta/nedge /opt/nedge/sbin/nezap --do-as-i-say DEVID [JOURNAL_DEVID]
 ```
+Make sure to zap all the devices you listed in nesetup.json. Use optional JOURNAL_DEVID parameter to additionally zap journal/cache SSD.
+
 ### Step 2. Start Data Container
+
+* starting with host networking configuration
 
 ```
 docker run --network host --name nedge-data-s3 \
@@ -87,7 +91,7 @@ alias neadm="docker run --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc 
 neadm system init
 ```
 
-* register DevOps account on [here](https://nexenta.com/nexentaedge/devops)
+* register DevOps account [here](https://nexenta.com/nexentaedge/devops)
 * use e-mailed activation key to activate installation:
 
 ```
