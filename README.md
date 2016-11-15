@@ -145,6 +145,29 @@ This file defines StatsD protocol compatible statistic aggregator configuration.
 |-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
 | is_aggregator | Marks Data Container to become an aggregator and primary management endpoint                               | 0                                    | required |
 
+## Modifications to host OS sysctl
+To achieve best performance / reliability results some host parameters needs to be adjusted.
+
+### Recommended modifications
+This section defines parameters which recommended for optimal performance.
+
+| Field     | Description                                                                                                    | Value                                | Required |
+|-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
+| net.ipv6.conf.all.force_mld_version | Version of MLD protocol                                                              | 1                                    | required |
+| vm.dirty_ratio | Percentage of system memory which when dirty, the process doing writes would block and write out dirty pages to the disks | 10                   | required for hosts running Data containers|
+| vm.dirty_background_ratio | Percentage of system memory which when dirty then system can start writing data to the disks   | 5                                    | required for hosts running Data containers|
+| vm.dirty_expire_centisecs | Defines when dirty data is old enough to be eligible for writeout to disks                     | 6000                                 | required for hosts running Data containers|
+| vm.swappiness | Defines how aggressive the kernel will swap memory pages                                                   | 25                                   | required for hosts running Data containers|
+| net.core.optmem_max | Maximum amount of option memory buffers                                                              | 131072                               | required for 10G+ networks |
+| net.core.netdev_max_backlog | Maximum amount of incoming packets for backlog queue                                         | 300000                               | required for 10G+ networks |
+| net.core.rmem_default | Default socket receive buffer                                                                      | 80331648                             | required for 10G+ networks |
+| net.core.rmem_max | Maximum socket receive buffer                                                                          | 80331648                             | required for 10G+ networks |
+| net.core.wmem_default | Default socket send buffer                                                                         | 33554432                             | required for 10G+ networks |
+| net.core.wmem_max | Maximum socket send buffer                                                                             | 50331648                             | required for 10G+ networks |
+| net.ipv6.ip6frag_high_thresh | Maximum amount of memory to use to reassemble IP fragments                                  | 10000000                             | required for 10G+ networks |
+| net.ipv6.ip6frag_low_thresh | Lower limit at which packets should start being assembled again                              | 7000000                              | required for 10G+ networks |
+| net.ipv6.ip6frag_time | Tells the IP fragmentation handler how long to keep an IP fragment in memory, counted in seconds   | 120                                  | required for 10G+ networks |
+
 ## Requirements and Limitations
 It is highly recommended that you run NexentaEdge DevOps Edition on a system with at least 16GB RAM.
 
