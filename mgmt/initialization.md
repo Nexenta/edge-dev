@@ -6,7 +6,8 @@ NexentaEdge defines set of well described REST APIs which provides easy way to m
 
 To enable NEADM tool, modify .neadmrc file to point to the right IPv4 address, port 8080 if not local and set the following or similar alias:
 ```
-alias neadm="docker run --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc nexenta/nedge-neadm /opt/neadm/neadm"
+source /root/c0/.bash_completion
+alias neadm="docker run -i -t --rm --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc nexenta/nedge-neadm /opt/neadm/neadm"
 ```
 
 ### Step 2: Obtain license and activate cluster

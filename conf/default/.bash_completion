@@ -1,0 +1,554 @@
+# Bash completion code for neadm, source this file with env.sh
+_neadm()
+{
+	local prev cur opts
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	prev2="${COMP_WORDS[COMP_CWORD-2]}"
+	opts="bucket cluster device help iscsi msite nfs service system tenant version"
+
+
+	case "${prev}" in
+		bucket)
+			local copts="create delete list send"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		cluster)
+			local copts="create delete list"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		device)
+			local copts="add detach list nbd replace"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		help)
+			local copts="bucket cluster device iscsi msite nfs service system tenant version"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0;
+			;;
+		iscsi)
+			local copts="accounts config create delete isns list portal resize snapshot status"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		vip)
+			local copts="add delete status"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		service)
+			local copts="add configure create delete disable enable list remove serve show status unserve vip"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		system)
+			local copts="autosupport check clear init license mgmt passwd service-checkpoint status summary version zone"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		tenant)
+			local copts="create delete list user"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		version)
+			local copts="--short"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		nbd)
+			local copts="create delete list register unregister"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		msite)
+			local copts="refresh status"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		nfs)
+			local copts="list share status unshare"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		create)
+			local copts=""
+			if [ "$prev2" == "nbd" ]
+			then
+				copts="<serverId> <number> <objectPath> <volumeSize> [-b blockSize] [-s chunkSize] [-r replicationCount, default 2] [-t limitIOPS]"
+			elif [ "$prev2" == "iscsi" ]
+			then
+				copts="<service> <lunPath> <newSize> [-n number] [-b blockSize] [-s chunkSize] [-r replicate] [-t limitIOPS] [-v VIP]"
+			elif [ "$prev2" == "service" ]
+			then
+				copts="<service-type> <service-name> [-c cluster]"
+			elif [ "$prev2" == "cluster" ]
+			then
+				copts="<cluster>"
+			elif [ "$prev2" == "tenant" ]
+			then
+				copts="<cluster/tenant> [-o csv=options]"
+			elif [ "$prev2" == "bucket" ]
+			then
+				copts="<cluster/tenant/bucket> [-o]"
+			elif [ "$prev2" == "snapshot" ]
+			then
+				copts="<service> <lunPath>@<snapshot>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		delete)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="<service> <lunPath or lunNumber> [-f]"
+			elif [ "$prev2" == "service" ]
+			then
+				copts="<service-name> [-c cluster]"
+			elif [ "$prev2" == "cluster" ]
+			then
+				copts="<cluster>"
+			elif [ "$prev2" == "tenant" ]
+			then
+				copts="<cluster/tenant>"
+			elif [ "$prev2" == "bucket" ]
+			then
+				copts="<cluster/tenant/bucket>"
+			elif [ "$prev2" == "snapshot" ]
+			then
+				copts="<service> <lunPath>@<snapshot>"
+			elif [ "$prev2" == "vip" ]
+			then
+				copts="<service-name> <interface> <VIP>"
+			elif [ "$prev2" == "nbd" ]
+			then
+				copts="<serverId> <number> <objectPath>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		list)
+			local copts=""
+			if [ "$prev2" == "nbd" ]
+			then
+				copts="<serverId>"
+			elif [ "$prev2" == "iscsi" ]
+			then
+				copts="<service>"
+			elif [ "$prev2" == "service" ]
+			then
+				copts="[-c cluster]"
+			elif [ "$prev2" == "cluster" ]
+			then
+				copts="<cluster> -x"
+			elif [ "$prev2" == "tenant" ]
+			then
+				copts="<cluster[/tenant]> [-x]"
+			elif [ "$prev2" == "device" ]
+			then
+				copts="<serverid>"
+			elif [ "$prev2" == "bucket" ]
+			then
+				copts="<cluster/tenant/bucket> [-x]"
+			elif [ "$prev2" == "snapshot" ]
+			then
+				copts="<service> <lunPath>"
+			elif [ "$prev2" == "portal" ]
+			then
+				copts="<service>"
+			elif [ "$prev2" == "accounts" ]
+			then
+				copts="<service>"
+			elif [ "$prev2" == "isns" ]
+			then
+				copts="<service>"
+			elif [ "$prev2" == "nfs" ]
+			then
+				copts="<service>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		send)
+			local copts=""
+			if [ "$prev2" == "bucket" ]
+			then
+				copts="<cluster/tenant/bucket> us-west"
+			elif [ "$prev2" == "snapshot" ]
+			then
+				copts="<service> <lunPath>@<snapshot> <isgwServiceName>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		register)
+			local copts=""
+			if [ "$prev2" == "nbd" ]
+			then
+				copts="<serverId> <number> <objectPath>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		status)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="<service> [-p LUN_path] [-x]"
+			elif [ "$prev2" == "msite" ]
+			then
+				copts="<site-name>"
+			elif [ "$prev2" == "nfs" ]
+			then
+				copts="<service>"
+			elif [ "$prev2" == "vip" ]
+			then
+				copts="<service-name>"
+			elif [ "$prev2" == "system" ]
+			then
+				copts="[-v] [-c]"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		unregister)
+			local copts=""
+			if [ "$prev2" == "nbd" ]
+			then
+				copts="<serverId> <number> <objectPath>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		refresh)
+			local copts=""
+			if [ "$prev2" == "msite" ]
+			then
+				copts=""
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		share)
+			local copts=""
+			if [ "$prev2" == "nfs" ]
+			then
+				copts="<service> <bucketPath> [<chunkSize>]"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		unshare)
+			local copts=""
+			if [ "$prev2" == "nfs" ]
+			then
+				copts="<service> <bucketPath>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+## SUBC0MMAND HELP FOR SYSTEM
+		license)
+			local copts="set show get"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		set)
+			local copts=""
+			if [ "$prev2" == "license" ]
+			then
+				copts="[file /path/to/file, online <activation-key>]"
+			elif [ "$prev2" == "config" ]
+			then
+				copts="<service> <parameter> <value>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		autosupport)
+			local copts="[-c collector-url [serverid]] | [disable]"
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		mgmt)
+			local copts="<set/unset/move> <serverId>"
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		zone)
+			local copts="<serverId> <zone>"
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		check)
+			local copts=""
+			if [ "$prev2" == "system" ]
+			then
+				copts="cluststat flexring flexstat mcaststat"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		flexstat)
+			local copts=""
+			if [ "$prev2" == "check" ]
+			then
+				copts="<cluster/tenant>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		portal)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="add list remove"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		accounts)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="add list remove"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		isns)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="access-control disable/enable list port server"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		server)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="<service> <ipaddr>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		port)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="<service> <port>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		access-control)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="<service> disable/enable"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		service-checkpoint)
+			local copts=""
+			if [ "$prev2" == "system" ]
+			then
+				copts="set"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		disable/enable)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="<service>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		show)
+			local copts=""
+			if [ "$prev2" == "service" ]
+			then
+				copts="<service-name> [-c cluster]"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+## SUBCOMMANDS FOR DEVICE ADD/REMOVE
+		add)
+			local copts=""
+			if [ "$prev2" == "device" ]
+			then
+				copts="[-n] <serverid> <newDevice>"
+			elif [ "$prev2" == "service" ]
+			then
+				copts="<service-name> <server-id> [-c cluster]"
+			elif [ "$prev2" == "vip" ]
+			then
+				copts="<service-name> <quorumNodeID> <interface> <VIP> [-p preferred-host]"
+			elif [ "$prev2" == "portal" ]
+			then
+				copts="<service> <ipaddr>:<port>"
+			elif [ "$prev2" == "accounts" ]
+			then
+				copts="<service> <username> <password>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		remove)
+			local copts=""
+			if [ "$prev2" == "service" ]
+			then
+				copts="<service-name> <server-id> [-c cluster]"
+			elif [ "$prev2" == "portal" ]
+			then
+				copts="<service> <ipaddr>:<port>"
+			elif [ "$prev2" == "accounts" ]
+			then
+				copts="<service> <username>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		detach)
+			local copts=""
+			if [ "$prev2" == "device" ]
+			then
+				copts="<serverid> <oldDevice>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		replace)
+			local copts=""
+			if [ "$prev2" == "device" ]
+			then
+				copts="[-n] <serverid> <oldDevice> <newDevice>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+## SNAPSHOT RELATED COMMANDS
+		snapshot)
+			local copts="clone create delete list rollback send"
+			COMPREPLY=( $(compgen -W "${copts}" -- ${cur}) )
+			return 0
+			;;
+		clone)
+			local copts=""
+			if [ "$prev2" == "snapshot" ]
+			then
+				copts="<service> <lunPath>@<snapshot> <clonePath>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		rollback)
+			local copts=""
+			if [ "$prev2" == "snapshot" ]
+			then
+				copts="<service> <lunPath>@<snapshot>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+## ISCSI RELATED COMMANDS
+		resize)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="<service> <lunPath> <newSize>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		config)
+			local copts=""
+			if [ "$prev2" == "iscsi" ]
+			then
+				copts="<service> <parameter> <value>"
+			elif [ "$prev2" == "snapshot" ]
+			then
+				copts="list read set"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+## SERVICE RELATED COMMANDS
+		disable)
+			local copts=""
+			if [ "$prev2" == "service" ]
+			then
+				copts="<service-name> [-c cluster]"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		enable)
+			local copts=""
+			if [ "$prev2" == "service" ]
+			then
+				copts="<service-name> [-c cluster]"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		configure)
+			local copts=""
+			if [ "$prev2" == "service" ]
+			then
+				copts="<service-name> <parameter> <value> [-c cluster]"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		unserve)
+			local copts=""
+			if [ "$prev2" == "service" ]
+			then
+				copts="<service-name> <serve-path>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		serve)
+			local copts=""
+			if [ "$prev2" == "service" ]
+			then
+				copts="<service-name> <serve-path>"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		user)
+			local copts=""
+			if [ "$prev2" == "tenant" ]
+			then
+				copts="<command> <cluster/tenant> [username] [password] [type]"
+			fi
+			COMPREPLY="${copts}"
+			return 0
+			;;
+		*)
+		;;
+	esac
+
+	if [[ ${cur} == * ]] ; then
+		COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+		return 0
+	fi
+
+
+}
+complete -F _neadm neadm

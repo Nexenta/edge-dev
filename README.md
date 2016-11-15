@@ -89,7 +89,8 @@ docker run --network host --name nedge-data-s3 \
 * setup neadm alias (optional)
 
 ```
-alias neadm="docker run --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc nexenta/nedge-neadm /opt/neadm/neadm"
+source /root/c0/.bash_completion
+alias neadm="docker run -i -t --rm --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc nexenta/nedge-neadm /opt/neadm/neadm"
 ```
 
 * use NEADM management tool to setup service parameters
