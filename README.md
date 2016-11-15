@@ -57,7 +57,8 @@ Example of single node setup, running S3 service
 * adjust rtrd section to point to the devices to be used. Use nezap utility to clear device, example:
 
 ```
-docker run nexenta/nedge /opt/nedge/sbin/nezap --privileged=true -v /dev:/dev --do-as-i-say ata-VBOX_HARDDISK_VBd6aa9f3d-21ab325e
+ls -l /dev/disk/by-id
+docker run --privileged=true -v /dev:/dev nexenta/nedge /opt/nedge/sbin/nezap --do-as-i-say DEVID
 ```
 ### Step 2. Start Data Container
 
@@ -73,18 +74,31 @@ docker run --network host --name nedge-data-s3 \
 
 ### Step 3: Initialize cluster and obtain license
 
-Use NEADM management tool to setup service parameters
+* use .neadmrc from "default" profile and adjust API_URL to point to the right management IPv4 address
+* setup neadm alias (optional)
+
 ```
 alias neadm="docker run --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc nexenta/nedge-neadm /opt/neadm/neadm"
+```
+
+* use NEADM management tool to setup service parameters
+
+```
 neadm system init
-neadm system license set online LICENSE-KEY
+```
+
+* register DevOps account on [here](https://nexenta.com/nexentaedge/devops)
+* use e-mailed activation key to activate installation:
+
+```
+neadm system license set online LICENSE-ACTIVATION-KEY
 ```
 
 ### Step 4: Create service configuration
 
-Use NEADM management tool to setup service parameters
+* use NEADM management tool to setup service parameters
+
 ```
-neadm system license set online LICENSE-KEY
 neadm service create s3 s3finance
 neadm service serve company-branch1/finance
 ```
