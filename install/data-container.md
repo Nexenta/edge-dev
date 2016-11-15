@@ -20,7 +20,8 @@ Start the NexentaEdge data container with the following run command:
 ```
 docker run --network host --name nedge-data0 \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
-	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json \
+	-v /root/c0/flexhash-checkpoint.json:/opt/nedge/var/run/flexhash-checkpoint.json \
+	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v /etc/timezone:/etc/timezone:ro \

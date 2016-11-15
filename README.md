@@ -64,16 +64,23 @@ Make sure to zap all the devices you listed in nesetup.json. Use optional JOURNA
 
 ### Step 2. Start Data Container
 
+* create empty checkpoint file (for data containers only). This file has to be persistently stored on the host serving data container to ensure consistency across container restarts.
+
+```
+touch /root/c0/flexhash-checkpoint.json
+```
+
 * starting with host networking configuration
 
 ```
 docker run --network host --name nedge-data-s3 \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
-	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json \
+	-v /root/c0/flexhash-checkpoint.json:/opt/nedge/var/run/flexhash-checkpoint.json \
+	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v /etc/timezone:/etc/timezone:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -jccowserv -jccowgws3
+        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowserv -j ccowgws3
 ```
 
 ### Step 3: Initialize cluster and obtain license
