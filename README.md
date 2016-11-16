@@ -86,6 +86,7 @@ docker run --network host --name nedge-data-s3 \
 ### Step 3: Initialize cluster and obtain license
 
 * use .neadmrc from "default" profile and adjust API_URL to point to the right management IPv4 address
+* use .bash_completion from "default" profile (optional)
 * setup neadm alias (optional)
 
 ```
@@ -99,7 +100,7 @@ alias neadm="docker run -i -t --rm --network host -v /root/c0/.neadmrc:/opt/nead
 neadm system init
 ```
 
-* register DevOps account [here](https://nexenta.com/nexentaedge/devops)
+* register DevOps account [here](https://community.nexenta.com/s/devops-edition)
 * use e-mailed activation key to activate installation:
 
 ```
