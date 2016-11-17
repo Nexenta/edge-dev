@@ -18,10 +18,11 @@ neadm service serve company-branch1/finance
 ### Step 4: Run NexentaEdge GW S3 Object service across cluster
 There is no limits on how many GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
 ```
-docker run --network host --name nedge-s3finance \
+docker run --ipc host --network host --name nedge-s3finance \
 	-e CCOW_SVCNAME=s3finance \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
-	-v /root/gw0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json \
+	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
+	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v /etc/timezone:/etc/timezone:ro \
         nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowgws3

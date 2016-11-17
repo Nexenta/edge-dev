@@ -73,11 +73,13 @@ touch /root/c0/flexhash-checkpoint.json
 * starting with host networking configuration
 
 ```
-docker run --network host --name nedge-data-s3 \
+docker run --ipc host --network host --name nedge-data-s3 \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
 	-v /root/c0/flexhash-checkpoint.json:/opt/nedge/var/run/flexhash-checkpoint.json \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
+	-v /run/docker/plugins:/run/docker/plugins \
+	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v /etc/timezone:/etc/timezone:ro \
         nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowserv -j ccowgws3
