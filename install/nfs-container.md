@@ -12,8 +12,13 @@ There are example configuration files (see conf directory) to modify. Adjust net
 Use NEADM management tool to setup service parameters
 ```
 neadm service create nfs nfs-revenue
-neadm service serve company-branch1/finance/revenue
-neadm service serve company-branch1/finance/statistics
+neadm service add nfs-revenue 000463FD82155A941EBE9E8B6F5E825F
+neadm service add nfs-revenue 0004ECBFD7AAEEF2F13C98D4F3135176
+neadm service add nfs-revenue 00043679C487FF352EA59E98181A92A2
+
+neadm service serve nfs-revenue company-branch1
+neadm service enable nfs-revenue
+neadm nfs share nfs-revenue company-branch1/finance/statistics 4096
 ```
 
 ### Step 4: Run NexentaEdge GW NFS service across cluster
@@ -34,8 +39,14 @@ docker run --ipc host --network host --name nedge-nfs-revenue \
 At this point you will have NFS service running and exporting two buckets, mountable via NFS protocols.
 
 ### Step 5: Verify that service is running
+Use NEADM management tool to show service status
+```
+neadm service list
+neadm service show nfs-revenue
 
-TODO
+neadm nfs list nfs-revenue
+neadm nfs status nfs-revenue
+```
 
 ### Step 6: Verify that volume is functional
 
