@@ -24,6 +24,8 @@ docker run --ipc host --network host --name nedge-nfs-revenue \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
+	-v /run/docker/plugins:/run/docker/plugins \
+	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v /etc/timezone:/etc/timezone:ro \
         nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j nfsserv
@@ -31,6 +33,13 @@ docker run --ipc host --network host --name nedge-nfs-revenue \
 
 At this point you will have NFS service running and exporting two buckets, mountable via NFS protocols.
 
-### Step 6: Verify that service is running
+### Step 5: Verify that service is running
 
 TODO
+
+### Step 6: Verify that volume is functional
+
+```
+docker volume create -d ndnfs --name myvol1 -o bucket=company-branch1/finance/revenue
+docker volume inspect myvol1
+```
