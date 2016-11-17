@@ -50,7 +50,20 @@ NexentaEdge designed to run in Linux containers, as baremetal on-premis or in th
 
 Example of single node setup, running S3 service
 
-### Step 1. Prepare nesetup.json file
+### Step 1: Setting up Replicast(tm) network
+NexentaEdge designed for high performance and massive scalability beyound 1000 servers per single namespace physical cluster. It doesn't need to have central metadata server(s) or coordination server(s). Architecture is true "shared nothing" with metadata and data fully distributed across the cluster. To operate optimally NexentaEdge requires dedicated high-performance network, isolated with VLAN segment, set for use of Jumbo Frames and preferably non-blocking switch with Flow-Control enabled.
+
+Data Container can be installed either in single or multiple instances per host. When it is installed as a single container, consider to use "--network host" option to simplify networking access for Replicast, Management and Client networks.
+
+It is possible to install more then one Data Container and setup custom Replicast, Management and Client networks. Activation script needs to ensure that all networks exists and functional prior to starting container. For Replicast network it is recommended to use macvlan virtualization method. Example to use macvlan as a Replicast L2 bridge:
+
+```
+ifconfig enp0s9 mtu 9000 up
+modprobe macvlan
+docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 repnet
+```
+
+### Step 2. Prepare nesetup.json file
 
 * edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) from "single-node" profile and copy it over to some dedicated container directory, e.g. /root/c0
 * adjust broker_interfaces (for S3 service to be served on), example eth1 (backend gateway container interface)
@@ -63,7 +76,7 @@ docker run --rm --privileged=true -v /dev:/dev nexenta/nedge /opt/nedge/sbin/nez
 ```
 Make sure to zap all the devices you listed in nesetup.json. Use optional JOURNAL_DEVID parameter to additionally zap journal/cache SSD.
 
-### Step 2. Start Data Container
+### Step 3. Start Data Container
 
 * create empty checkpoint file (for data containers only). This file has to be persistently stored on the host serving data container to ensure consistency across container restarts.
 
@@ -87,7 +100,7 @@ docker run --ipc host --network host --name nedge-data-s3 \
         nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowserv -j ccowgws3
 ```
 
-### Step 3: Initialize cluster and obtain license
+### Step 4: Initialize cluster and obtain license
 
 * copy [.neadmrc](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.neadmrc) from "default" profile to /root/c0. If you planning to use neadm tool on a different host, you'll need to adjust API_URL to point to the right management IPv4 address. Default port 8080, and add "-v /root/c0/.neadmrc:/opt/neadm/.neadmrc" to the alias
 * source [.bash_completion](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.bash_completion) from "default" profile (optional)
@@ -112,7 +125,7 @@ neadm system init
 neadm system license set online LICENSE-ACTIVATION-KEY
 ```
 
-### Step 4: Create service configuration
+### Step 5: Create service configuration
 
 * use NEADM management tool to create cluster name space "company-branch1" and tenant "finance"
 
@@ -134,7 +147,7 @@ neadm service serve company-branch1/finance
 docker exec -it nedge-data-s3 /opt/nedge/nmf/nefcmd.sh adm restart ccowgws3
 ```
 
-### Step 5: Verify that service is running
+### Step 6: Verify that service is running
 
 ```
 curl http://localhost:9982/
