@@ -76,7 +76,7 @@ touch /root/c0/flexhash-checkpoint.json
 ```
 netstat -ant|grep "8080\|9982"|grep LISTEN
 docker run --ipc host --network host --name nedge-data-s3 \
-	-e HOST_HOSTNAME=$(hostname) -e CCOW_SVCNAME=s3finance \ -d -t -i --privileged=true \
+	-e HOST_HOSTNAME=$(hostname) -e CCOW_SVCNAME=s3finance -d -t -i --privileged=true \
 	-v /root/c0/flexhash-checkpoint.json:/opt/nedge/var/run/flexhash-checkpoint.json \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
