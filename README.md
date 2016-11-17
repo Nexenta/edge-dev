@@ -1,7 +1,7 @@
 ![logo](https://nexenta.com/rs/nexenta2/images/Nexenta-GL-logo-600-dpi.jpg)
 
 # NexentaEdge DevOps Edition
-> Leader in container-converted scale-out solutions!
+*Leading container-converged scale-out solution!*
 
 NexentaEdge DevOps Edition is purpose built, container converged scale-out storage solution with full set of Enterprise class features. Run Hadoop/Spark, Cassandra, Jenkins, or any application (Scale-out NFS, iSCSI block, S3/Swift Object) in Docker on commodity x86 servers
 
