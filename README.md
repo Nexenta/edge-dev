@@ -43,7 +43,7 @@ Capabilities of Flexible Data Plane:
 
 The NexentaEdge is the only software-defined solution built with the above capabilities. It was designed from the ground up as a modern, distributed unified storage platform that can run on any commodity server and in any public cloud.
 
->**Note:**<br/>The full NexentaEdge Documentation is [available here](http://www.nexenta.com)
+>**Note:**<br/>The full NexentaEdge Enterprise Edition Documentation is [available here](http://www.nexenta.com)
 
 ## Install and Quick Start
 NexentaEdge designed to run in Linux containers, as baremetal on-premis or in the cloud. It is true object storage high-performance scale out solution with File, Block and Object interfaces tightly integrated with container applications. Purporse built for usage with containers, to help design massively scalable and large data greedy applications.
