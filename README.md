@@ -51,9 +51,9 @@ Example of single node setup, running S3 service
 
 ### Step 1. Prepare nesetup.json file
 
-* use [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) from "single-node" profile
-* adjust broker_interfaces (for S3 service to be served on), example eth1
-* server_interfaces point to the same name, example eth1
+* use [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) from "single-node" profile and copy it over to some dedicated container directory, e.g. /root/c0
+* adjust broker_interfaces (for S3 service to be served on), example eth1 (backend gateway container interface)
+* server_interfaces point to the same name, example eth1 (backend data container interface)
 * adjust rtrd section to point to the devices to be used. Use nezap utility to zap device(s), example:
 
 ```
@@ -70,9 +70,10 @@ Make sure to zap all the devices you listed in nesetup.json. Use optional JOURNA
 touch /root/c0/flexhash-checkpoint.json
 ```
 
-* starting with host networking configuration
+* starting with host networking configuration. Ensure that host has ports 8080 and 9982 not used and available. Port 8080 (default) will be used to respond to REST API requests and 9982 (default) will be used to serve S3 requests
 
 ```
+netstat -ant|grep "8080\|9982"|grep LISTEN
 docker run --ipc host --network host --name nedge-data-s3 \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
 	-v /root/c0/flexhash-checkpoint.json:/opt/nedge/var/run/flexhash-checkpoint.json \
@@ -87,8 +88,8 @@ docker run --ipc host --network host --name nedge-data-s3 \
 
 ### Step 3: Initialize cluster and obtain license
 
-* use .neadmrc from "default" profile and adjust API_URL to point to the right management IPv4 address
-* use .bash_completion from "default" profile (optional)
+* use [.neadmrc](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.neadmrc) from "default" profile. If you planning to use neadm tool on a different host, you'll need to adjust API_URL to point to the right management IPv4 address. Default port 8080.
+* use [.bash_completion](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.bash_completion) from "default" profile (optional)
 * setup neadm alias (optional)
 
 ```
