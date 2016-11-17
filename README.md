@@ -89,14 +89,14 @@ docker run --ipc host --network host --name nedge-data-s3 \
 
 ### Step 3: Initialize cluster and obtain license
 
-* copy [.neadmrc](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.neadmrc) from "default" profile to /root/c0. If you planning to use neadm tool on a different host, you'll need to adjust API_URL to point to the right management IPv4 address. Default port 8080.
+* copy [.neadmrc](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.neadmrc) from "default" profile to /root/c0. If you planning to use neadm tool on a different host, you'll need to adjust API_URL to point to the right management IPv4 address. Default port 8080, and add "-v /root/c0/.neadmrc:/opt/neadm/.neadmrc" to the alias
 * source [.bash_completion](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.bash_completion) from "default" profile (optional)
 * setup neadm alias (optional)
 
 ```
 source /root/c0/.bash_completion
 docker pull nexenta/nedge-neadm
-alias neadm="docker run -i -t --rm --network host -v /root/c0/.neadmrc:/opt/neadm/.neadmrc nexenta/nedge-neadm /opt/neadm/neadm"
+alias neadm="docker run -i -t --rm --network host nexenta/nedge-neadm /opt/neadm/neadm"
 ```
 
 * use NEADM management tool to setup service parameters
