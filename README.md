@@ -51,10 +51,10 @@ Example of single node setup, running S3 service
 
 ### Step 1. Prepare nesetup.json file
 
-* use nesetup.json from "single-node" profile
+* use [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) from "single-node" profile
 * adjust broker_interfaces (for S3 service to be served on), example eth1
 * server_interfaces point to the same name, example eth1
-* adjust rtrd section to point to the devices to be used. Use nezap utility to clear device, example:
+* adjust rtrd section to point to the devices to be used. Use nezap utility to zap device(s), example:
 
 ```
 ls -l /dev/disk/by-id
