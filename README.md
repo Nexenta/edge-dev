@@ -46,12 +46,12 @@ The NexentaEdge is the only software-defined solution built with the above capab
 >**Note:**<br/>The full NexentaEdge Enterprise Edition Documentation is [available here](http://www.nexenta.com)
 
 ## Install and Quick Start
-NexentaEdge designed to run in Linux containers, as baremetal on-premis or in the cloud. It is true object storage high-performance scale out solution with File, Block and Object interfaces tightly integrated with container applications. Purporse built for usage with containers, to help design massively scalable and large data greedy applications.
+NexentaEdge is designed to run in Linux containers, as baremetal on-premis or in the cloud. It is true object storage high-performance scale out solution with File, Block and Object interfaces tightly integrated with container applications. Purporse built for usage with containers, to help design massively scalable and large data greedy applications.
 
 Example of single node setup, running S3 service
 
 ### Step 1: Setting up Replicast(tm) network
-NexentaEdge designed for high performance and massive scalability beyound 1000 servers per single namespace physical cluster. It doesn't need to have central metadata server(s) or coordination server(s). Architecture is true "shared nothing" with metadata and data fully distributed across the cluster. To operate optimally NexentaEdge requires dedicated high-performance network, isolated with VLAN segment, set for use of Jumbo Frames and preferably non-blocking switch with Flow-Control enabled.
+NexentaEdge designed for high performance and massive scalability beyond 1000 servers per single namespace physical cluster. It doesn't need to have central metadata server(s) or coordination server(s). Architecture is true "shared nothing" with metadata and data fully distributed across the cluster. To operate optimally NexentaEdge requires dedicated high-performance network, isolated with VLAN segment, set for use of Jumbo Frames and preferably non-blocking switch with Flow-Control enabled.
 
 Data Container can be installed either in single or multiple instances per host. When it is installed as a single container, consider to use "--network host" option to simplify networking access for Replicast, Management and Client networks.
 
@@ -65,9 +65,9 @@ docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 repne
 
 ### Step 2. Prepare nesetup.json file
 
-* edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) from "single-node" profile and copy it over to some dedicated container directory, e.g. /root/c0
-* adjust broker_interfaces (for S3 service to be served on), example eth1 (backend gateway container interface)
-* server_interfaces point to the same name, example eth1 (backend data container interface)
+* edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/nesetup.json) from "single-node" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
+* adjust broker_interfaces, example eth1. This is backend gateway container interface (Replicast)
+* server_interfaces point to the same name, example eth1. This is also backend but for data container interface (Replicast)
 * adjust rtrd section to point to the devices to be used. Use nezap utility to zap device(s), example:
 
 ```
@@ -102,8 +102,8 @@ docker run --ipc host --network host --name nedge-data-s3 \
 
 ### Step 4: Initialize cluster and obtain license
 
-* copy [.neadmrc](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.neadmrc) from "default" profile to /root/c0. If you planning to use neadm tool on a different host, you'll need to adjust API_URL to point to the right management IPv4 address. Default port 8080, and add "-v /root/c0/.neadmrc:/opt/neadm/.neadmrc" to the alias
-* source [.bash_completion](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.bash_completion) from "default" profile (optional)
+* copy [.neadmrc](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.neadmrc) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/.neadmrc) from "default" profile (located in conf directory) to /root/c0. If you planning to use neadm tool on a different host, you'll need to adjust API_URL to point to the right management IPv4 address. Default port 8080, and add "-v /root/c0/.neadmrc:/opt/neadm/.neadmrc" to the alias
+* source [.bash_completion](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.bash_completion) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/.bash_completion) from "default" profile (located in conf directory). This is optional step.
 * setup neadm alias (optional)
 
 ```
@@ -141,7 +141,7 @@ neadm service create s3 s3finance
 neadm service serve company-branch1/finance
 ```
 
-* restart s3 service so that it will pick up new values
+* restart s3 service so that it will pick up new values from the "s3finance" service definition
 
 ```
 docker exec -it nedge-data-s3 /opt/nedge/nmf/nefcmd.sh adm restart ccowgws3
