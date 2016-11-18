@@ -92,9 +92,12 @@ echo "vm.dirty_expire_centisecs = 6000" >> /etc/sysctl.conf
 echo "vm.swappiness = 25" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_mtu_probing = 1" >> /etc/sysctl.conf
+echo "net.ipv6.ip6frag_high_thresh = 10000000" >> /etc/sysctl.conf
+echo "net.ipv6.ip6frag_low_thresh = 7000000" >> /etc/sysctl.conf
+echo "net.ipv6.ip6frag_time = 120" >> /etc/sysctl.conf
 sysctl -p
 ```
-See Reference for detailed explanations for these.
+See [Reference](#Reference) for detailed explanations for these.
 
 ### Step 3. Start Data and GW Container (as a single instance case)
 
@@ -178,7 +181,7 @@ As you use NexentaEdge, please share your feedback and ask questions. Find the t
 
 If your requirements extend beyond the scope of DevOps Edition, then please contact [Nexenta](https://nexenta.com/contact-us) for information on NexentaEdge Enterprise Edition.
 
-## Reference
+## <a name="Reference"></a>Reference
 
 ## Description of nesetup.json 
 
