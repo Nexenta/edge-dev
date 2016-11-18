@@ -63,7 +63,7 @@ modprobe macvlan
 docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 repnet
 ```
 
-### Step 2. Prepare nesetup.json file
+### Step 2. Prepare nesetup.json file, raw disks and set optimal host sysctl parameters
 
 * edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/nesetup.json) from "single-node" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
 * adjust broker_interfaces, example eth1. This is backend gateway container interface (Replicast)
@@ -76,7 +76,27 @@ docker run --rm --privileged=true -v /dev:/dev nexenta/nedge /opt/nedge/sbin/nez
 ```
 Make sure to zap all the devices you listed in nesetup.json. Use optional JOURNAL_DEVID parameter to additionally zap journal/cache SSD.
 
-### Step 3. Start Data Container
+Set optimal host sysctl parameters:
+
+```
+echo "net.ipv6.conf.all.force_mld_version = 1" >> /etc/sysctl.conf
+echo "net.core.optmem_max = 131072" >> /etc/sysctl.conf
+echo "net.core.netdev_max_backlog = 300000" >> /etc/sysctl.conf
+echo "net.core.rmem_default = 80331648" >> /etc/sysctl.conf
+echo "net.core.rmem_max = 80331648" >> /etc/sysctl.conf
+echo "net.core.wmem_default = 33554432" >> /etc/sysctl.conf
+echo "net.core.wmem_max = 50331648" >> /etc/sysctl.conf
+echo "vm.dirty_ratio = 10" >> /etc/sysctl.conf
+echo "vm.dirty_background_ratio = 5" >> /etc/sysctl.conf
+echo "vm.dirty_expire_centisecs = 6000" >> /etc/sysctl.conf
+echo "vm.swappiness = 25" >> /etc/sysctl.conf
+echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
+echo "net.ipv4.tcp_mtu_probing = 1" >> /etc/sysctl.conf
+sysctl -p
+```
+See Reference for detailed explanations for these.
+
+### Step 3. Start Data and GW Container (as a single instance case)
 
 * create empty checkpoint file (for data containers only). This file has to be persistently stored on the host serving data container to ensure consistency across container restarts.
 
