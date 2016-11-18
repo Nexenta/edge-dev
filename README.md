@@ -104,7 +104,7 @@ See [Reference](#Reference) for detailed explanations for these.
 * create empty checkpoint file (for data containers only). This file has to be persistently stored on the host serving data container to ensure consistency across container restarts.
 
 ```
-touch /root/c0/flexhash-checkpoint.json
+echo "{}" > /root/c0/flexhash-checkpoint.json
 ```
 
 * starting with host networking configuration. Ensure that host has ports 8080 and 9982 not used and available. Port 8080 (default) will be used to respond to REST API requests and 9982 (default) will be used to serve S3 requests
