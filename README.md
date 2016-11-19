@@ -1,5 +1,7 @@
 ![logo](https://nexenta.com/rs/nexenta2/images/Nexenta-GL-logo-600-dpi.jpg)
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/nexenta/nedge.svg)](https://hub.docker.com/r/nexenta/nedge)
+
 # NexentaEdge DevOps Edition
 *Leading container-converged scale-out solution!*
 
