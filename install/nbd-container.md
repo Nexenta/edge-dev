@@ -5,11 +5,11 @@ NexentaEdge design for high performance and massive scalability beyound 1000 ser
 
 Follow guide lines from from Data Container with regards of setting up Replicast network.
 
-### Step 2: Prepare local host configuration for Data Container
-There are example configuration files (see conf directory) to modify. Adjust networking interface. Typicaly first port assigned will be eth0.
+### Step 2: Prepare local host configuration for GW Container
+There are example configuration files (see conf directory) to modify. Adjust networking interface. 
 
 ### Step 3: Prepare serving bucket
-Use NEADM management tool to setup service parameters
+Use NEADM management tool to setup service parameters. Assuming that cluster is initialized and namespace/tenant already created, create bucket where block devices will be automatically mounted:
 ```
 neadm bucket create company-branch1/finance/revenue
 ```
@@ -17,6 +17,7 @@ neadm bucket create company-branch1/finance/revenue
 ### Step 4: Run NexentaEdge GW NBD service across cluster
 There is no limits on how many GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
 ```
+modprobe nbd
 docker run --ipc host --name nedge-nbd-revenue \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
