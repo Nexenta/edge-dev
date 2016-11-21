@@ -9,7 +9,7 @@ Follow guide lines from from Data Container with regards of setting up Replicast
 There are example configuration files (see conf directory) to modify. Adjust networking interface. 
 
 ### Step 3: Prepare serving bucket
-Use NEADM management tool to setup service parameters. Assuming that cluster is initialized and namespace/tenant already created, create bucket where block devices will be automatically mounted:
+Use NEADM management tool to setup service parameters. Assuming that cluster is initialized and namespace/tenant already created, create bucket where block devices will be automatically appearing with names matching Docker volume names:
 ```
 neadm bucket create company-branch1/finance/revenue
 ```
