@@ -22,6 +22,7 @@ docker run --ipc host --name nedge-nbd-revenue \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /root/c0/sysconfig:/opt/nedge/var/lib/nef/jsondb/sysconfig \
 	-v /dev:/dev \
+	-v /var/lib/docker/volumes/ndvol:/var/lib/docker/volumes/ndvol \
 	-v /run/docker/plugins:/run/docker/plugins \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /etc/localtime:/etc/localtime:ro \
