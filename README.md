@@ -50,6 +50,18 @@ The NexentaEdge is the only software-defined solution built with the above capab
 ## Install and Quick Start
 NexentaEdge is designed to run in Linux containers, as baremetal on-premis or in the cloud. It is true object storage high-performance scale out solution with File, Block and Object interfaces tightly integrated with container applications. Purporse built for usage with containers, to help design massively scalable and large data greedy applications.
 
+## Requirements and Limitations
+It is highly recommended that you run NexentaEdge DevOps Edition on a system with at least 16GB RAM.
+
+|Requirement | Notes |
+|---------------|---------|
+|Kernel Version|4.4 or higher|
+|Docker Version|1.12 or higher|
+|CPU|4 cores minimally recommended|
+|Network|Dedicated, VLAN isolated networking interface for Replicast I/O|
+|Memory|16GB Minimum|
+|OS|Ubuntu 16.04 LTS, CentOS7.2 with ELREPO kernel 4.4|
+
 Example of single node setup, running S3 service
 
 ### Step 1: Setting up Replicast(tm) network
@@ -251,19 +263,8 @@ This section defines parameters which recommended for optimal performance.
 | net.ipv6.ip6frag_low_thresh | Lower limit at which packets should start being assembled again                              | 7000000                              | required for 10G+ networks |
 | net.ipv6.ip6frag_time | Tells the IP fragmentation handler how long to keep an IP fragment in memory, counted in seconds   | 120                                  | required for 10G+ networks |
 
-## Requirements and Limitations
-It is highly recommended that you run NexentaEdge DevOps Edition on a system with at least 16GB RAM.
 
-|Requirement | Notes |
-|---------------|---------|
-|Kernel Version|4.4 or higher|
-|Docker Version|1.12 or higher|
-|CPU|4 cores minimally recommended|
-|Network|Dedicated, VLAN isolated networking interface for Replicast I/O|
-|Memory|16GB Minimum|
-|Cloud|If running in the cloud, AWS Ubuntu 16.04 LTS (HVM) CentOS7.2 with Updates HVM|
-
-Other limitations:
+## Other limitations:
 
 | Resource | Limit |
 |------------|-------|
