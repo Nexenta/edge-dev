@@ -32,8 +32,34 @@ docker run --ipc host --name nedge-nbd-revenue \
 At this point you will have NBD service running and exporting "ndvol" Docker volume driver.
 
 ### Step 5: Verify that volume is functional
+Create new volume myvol1. Volume will be created and you should be able to inspect it:
 
 ```
 docker volume create -d ndvol --name myvol1 -o size=16G -o bucket=company-branch1/finance/revenue
 docker volume inspect myvol1
+[
+    {
+        "Name": "myvol1",
+        "Driver": "ndvol",
+        "Mountpoint": "/var/lib/docker/volumes/ndvol/myvol1",
+        "Labels": {},
+        "Scope": "local"
+    }
+]
 ```
+
+Corresponding new NBD device also will be created. List it using neadm command and specify unique ServerId:
+```
+neadm device nbd list 000472A07C763F60D530F8211B3B5CF9
+DEV       CHUNK_SIZE LUN_SIZE REPCOUNT OBJPATH
+/dev/nbd1 32K        130K     3        company-branch1/finance/revenue/myvol1
+```
+
+Start some container and attach volume to it, you will see that volume will be automatically formated (default is xfs) and mounted:
+```
+docker run -v myvol1:/tmp -dit alpine /bin/sh
+mount | grep myvol1
+/dev/nbd1 on /var/lib/docker/volumes/ndvol/myvol1 type xfs (rw,relatime,attr2,inode64,noquota)
+```
+
+Stop/Remove container and you should see that volume is automatically unmounted
