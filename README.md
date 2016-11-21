@@ -62,7 +62,8 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 |Memory|16GB Minimum|
 |OS|Ubuntu 16.04 LTS, CentOS7.2 with ELREPO kernel 4.4|
 
-Example of single node setup, running S3 service
+## Example of single node setup, running S3 service
+Follow below steps to get familiarity with NexentaEdge by trying "all-in-one" deployment where Data and GW functions running in the same single container.
 
 ### Step 1: Setting up Replicast(tm) network
 NexentaEdge designed for high performance and massive scalability beyond 1000 servers per single namespace physical cluster. It doesn't need to have central metadata server(s) or coordination server(s). Architecture is true "shared nothing" with metadata and data fully distributed across the cluster. To operate optimally NexentaEdge requires dedicated high-performance network, isolated with VLAN segment, set for use of Jumbo Frames and preferably non-blocking switch with Flow-Control enabled.
