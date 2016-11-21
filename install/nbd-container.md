@@ -54,7 +54,7 @@ Corresponding new NBD device also will be created. List it using neadm command a
 ```
 neadm device nbd list 000472A07C763F60D530F8211B3B5CF9
 DEV       CHUNK_SIZE LUN_SIZE REPCOUNT OBJPATH
-/dev/nbd1 32K        130K     3        company-branch1/finance/revenue/myvol1
+/dev/nbd1 32K        16G      3        company-branch1/finance/revenue/myvol1
 ```
 
 Start some container and attach volume to it, you will see that volume will be automatically formated (default is xfs) and mounted:
