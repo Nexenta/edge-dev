@@ -80,10 +80,10 @@ docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 repne
 
 ### Step 2. Prepare nesetup.json file, raw disks and set optimal host sysctl parameters
 
-* edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/nesetup.json) from "single-node" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
+* edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/single-node/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/single-node/nesetup.json) from "single-node" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
 * adjust broker_interfaces, example eth1. This is backend gateway container interface (Replicast)
 * server_interfaces point to the same name, example eth1. This is also backend but for data container interface (Replicast)
-* adjust rtrd section to point to the devices to be used. Use nezap utility to zap device(s), example:
+* adjust rtrd section to point to the devices to be used. Use nezap utility to zap device(s). WARNING: ALL DATA ON SELECTED DISKS WILL BE WIPED OUT. Example:
 
 ```
 ls -l /dev/disk/by-id
