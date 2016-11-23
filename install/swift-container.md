@@ -21,10 +21,10 @@ There is no limits on how many GW containers can existing within Replicast netwo
 docker run --ipc host --network host --name nedge-swift \
 	-e CCOW_SVCNAME=swiftsvc1 \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
+	-v /root/c0/var:/opt/nedge/var \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
-	-v /etc/timezone:/etc/timezone:ro \
         nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowgw
 ```
 

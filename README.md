@@ -116,10 +116,10 @@ See [Reference](#Reference) for detailed explanations for these.
 
 ### Step 3. Start Data and GW Container (as a single instance case)
 
-* create empty checkpoint file (for data containers only). This file has to be persistently stored on the host serving data container to ensure consistency across container restarts.
+* create empty var directory. This directory will persistently keep containers information necesary to have across restarts and reboots.
 
 ```
-echo "{}" > /root/c0/flexhash-checkpoint.json
+mkdir /root/c0/var
 ```
 
 * starting with host networking configuration. Ensure that host has ports 8080 and 9982 not used and available. Port 8080 (default) will be used to respond to REST API requests and 9982 (default) will be used to serve S3 requests
@@ -128,13 +128,12 @@ echo "{}" > /root/c0/flexhash-checkpoint.json
 netstat -ant|grep "8080\|9982"|grep LISTEN
 docker run --ipc host --network host --name nedge-data-s3 \
 	-e HOST_HOSTNAME=$(hostname) -e CCOW_SVCNAME=s3finance -d -t -i --privileged=true \
-	-v /root/c0/flexhash-checkpoint.json:/opt/nedge/var/run/flexhash-checkpoint.json \
+	-v /root/c0/var:/opt/nedge/var \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /run/docker/plugins:/run/docker/plugins \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /etc/localtime:/etc/localtime:ro \
-	-v /etc/timezone:/etc/timezone:ro \
         nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowserv -j ccowgws3
 ```
 

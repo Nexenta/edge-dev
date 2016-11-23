@@ -21,10 +21,10 @@ There is no limits on how many GW containers can existing within Replicast netwo
 docker run --ipc host --network host --name nedge-s3finance \
 	-e CCOW_SVCNAME=s3finance \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
+	-v /root/c0/var:/opt/nedge/var \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
-	-v /etc/timezone:/etc/timezone:ro \
         nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowgws3
 ```
 Substitute ccowgws3 with ccowgws3s to serve S3 where buckets accessible as subdomain names, e.g. mybucket1.company.com rather then s3.company.com/mybucket1
