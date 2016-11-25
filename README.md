@@ -202,8 +202,8 @@ Follow same disk configuration for all the 3 nodes as described in "single-node"
 * you will need to use and edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/nesetup.json) from "default" profile. Or use appropriate profile to enable SSD cache/journaling for high-performance hybrid configuration. Consider to use throughput profile if your use case is mostly large objects / files
 * select one of containers also to have management role by changing "is_aggregator" to 1
 
-### Step 3: Start Data and GW Container (as a single instance case) on each node
-Follow same container start steps as described in "single-node" example above.
+### Step 3: Start Data and GW Container (as a single instance) on each node
+Follow same container start steps as described in "single-node" example above. NexentaEdge will automatically discover new nodes and form a cluster.
 
 ### Step 4: Initialize cluster and obtain license
 Follow same initialization steps as described in "single-node" example above. Make sure to modify .neadmrc to set IPv4 address to point to a node with selected management role (i.e. where is_aggregator=1 in nesetup.json)
