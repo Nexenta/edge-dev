@@ -189,6 +189,17 @@ docker exec -it nedge-data-s3 /opt/nedge/nmf/nefcmd.sh adm restart ccowgws3
 ```
 curl http://localhost:9982/
 ```
+## Example of 3-node setup, running S3 service in front of Varnish load balancer
+Follow below steps to get familiarity with NexentaEdge by trying simple 3-node deployment where Data and GW functions running in the same container, serving S3 protocol with Varnish load balancing HTTP requests
+
+### Step 1
+Follow same networking configuration for all the 3 nodes as described in "single-node" example above. Make sure that networking interfaces are all configured with Jumbo and accessible in isolated VLAN (physical or emulated).
+
+### Step 2
+Follow same disk configuration for all the 3 nodes as described in "single-node" example above with following differences and additional stps:
+
+* you will need to use and edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/nesetup.json) from "default" profile. Or use appropriate profile to enable SSD cache/journaling for high-performance hybrid configuration. Consider to use throughput profile if your use case is mostly large objects / files
+* select one of containers also to have management role by changing "is_aggregator" to 1
 
 # Contact Us
 As you use NexentaEdge, please share your feedback and ask questions. Find the team on [NexentaEdge Forum](https://community.nexenta.com/s/topic/0TOU0000000brtXOAQ/nexentaedge).
