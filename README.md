@@ -78,7 +78,7 @@ modprobe macvlan
 docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 repnet
 ```
 
-### Step 2. Prepare nesetup.json file, raw disks and set optimal host sysctl parameters
+### Step 2: Prepare nesetup.json file, raw disks and set optimal host sysctl parameters
 
 * edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/single-node/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/single-node/nesetup.json) from "single-node" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
 * adjust broker_interfaces, example eth1. This is backend gateway container interface (Replicast)
@@ -114,7 +114,7 @@ sysctl -p
 ```
 See [Reference](#Reference) for detailed explanations for these.
 
-### Step 3. Start Data and GW Container (as a single instance case)
+### Step 3: Start Data and GW Container (as a single instance case)
 
 * create empty var directory. This directory will persistently keep containers information necesary to have across restarts and reboots.
 
@@ -192,14 +192,26 @@ curl http://localhost:9982/
 ## Example of 3-node setup, running S3 service in front of Varnish load balancer
 Follow below steps to get familiarity with NexentaEdge by trying simple 3-node deployment where Data and GW functions running in the same container, serving S3 protocol with Varnish load balancing HTTP requests
 
-### Step 1
+### Step 1: Setting up Replicast(tm) network for 3-node cluster
 Follow same networking configuration for all the 3 nodes as described in "single-node" example above. Make sure that networking interfaces are all configured with Jumbo and accessible in isolated VLAN (physical or emulated).
 
-### Step 2
+### Step 2: Prepare nesetup.json file, raw disks and set optimal host sysctl parameters
 Follow same disk configuration for all the 3 nodes as described in "single-node" example above with following differences and additional stps:
 
 * you will need to use and edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/nesetup.json) from "default" profile. Or use appropriate profile to enable SSD cache/journaling for high-performance hybrid configuration. Consider to use throughput profile if your use case is mostly large objects / files
 * select one of containers also to have management role by changing "is_aggregator" to 1
+
+### Step 3: Start Data and GW Container (as a single instance case) on each node
+Follow same container start steps as described in "single-node" example above.
+
+### Step 4: Initialize cluster and obtain license
+Follow same initialization steps as described in "single-node" example above. Make sure to modify .neadmrc to set IPv4 address to point to a node with selected management role (i.e. where is_aggregator=1 in nesetup.json)
+
+### Step 5: Create service configuration
+Follow same eservice configuration steps as described in "single-node" example above.
+
+### Step 6: Setup varnish load balancer container
+
 
 # Contact Us
 As you use NexentaEdge, please share your feedback and ask questions. Find the team on [NexentaEdge Forum](https://community.nexenta.com/s/topic/0TOU0000000brtXOAQ/nexentaedge).
