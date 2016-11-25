@@ -190,8 +190,8 @@ docker exec -it nedge-data-s3 /opt/nedge/nmf/nefcmd.sh adm restart ccowgws3
 curl http://localhost:9982/
 ```
 
-## Example of 3-node setup, running S3 service in front of Varnish load balancer
-Follow below steps to get familiarity with NexentaEdge by trying simple 3-node deployment where Data and GW functions running in the same container, serving S3 protocol with Varnish load balancing HTTP requests
+## Example of 3-node setup, running S3 service NGINX proxy and load balancer
+Follow below steps to get familiarity with NexentaEdge by trying simple 3-node deployment where Data and GW functions running in the same container, serving S3 protocol with NGNIX load balancing HTTP requests
 
 ### Step 1: Setting up Replicast(tm) network for 3-node cluster
 Follow same networking configuration for all the 3 nodes as described in "single-node" example above. Make sure that networking interfaces are all configured with Jumbo and accessible in isolated VLAN (physical or emulated).
