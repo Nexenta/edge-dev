@@ -189,6 +189,7 @@ docker exec -it nedge-data-s3 /opt/nedge/nmf/nefcmd.sh adm restart ccowgws3
 ```
 curl http://localhost:9982/
 ```
+
 ## Example of 3-node setup, running S3 service in front of Varnish load balancer
 Follow below steps to get familiarity with NexentaEdge by trying simple 3-node deployment where Data and GW functions running in the same container, serving S3 protocol with Varnish load balancing HTTP requests
 
@@ -210,8 +211,43 @@ Follow same initialization steps as described in "single-node" example above. Ma
 ### Step 5: Create service configuration
 Follow same eservice configuration steps as described in "single-node" example above.
 
-### Step 6: Setup varnish load balancer container
+### Step 6: Setup nginx load balancer proxy
+The goal is to set up an installation that has an Nginx reverse proxy server at the front and a set of upstream servers handling the requests. The Nginx server is the one directly communicating with clients. Clients don’t receive any information about particular upstream server handling their requests. The responses appear to come directly from the reverse proxy server.
 
+Assuming that Edge containers running on servers with public IPv4 addresses (10.1.1.10, 10.1.1.11, 10.1.1.12), create simple reverse proxy configuration file:
+```
+mkdir /root/ngnix/{conf.d,certs}
+# echo "upstream servers {
+server 10.1.1.10:9982;
+server 10.1.1.11:9982;
+server 10.1.1.12:9982;
+}
+
+server {
+listen 80;
+
+location / {
+proxy_pass http://servers;
+}
+}” > /root/nginx/default.conf
+```
+
+And start ngnix proxy container:
+
+```
+docker run -td -p 80:80 --name nginx-proxy \
+	-v /var/run/docker.sock:/tmp/docker.sock:ro \
+	-v /root/ngnix/conf.d:/etc/nginx/conf.d:ro \
+        -v /root/ngnix/certs:/etc/nginx/certs:ro \
+	jwilder/nginx-proxy
+```
+
+### Step 7: Verify that S3 proxy service is running
+Observe that ngnix-proxy host (replace with IP address to access proxy) can transparently proxy and load-balance S3 requests to Edge cluster:
+
+```
+curl http://ngnix-proxy:9982/
+```
 
 # Contact Us
 As you use NexentaEdge, please share your feedback and ask questions. Find the team on [NexentaEdge Forum](https://community.nexenta.com/s/topic/0TOU0000000brtXOAQ/nexentaedge).
