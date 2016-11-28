@@ -49,7 +49,6 @@ neadm nfs share company-branch1/finance/statistics
 
 Now we have two buckets exported, mountable via NFS protocols.
 
-
 ### Step 5: Verify that service is running
 
 TODO
@@ -60,3 +59,30 @@ TODO
 docker volume create -d ndnfs --name myvol1 -o bucket=company-branch1/finance/revenue
 docker volume inspect myvol1
 ```
+
+### Step 6: Verify that volume is functional with Docker ndnfs volume driver
+Create new volume myvol1. Volume will be created and you should be able to inspect it:
+
+```
+neadm bucket create company-branch1/finance/salary
+docker volume create -d ndvol --name myvol1 -o size=16G -o bucket=company-branch1/finance/salary
+docker volume inspect myvol1
+[
+    {
+        "Name": "myvol1",
+        "Driver": "ndnfs",
+        "Mountpoint": "/var/lib/ndnfs/myvol1",
+        "Labels": {},
+        "Scope": "local"
+    }
+]
+```
+
+Corresponding new NFS share will be created. List it using "neadm nfs list" command.
+
+Start some container and attach volume to it, you will see that volume will be automatically mounted:
+```
+docker run -v myvol1:/tmp -dit alpine /bin/sh
+```
+
+Stop/Remove "alpine" container and you should see that volume is automatically unmounted
