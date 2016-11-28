@@ -42,7 +42,7 @@ docker volume inspect myvol1
     {
         "Name": "myvol1",
         "Driver": "ndvol",
-        "Mountpoint": "/var/lib/docker/volumes/ndvol/myvol1",
+        "Mountpoint": "/var/lib/ndvol/myvol1",
         "Labels": {},
         "Scope": "local"
     }
@@ -60,7 +60,7 @@ Start some container and attach volume to it, you will see that volume will be a
 ```
 docker run -v myvol1:/tmp -dit alpine /bin/sh
 mount | grep myvol1
-/dev/nbd1 on /var/lib/docker/volumes/ndvol/myvol1 type xfs (rw,relatime,attr2,inode64,noquota)
+/dev/nbd1 on /var/lib/ndvol/myvol1 type xfs (rw,relatime,attr2,inode64,noquota)
 ```
 
 Stop/Remove container and you should see that volume is automatically unmounted
