@@ -12,8 +12,6 @@ There are example configuration files (see conf directory) to modify. Adjust net
 Use NEADM management tool to setup service parameters, at the minimum execute this command below so that it will create service with name "nfs-revenue":
 ```
 neadm service create nfs nfs-revenue
-neadm service serve company-branch1/finance/revenue
-neadm service serve company-branch1/finance/statistics
 ```
 
 ### Step 4: Run NexentaEdge GW NFS service across cluster
