@@ -149,7 +149,13 @@ docker pull nexenta/nedge-neadm
 alias neadm="docker run -i -t --rm --network host nexenta/nedge-neadm /opt/neadm/neadm"
 ```
 
-* use NEADM management tool to setup service parameters
+* use NEADM management tool to verify that data container(s) are online
+
+```
+neadm system status
+```
+
+* use NEADM management tool to initialize cluster
 
 ```
 neadm system init
