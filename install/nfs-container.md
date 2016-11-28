@@ -53,13 +53,6 @@ Now we have two buckets exported, mountable via NFS protocols.
 
 TODO
 
-### Step 6: Verify that volume is functional
-
-```
-docker volume create -d ndnfs --name myvol1 -o bucket=company-branch1/finance/revenue
-docker volume inspect myvol1
-```
-
 ### Step 6: Verify that volume is functional with Docker ndnfs volume driver
 Create new volume myvol1. Volume will be created and you should be able to inspect it:
 
