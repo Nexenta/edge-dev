@@ -17,6 +17,7 @@ neadm service create nfs nfs-revenue
 ### Step 4: Run NexentaEdge GW NFS service across cluster
 There is no limits on how many GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
 ```
+mount --make-shared /
 docker run --ipc host --network host --name nedge-nfs-revenue \
 	-e CCOW_SVCNAME=nfs-revenue \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
