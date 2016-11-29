@@ -219,6 +219,11 @@ Follow same initialization steps as described in "single-node" example above. Ma
 ### Step 5: Create service configuration
 Follow same eservice configuration steps as described in "single-node" example above.
 
+* restart s3 service on each node, so that it will pick up new values from the "s3finance" service definition
+```
+docker exec -it nedge-data-s3 /opt/nedge/nmf/nefcmd.sh adm restart ccowgws3
+```
+
 ### Step 6: Setup nginx load balancer proxy
 The goal is to set up an installation that has an Nginx reverse proxy server at the front and a set of upstream servers handling the requests. The Nginx server is the one directly communicating with clients. Clients don’t receive any information about particular upstream server handling their requests. The responses appear to come directly from the reverse proxy server.
 
