@@ -59,6 +59,8 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 |Docker Version|1.12 or higher|
 |CPU|4 cores minimally recommended|
 |Network|Dedicated, VLAN isolated networking interface for Replicast I/O|
+|Max TB per Data Container|up to 132TB|
+|Minimum Disk size|1GB|
 |Memory|16GB Minimum|
 |OS|Ubuntu 16.04 LTS, CentOS7.2 with ELREPO kernel 4.4|
 
