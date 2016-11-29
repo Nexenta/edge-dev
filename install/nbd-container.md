@@ -18,6 +18,7 @@ neadm bucket create company-branch1/finance/revenue
 The below command assumes that cluster is already operational and it will only start GW NBD function as a separate container. However, it is possible to start NBD service as a part of Data container by providing "-j nbdserv" option. There is no limits on how many GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
 ```
 modprobe nbd nbds_max=64
+mount --make-shared /
 docker run --ipc host --name nedge-nbd-revenue \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
 	-v /root/c0/var:/opt/nedge/var \
