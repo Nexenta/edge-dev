@@ -183,7 +183,7 @@ neadm tenant create company-branch1/finance
 
 ```
 neadm service create s3 s3finance
-neadm service configure s3finance X-Service-Config '{"clusterName":"company-branch1","tenantName":"finance"}'
+neadm service serve s3finance company-branch1/finance
 ```
 
 * restart s3 service so that it will pick up new values from the "s3finance" service definition
