@@ -224,7 +224,7 @@ The goal is to set up an installation that has an Nginx reverse proxy server at 
 
 Assuming that Edge containers running on servers with public IPv4 addresses (10.1.1.10, 10.1.1.11, 10.1.1.12), create simple reverse proxy configuration file:
 ```
-mkdir /root/ngnix/{conf.d,certs}
+mkdir -p /root/nginx/{conf.d,certs}
 # echo "upstream servers {
 server 10.1.1.10:9982;
 server 10.1.1.11:9982;
@@ -237,7 +237,7 @@ listen 80;
 location / {
 proxy_pass http://servers;
 }
-}” > /root/nginx/default.conf
+}" > /root/nginx/default.conf
 ```
 
 And start ngnix proxy container:
@@ -245,8 +245,8 @@ And start ngnix proxy container:
 ```
 docker run -td -p 80:80 --name nginx-proxy \
 	-v /var/run/docker.sock:/tmp/docker.sock:ro \
-	-v /root/ngnix/conf.d:/etc/nginx/conf.d:ro \
-        -v /root/ngnix/certs:/etc/nginx/certs:ro \
+	-v /root/ngnix/conf.d:/etc/nginx/conf.d \
+        -v /root/ngnix/certs:/etc/nginx/certs \
 	jwilder/nginx-proxy
 ```
 
