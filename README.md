@@ -67,7 +67,7 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 ## Example of single node setup, running S3 service
 Follow below steps to get familiarity with NexentaEdge by trying "all-in-one" deployment where Data and GW functions running in the same single container.
 
-### Step 1: Setting up Replicast(tm) network
+### Step 1: Setting up Replicast network
 NexentaEdge designed for high performance and massive scalability beyond 1000 servers per single namespace physical cluster. It doesn't need to have central metadata server(s) or coordination server(s). Architecture is true "shared nothing" with metadata and data fully distributed across the cluster. To operate optimally NexentaEdge requires dedicated high-performance network, isolated with VLAN segment, set for use of Jumbo Frames and preferably non-blocking switch with Flow-Control enabled.
 
 Data Container can be installed either in single or multiple instances per host. When it is installed as a single container, consider to use "--network host" option to simplify networking access for Replicast, Management and Client networks.
@@ -201,7 +201,7 @@ curl http://localhost:9982/
 ## Example of 3-node setup, running S3 service NGINX proxy and load balancer
 Follow below steps to get familiarity with NexentaEdge by trying simple 3-node deployment where Data and GW functions running in the same container, serving S3 protocol with NGNIX load balancing HTTP requests
 
-### Step 1: Setting up Replicast(tm) network for 3-node cluster
+### Step 1: Setting up Replicast network for 3-node cluster
 Follow same networking configuration for all the 3 nodes as described in "single-node" example above. Make sure that networking interfaces are all configured with Jumbo and accessible in isolated VLAN (physical or emulated).
 
 ### Step 2: Prepare nesetup.json file, raw disks and set optimal host sysctl parameters
