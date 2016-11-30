@@ -254,9 +254,9 @@ This file defines device configuration. Recommended for High Performance and bet
 
 | Field     | Description                                                                                                    | Example                              | Required |
 |-----------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|----------|
-| devices/name  | Unique device name as listed in /dev/disk/by-id/NAME                                                       | ata-VBOX_HARDDISK_VB370b5369-7d9ecbe0| required |
+| devices/name  | Unique device name as listed in /dev/disk/by-id/NAME                                                       | ata-MICRON_M510DC_MTFDDAK800MBP_15351133916C| required |
 | devices/device | Kernel device name (used only for device description)                                                     | /dev/sdb                             | required |
-| devices/journal | Unique device name as listed in /dev/disk/by-id/NAME (SSD) to be used as WAL journal and caching         | ata-VBOX_HARDDISK_VB370b5369-8e7a88e7| optional |
+| devices/journal | Unique device name as listed in /dev/disk/by-id/NAME (SSD) to be used as WAL journal and caching         | ata-MICRON_M510DC_MTFDDAK800MBP_1535113391A2| optional |
 
 ### Section "rtlfs"
 This file defines device configuration.
