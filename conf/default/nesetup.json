@@ -21,19 +21,19 @@
 	"rtrd": {
 		"devices": [
 			{
-				"name": "ata-VBOX_HARDDISK_VB370b5369-7d9ecbe0",
+				"name": "ata-MICRON_M510DC_MTFDDAK800MBP_15351133916C",
 				"device": "/dev/sdb"
 			},
 			{
-				"name": "ata-VBOX_HARDDISK_VBd216059f-af9a543e",
+				"name": "ata-MICRON_M510DC_MTFDDAK800MBP_15351133916F",
 				"device": "/dev/sdc"
 			},
 			{
-				"name": "ata-VBOX_HARDDISK_VBd6aa9f3d-21ab325e",
+				"name": "ata-MICRON_M510DC_MTFDDAK800MBP_15351133919F",
 				"device": "/dev/sdd"
 			},
 			{
-				"name": "ata-VBOX_HARDDISK_VB001dd984-88d250f1",
+				"name": "ata-MICRON_M510DC_MTFDDAK800MBP_153511339196",
 				"device": "/dev/sde"
 			}
 		]
