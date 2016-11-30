@@ -65,3 +65,17 @@ mount | grep myvol1
 ```
 
 Stop/Remove container and you should see that volume is automatically unmounted
+
+## Reference
+
+### Volume driver parameters
+
+| Parameter | Description | Default |
+|------------|-------|--------|
+| size | Size of volume, can be specified in bytes, or with suffix M or G | 8G |
+| bucket | Bucket name where objects will be automatically created. Object names matching Docker volume name | cluster/tenant/bucket |
+| repcount | Replication count | 3 |
+| ratelim | Rate Limit for this volume in 4K normolized IOPS, has no effect if not specified | 0 |
+| fstype | Filesystem type to format block device, xfs or ext4 | xfs |
+| blocksize | Block device logical sector size in bytes | 4096 |
+| chunksize | Block device object chunk size in bytes | 32768 |
