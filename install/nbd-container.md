@@ -95,11 +95,13 @@ volumes:
   mvol1:
     driver: ndvol
     driver_opts:
-      size: 5gb
-      ratelim: 1000
+      size: 4gb
+      repcount: 3
   mvol2:
     driver: ndvol
     driver_opts:
-      size: 5gb
+      size: 16gb
       ratelim: 1000
+      chunksize: 131072
+      repcount: 2
  ```
