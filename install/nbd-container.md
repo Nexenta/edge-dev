@@ -81,6 +81,7 @@ Stop/Remove container and you should see that volume is automatically unmounted
 | chunksize | Block device object chunk size in bytes | 32768 |
 
 ### Example of usage
+Docker compose file:
 
 ```yaml
 version: '2'
