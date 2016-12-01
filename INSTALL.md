@@ -1,4 +1,4 @@
-# Installation and Quick Start guide for NexentaEdge DevOps Edition
+# Quick Start Guide for NexentaEdge DevOps Edition
 NexentaEdge is designed to run in Linux containers, as baremetal on-premise or inside a virtual machine in the cloud. It is high performance scale-out storage solution with File, Block and Object interfaces tightly integrated with container application frameworks.
 
 To install NexentaEdge DevOps Edition you need at least one Linux server meeting the requirements listed below.
