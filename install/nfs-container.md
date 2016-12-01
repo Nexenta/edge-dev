@@ -1,4 +1,4 @@
-## Installing and Running NexentaEdge Scale-Out NFS v3/v4/v4.1 compatible service container
+## Installing and Running NexentaEdge Scale-Out NFS v3/v4/v4.1 compatible service container (EXPERIMENTAL)
 This guide will explain how to setup Scale-Out NFS service container on one or more servers. Assumption is that cluster is alredy setup and functional.
 
 ### Step 1: Setting up Replicast network
