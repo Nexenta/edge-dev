@@ -14,6 +14,7 @@ For more information on Swagger visit http://swagger.io/
 For Docker Linux systems configuration and installation refer to [DockerDocs]( https://docs.docker.com/engine/installation/)  
 
 2.	Pull nexenta/nedge-swagger Docker image from dockerhub using command:
+
 `$ docker pull nexenta/nedge-swagger`
 
 ### Run Instructions
