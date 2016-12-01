@@ -8,6 +8,8 @@ Follow guide lines from from Data Container with regards of setting up Replicast
 ### Step 2: Prepare local host configuration for Data Container
 There are example configuration files (see conf directory) to modify. Adjust networking interface. Typicaly first port assigned will be eth0.
 
+* edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/gateway/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/gateway/nesetup.json) from "gateway" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
+
 ### Step 3: Create service configuration
 Use NEADM management tool to setup service parameters
 ```
