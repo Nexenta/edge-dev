@@ -22,11 +22,11 @@ For Docker Linux systems configuration and installation refer to [DockerDocs]( h
 
 ### Opening Swagger in browser
  In browser address bar type: 
-http://<docker host IP>/dist/index.html
+http://< docker host IP>/dist/index.html
 
 In the URL field, enter:
-http://<management IP>:8080/v2/swagger.json
-> <management IP> is the IP of  NexentaEdge management node.
+http://< management IP>:8080/v2/swagger.json
+> < management IP> is the IP of  NexentaEdge management node.
 
 In the Username/password fields, enter NexentaEdge management user credentials.
 
