@@ -1,0 +1,25 @@
+{
+	"ccow": {
+		"tenant": {
+			"failure_domain": 1
+		},
+		"network": {
+			"broker_interfaces": "eth0"
+		}
+	},
+	"ccowd": {
+		"network": {
+			"server_interfaces": "eth0"
+		},
+		"transport": [
+			"rtrd"
+		]
+	},
+	"auditd": {
+		"is_aggregator": 0
+	},
+	"rtrd": {
+		"devices": [
+		]
+	}
+}
