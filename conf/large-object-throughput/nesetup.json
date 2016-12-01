@@ -1,0 +1,57 @@
+{
+	"ccow": {
+		"tenant": {
+			"failure_domain": 1
+		},
+		"network": {
+			"broker_interfaces": "eth0"
+		}
+	},
+	"ccowd": {
+		"network": {
+			"server_interfaces": "eth0"
+		},
+		"transport": [
+			"rtrd"
+		]
+	},
+	"auditd": {
+		"is_aggregator": 1
+	},
+	"rtrd": {
+		"devices": [
+			{
+				"name": "scsi-35000039648d0afca",
+				"device": "/dev/sdb",
+				"readahead": 1024,
+				"wal_disabled": 1,
+				"plevel_override": 4,
+				"sync": 0
+			},
+			{
+				"name": "scsi-3500003964840afcb",
+				"device": "/dev/sdc",
+				"readahead": 1024,
+				"wal_disabled": 1,
+				"plevel_override": 4,
+				"sync": 0
+			},
+			{
+				"name": "scsi-3500003964820afcc",
+				"device": "/dev/sdd",
+				"readahead": 1024,
+				"wal_disabled": 1,
+				"plevel_override": 4,
+				"sync": 0
+			},
+			{
+				"name": "scsi-3500003964890afcd",
+				"device": "/dev/sde",
+				"readahead": 1024,
+				"wal_disabled": 1,
+				"plevel_override": 4,
+				"sync": 0
+			}
+		]
+	}
+}
