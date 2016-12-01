@@ -1,4 +1,4 @@
-## Fully Automatic deployment of NexentaEdge Container-Converged environment
+## Fully Automatic deployment of NexentaEdge Container-Converged environment (EXPERIMENTAL)
 This procedure describes Enterprise grade mechanism to deploy Containers for production usage. Deployment is pre-checking environment and ensures that destination target meets requirements. It also sets most optimal configuration and provides a way to select profile whie deploying.
 
 ### Step 1: Install NEDEPLOY management tool
