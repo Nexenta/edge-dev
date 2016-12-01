@@ -6,11 +6,20 @@ NexentaEdge design for high performance and massive scalability beyound 1000 ser
 Follow guide lines from installation guide with regards of setting up [Replicast network](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-1-setting-up-replicast-network).
 
 ### Step 2: Prepare local host configuration for Data Container
-There are example configuration files (see conf directory) to modify. Adjust networking interface. Typicaly first port assigned will be eth0. Adjust rt-rd.json file to point to the correct devices.
+There are example configuration files (see conf directory) to modify. Follow guide lines from installation guide with regards of setting up [Disks](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-2-prepare-nesetupjson-file-raw-disks-and-set-optimal-host-sysctl-parameters)
 
 ### Step 3: Run NexentaEdge Data Nodes across cluster
-Start the NexentaEdge data container with the following run command:
+
+* create empty var directory. This directory will persistently keep containers information necesary to have across restarts and reboots.
+
 ```
+mkdir /root/c0/var
+```
+
+* starting with host networking configuration. Ensure that host has ports 8080 not used and available. Port 8080 (default) will be used to respond to REST API requests.
+
+```
+netstat -ant|grep "8080"|grep LISTEN
 docker run --ipc host --network host --name nedge-data0 \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
 	-v /root/c0/var:/opt/nedge/var \
