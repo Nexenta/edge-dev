@@ -7,7 +7,7 @@ NexentaEdge design for high performance and massive scalability beyound 1000 ser
 Follow guide lines from installation guide with regards of setting up [Replicast network](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-1-setting-up-replicast-network).
 
 ### Step 2: Prepare local host configuration for Data Container
-There are example configuration files (see conf directory) to modify. Follow guide lines from installation guide with regards of setting up [Disks](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-2-prepare-nesetupjson-file-raw-disks-and-set-optimal-host-sysctl-parameters)
+There are example configuration files (see conf directory) to modify. Follow guide lines from installation guide with regards of [setting up Disks](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-2-prepare-nesetupjson-file-raw-disks-and-set-optimal-host-sysctl-parameters)
 
 ### Step 3: Run NexentaEdge Data Nodes across cluster
 
