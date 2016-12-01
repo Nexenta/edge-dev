@@ -1,4 +1,5 @@
 ## Installing and Running NexentaEdge Multi-Site continious replication container (EXPERIMENTAL)
+This guide will explain how to setup inter-segment bi-directional replication service container on one or more servers. Assumption is that there are two clusters alredy setup and both functional.
 
 ### Step 1: Setting up Replicast network
 NexentaEdge design for high performance and massive scalability beyound 1000 servers per cluster. It doesn't have central metadata server or coordination server. Its design is shared nothing with metadata and data fully distributed across the cluster. To work optimally NexentaEdge requires dedicated backend high-performance network, isolated with VLAN segment and set for Jumbo Frames.
