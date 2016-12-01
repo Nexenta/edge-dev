@@ -1,4 +1,5 @@
-## Installing and Running NexentaEdge DevOps Edition
+## Installing and Running NexentaEdge DevOps Edition Data holding container
+This guide will explain how to setup Data hold service container on one or more servers. DevOps Edition supports up to 3 data containers on the same Replicast network. See (Requirements and Limitations)[https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#requirements-and-limitations] section for additional details.
 
 ### Step 1: Setting up Replicast network
 NexentaEdge design for high performance and massive scalability beyound 1000 servers per cluster. It doesn't have central metadata server or coordination server. Its design is shared nothing with metadata and data fully distributed across the cluster. To work optimally NexentaEdge requires dedicated backend high-performance network, isolated with VLAN segment and set for Jumbo Frames.
