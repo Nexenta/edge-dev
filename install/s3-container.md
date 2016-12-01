@@ -3,10 +3,10 @@
 ### Step 1: Setting up Replicast network
 NexentaEdge design for high performance and massive scalability beyound 1000 servers per cluster. It doesn't have central metadata server or coordination server. Its design is shared nothing with metadata and data fully distributed across the cluster. To work optimally NexentaEdge requires dedicated backend high-performance network, isolated with VLAN segment and set for Jumbo Frames.
 
-Follow guide lines from from Data Container with regards of setting up Replicast network.
+Follow guide lines from installation guide with regards of setting up [Replicast network](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-1-setting-up-replicast-network).
 
 ### Step 2: Prepare local host configuration for Data Container
-There are example configuration files (see conf directory) to modify. Adjust networking interface. Typicaly first port assigned will be eth0.
+There are example configuration files (see conf directory) to modify. Adjust networking interface in accordance with Replicast networking configuration.
 
 ### Step 3: Create service configuration
 Use NEADM management tool to setup service parameters
@@ -16,7 +16,7 @@ neadm service serve company-branch1/finance
 ```
 
 ### Step 4: Run NexentaEdge GW S3 Object service across cluster
-There is no limits on how many GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
+There is no limits on how many s3 GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
 ```
 docker run --ipc host --network host --name nedge-s3finance \
 	-e CCOW_SVCNAME=s3finance \
