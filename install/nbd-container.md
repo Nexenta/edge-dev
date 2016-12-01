@@ -1,12 +1,13 @@
 ## Installing and Running NexentaEdge Scale-Out Native Block (NBD) service container
+This guide will explain how to setup Scale-Out NBD block device service container on one or more servers. Assumption is that cluster is alredy setup and functional.
 
 ### Step 1: Setting up Replicast network
 NexentaEdge design for high performance and massive scalability beyound 1000 servers per cluster. It doesn't have central metadata server or coordination server. Its design is shared nothing with metadata and data fully distributed across the cluster. To work optimally NexentaEdge requires dedicated backend high-performance network, isolated with VLAN segment and set for Jumbo Frames.
 
-Follow guide lines from from Data Container with regards of setting up Replicast network.
+Follow guide lines from installation guide with regards of setting up [Replicast network](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-1-setting-up-replicast-network).
 
 ### Step 2: Prepare local host configuration for GW Container
-There are example configuration files (see conf directory) to modify. Adjust networking interface. 
+There are example configuration files (see conf directory) to modify. Adjust networking interface in accordance with Replicast networking configuration. 
 
 ### Step 3: Prepare serving bucket
 Use NEADM management tool to setup service parameters. Assuming that cluster is initialized and namespace/tenant already created, create bucket where block devices will be automatically appearing with names matching Docker volume names:
