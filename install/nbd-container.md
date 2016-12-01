@@ -9,6 +9,8 @@ Follow guide lines from installation guide with regards of setting up [Replicast
 ### Step 2: Prepare local host configuration for GW Container
 There are example configuration files (see conf directory) to modify. Adjust networking interface in accordance with Replicast networking configuration. 
 
+* edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/gateway/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/gateway/nesetup.json) from "gateway" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
+
 ### Step 3: Prepare serving bucket
 Use NEADM management tool to setup service parameters. Assuming that cluster is initialized and namespace/tenant already created, create bucket where block devices will be automatically appearing with names matching Docker volume names:
 ```
