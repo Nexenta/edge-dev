@@ -20,6 +20,8 @@ NexentaEdge DevOps Edition provides the latest advanced storage features of Nexe
 * Quality of Service for storage services
 * Multi-site high-performance bi-directional replication
 
+Continue with more examples and [Quick Start Guides](https://github.com/nexenta/edge-dev/blob/master/INSTALL.md)
+
 Please join us at the [NexentaEdge Devops community](https://community.nexenta.com/) site.
 
 **Note:**<br/>The full documentation for NexentaEdge Enterprise Edition is [available here](http://www.nexenta.com).
