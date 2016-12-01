@@ -1,12 +1,13 @@
 ## Installing and Running NexentaEdge Scale-Out NFS v3/v4/v4.1 compatible service container
+This guide will explain how to setup Scale-Out NFS service container on one or more servers. Assumption is that cluster is alredy setup and functional.
 
 ### Step 1: Setting up Replicast network
 NexentaEdge design for high performance and massive scalability beyound 1000 servers per cluster. It doesn't have central metadata server or coordination server. Its design is shared nothing with metadata and data fully distributed across the cluster. To work optimally NexentaEdge requires dedicated backend high-performance network, isolated with VLAN segment and set for Jumbo Frames.
 
-Follow guide lines from from Data Container with regards of setting up Replicast network.
+Follow guide lines from installation guide with regards of setting up [Replicast network](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-1-setting-up-replicast-network).
 
 ### Step 2: Prepare local host configuration for Data Container
-There are example configuration files (see conf directory) to modify. Adjust networking interface. Typicaly first port assigned will be eth0.
+There are example configuration files (see conf directory) to modify. Adjust networking interface in accordance with Replicast networking configuration.
 
 ### Step 3: Create service configuration
 Use NEADM management tool to setup service parameters, at the minimum execute this command below so that it will create service with name "nfs-revenue":
