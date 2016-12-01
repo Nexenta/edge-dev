@@ -1,4 +1,5 @@
 ## Installing and Running NexentaEdge S3/S3s Object service container
+This guide will explain how to setup s3 Object service container on one or more servers. Assumption is that cluster is alredy setup and functional.
 
 ### Step 1: Setting up Replicast network
 NexentaEdge design for high performance and massive scalability beyound 1000 servers per cluster. It doesn't have central metadata server or coordination server. Its design is shared nothing with metadata and data fully distributed across the cluster. To work optimally NexentaEdge requires dedicated backend high-performance network, isolated with VLAN segment and set for Jumbo Frames.
