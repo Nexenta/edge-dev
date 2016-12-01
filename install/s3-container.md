@@ -9,6 +9,8 @@ Follow guide lines from installation guide with regards of setting up [Replicast
 ### Step 2: Prepare local host configuration for Data Container
 There are example configuration files (see conf directory) to modify. Adjust networking interface in accordance with Replicast networking configuration.
 
+* edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/gateway/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/gateway/nesetup.json) from "gateway" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
+
 ### Step 3: Create service configuration
 Use NEADM management tool to setup service parameters
 ```
@@ -19,6 +21,7 @@ neadm service serve company-branch1/finance
 ### Step 4: Run NexentaEdge GW S3 Object service across cluster
 There is no limits on how many s3 GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
 ```
+mkdir /root/c0/var
 docker run --ipc host --network host --name nedge-s3finance \
 	-e CCOW_SVCNAME=s3finance \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
