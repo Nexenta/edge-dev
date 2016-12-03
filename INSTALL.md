@@ -180,7 +180,7 @@ Follow same container start steps as described in "single-node" example above. N
 Follow same initialization steps as described in "single-node" example above. Make sure to modify .neadmrc to set IPv4 address to point to a node with selected management role (i.e. where is_aggregator=1 in nesetup.json)
 
 ### Step 5: Create service configuration
-Follow same eservice configuration steps as described in "single-node" example above.
+Follow same service configuration steps as described in "single-node" example above.
 
 * restart s3 service on each node, so that it will pick up new values from the "s3finance" service definition
 ```
