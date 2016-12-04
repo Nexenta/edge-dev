@@ -1,0 +1,82 @@
+#!/bin/bash
+#
+# Helper script, also used as an example wrt. how to start NexentaEdge Docker
+# container with multi-host, client/backend separate networks
+#
+
+if test "x$1" = x; then
+	echo "Usage: $0 CDIR [-j param ...]"
+	echo
+	echo "  Create directory with nesetup.json. Basename will be used as container prefix."
+	echo "  Use the following environment variables to customize service start:"
+	echo
+	echo "  CCOW_SVCNAME    service name to start gateway with"
+	echo "  CCOW_REPNET     name of Replicast network to connect to"
+	echo "  CCOW_CLNET      name of client network to connect to"
+	echo "  CCOW_MGMTNET    name of management network to connect to"
+	echo "  CCOW_MGMTIPV4   assign static management IPv4 address (default net 192.168.210.0/24)"
+	echo "  NETIF_REPNET    networking interface to use for macvlan / Replicast network"
+	echo "  NETIF_CLNET     networking interface to use for macvlan / Client network"
+	echo
+	echo "  Example: NETIF_CLNET=eth1 NETIF_REPNET=eth2 CCOW_SVCNAME=s3finance $0 /root/c0 -j ccowgws3"
+	exit 1
+fi
+
+CDIR=$1
+shift
+
+if test ! -e $CDIR/nesetup.json; then
+	echo "Error: configuration file $CDIR/nesetup.json not found"
+	exit 1;
+fi
+
+if test ! -e $CDIR/var; then
+	mkdir $CDIR/var
+fi
+
+NAME=$(basename $CDIR)
+IMAGE=${IMAGE:-"nexenta/nedge"}
+OPTS=${OPTS:-"-e CCOW_SVCNAME=$CCOW_SVCNAME"}
+CCOW_REPNET=${CCOW_REPNET:-"nedge-replicast"}
+CCOW_CLNET=${CCOW_CLNET:-"nedge-client"}
+CCOW_MGMTNET=${CCOW_MGMTNET:-"nedge-mgmt"}
+CCOW_MGMTIPV4=${CCOW_MGMTIPV4:-"192.168.210.2"}
+
+echo "PARAM          VALUE"
+echo "-----          -----"
+echo "Name           $NAME"
+echo "Service        $CCOW_SVCNAME"
+echo "Image          $IMAGE"
+echo "Management IP  $CCOW_MGMTIPV4"
+
+if test ! x"$NETIF_REPNET" = x; then
+	docker network create -d macvlan --subnet 192.168.211.0/24 \
+		       -o parent=$NETIF_REPNET $CCOW_REPNET 1>/dev/null 2>/dev/null
+else
+	echo "ReplicastNet   $CCOW_REPNET"
+fi
+if test ! x"$NETIF_CLNET" = x; then
+	docker network create -d macvlan --subnet 192.168.211.0/24 \
+		       -o parent=$NETIF_CLNET $CCOW_CLNET 1>/dev/null 2>/dev/null
+	docker network create --subnet 192.168.210.0/24 $CCOW_MGMTNET 1>/dev/null 2>/dev/null
+	echo "ClientNet      $CCOW_CLNET (192.168.210.0/24)"
+	echo "MgmtNet        $CCOW_MGMTNET (192.168.210.0/24)"
+else
+	echo "ClientNet      $CCOW_CLNET"
+	echo "MgmtNet        $CCOW_MGMTNET"
+fi
+
+docker run --ipc host --network $CCOW_REPNET --name nedge-$NAME --net-alias nedge-$NAME \
+	-e HOST_HOSTNAME=$(hostname) $OPTS -d -t -i --privileged=true \
+	-v $CDIR/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
+	-v $CDIR/var:/opt/nedge/var \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	-v /run/docker/plugins:/run/docker/plugins \
+	-v /var/lib/ndvol:/var/lib/ndvol:shared \
+	-v /var/lib/ndnfs:/var/lib/ndnfs:shared \
+	-v /dev:/dev \
+	-v /etc/localtime:/etc/localtime:ro \
+ 	$IMAGE /opt/nedge/nmf/nefcmd.sh start $@
+
+docker network connect $CCOW_CLNET nedge-$NAME
+docker network connect $CCOW_MGMTNET nedge-$NAME --ip $CCOW_MGMTIPV4 1>/dev/null 2>/dev/null
