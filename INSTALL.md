@@ -147,7 +147,7 @@ neadm service create s3 s3finance
 neadm service serve s3finance company-branch1/finance
 ```
 
-* restart s3 service so that it will pick up new values from the "s3finance" service definition
+* restart s3 service so that it will pick up new values from the "s3finance" service definition. This operation only required when data and gateway (S3) container running in the same instance
 
 ```
 docker exec -it nedge-data-s3 /opt/nedge/nmf/nefcmd.sh adm restart ccowgws3
