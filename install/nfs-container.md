@@ -63,7 +63,7 @@ Create new volume myvol1. Volume will be created and you should be able to inspe
 
 ```
 neadm bucket create company-branch1/finance/salary
-docker volume create -d ndvol --name myvol1 -o size=16G -o bucket=company-branch1/finance/salary
+docker volume create -d ndnfs --name myvol1 -o size=16G -o bucket=company-branch1/finance/salary
 docker volume inspect myvol1
 [
     {
