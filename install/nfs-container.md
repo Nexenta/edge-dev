@@ -56,7 +56,7 @@ Now we have a bucket exported, mountable via NFS protocols.
 Export will have a name of a bucket
 
 ```
-showmount -e 127.0.0.1 | grep -E '^/test\ '
+showmount -e 127.0.0.1 | grep -E '^/statistics\ '
 ```
 
 ### Step 6: Verify that volume is functional with Docker ndnfs volume driver
