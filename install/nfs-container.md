@@ -53,8 +53,11 @@ neadm nfs share nfs-finance company-branch1/finance/statistics
 Now we have a bucket exported, mountable via NFS protocols.
 
 ### Step 5: Verify that service is running
+Export will have a name of a bucket
 
-TODO
+```
+showmount -e | grep "/statistics"
+```
 
 ### Step 6: Verify that volume is functional with Docker ndnfs volume driver
 Create new volume myvol1. Volume will be created and you should be able to inspect it:
