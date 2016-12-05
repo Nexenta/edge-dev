@@ -12,9 +12,9 @@ There are example configuration files (see conf directory) to modify. Adjust net
 * edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/gateway/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/gateway/nesetup.json) from "gateway" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
 
 ### Step 3: Create service configuration
-Use NEADM management tool to setup service parameters, at the minimum execute this command below so that it will create service with name "nfs-revenue":
+Use NEADM management tool to setup service parameters, at the minimum execute this command below so that it will create service with name "nfs-finance":
 ```
-neadm service create nfs nfs-revenue
+neadm service create nfs nfs-finance
 ```
 
 ### Step 4: Run NexentaEdge GW NFS service across cluster
@@ -22,8 +22,8 @@ There is no limits on how many GW containers can existing within Replicast netwo
 ```
 mkdir -p /root/c0/var
 mount --make-shared /
-docker run --ipc host --network host --name nedge-nfs-revenue \
-	-e CCOW_SVCNAME=nfs-revenue \
+docker run --ipc host --network host --name nedge-nfs-finance \
+	-e CCOW_SVCNAME=nfs-finance \
 	-e HOST_HOSTNAME=$(hostname) -d -t -i --privileged=true \
 	-v /root/c0/var:/opt/nedge/var \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
@@ -37,22 +37,20 @@ docker run --ipc host --network host --name nedge-nfs-revenue \
 
 At this point you will have NFS service running. Add SERVERID (can be found with command "neadm system status") to the service:
 ```
-neadm service add nfs-revenue SERVERID
+neadm service add nfs-finance SERVERID
 ```
 
-Create couple of buckets to share via NFS:
+Create bucket to share via NFS:
 ```
-neadm bucket create company-branch1/finance/revenue
 neadm bucket create company-branch1/finance/statistics
 ```
 
-Share buckets:
+Share bucket:
 ```
-neadm nfs share company-branch1/finance/revenue
-neadm nfs share company-branch1/finance/statistics
+neadm nfs share nfs-finance company-branch1/finance/statistics
 ```
 
-Now we have two buckets exported, mountable via NFS protocols.
+Now we have a bucket exported, mountable via NFS protocols.
 
 ### Step 5: Verify that service is running
 
@@ -62,8 +60,7 @@ TODO
 Create new volume myvol1. Volume will be created and you should be able to inspect it:
 
 ```
-neadm bucket create company-branch1/finance/salary
-docker volume create -d ndnfs --name myvol1 -o size=16G -o bucket=company-branch1/finance/salary
+docker volume create -d ndnfs --name myvol1 -o tenant=company-branch1/finance
 docker volume inspect myvol1
 [
     {
