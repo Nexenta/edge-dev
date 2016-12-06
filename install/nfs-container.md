@@ -18,8 +18,9 @@ neadm service create nfs nfs-finance
 ```
 
 ### Step 4: Run NexentaEdge GW NFS service across cluster
-There is no limits on how many GW containers can existing within Replicast network. Start the NexentaEdge service container with the following run command:
+There is no limits on how many GW containers can existing within Replicast network. Ensure that rpcbind isn't running in the host and start the NexentaEdge service container with the following run command:
 ```
+service rpcbind stop
 mkdir -p /root/c0/var
 mount --make-shared /
 docker run --ipc host --network host --name nedge-nfs-finance \
@@ -68,6 +69,7 @@ rpcinfo -p
 See if export shows up on the client:
 ```
 showmount -e 127.0.0.1 | grep statistics
+/statistics (everyone)
 ```
 
 ### Step 6: Verify that volume is functional with Docker ndnfs volume driver
