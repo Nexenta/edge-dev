@@ -22,6 +22,6 @@ NexentaEdge DevOps Edition provides the latest advanced storage features of Nexe
 
 Continue with more examples and [Quick Start Guides](https://github.com/nexenta/edge-dev/blob/master/INSTALL.md)
 
-Please join us at the [NexentaEdge Devops community](https://community.nexenta.com/) site.
+Please join us at the [NexentaEdge Devops community](https://community.nexenta.com/s/topic/0TOU0000000brtXOAQ/nexentaedge) site.
 
-**Note:**<br/>The full documentation for NexentaEdge Enterprise Edition is [available here](http://www.nexenta.com).
+**Note:**<br/>The full documentation for NexentaEdge Enterprise Edition is [available here](https://nexenta.com/products/nexentaedge).
