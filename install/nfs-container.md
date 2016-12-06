@@ -53,10 +53,21 @@ neadm nfs share nfs-finance company-branch1/finance/statistics
 Now we have a bucket exported, mountable via NFS protocols.
 
 ### Step 5: Verify that service is running
-Export will have a name of a bucket
-
+Run on the client to verify that portmapper listening:
 ```
-showmount -e 127.0.0.1 | grep -E '^/statistics\ '
+rpcinfo -p
+   program vers proto   port  service
+    100000    4   tcp    111  portmapper
+    100000    3   tcp    111  portmapper
+    100000    2   tcp    111  portmapper
+    100000    4   udp    111  portmapper
+    100000    3   udp    111  portmapper
+    100000    2   udp    111  portmapper
+```
+
+See if export shows up on the client:
+```
+showmount -e 127.0.0.1 | grep statistics
 ```
 
 ### Step 6: Verify that volume is functional with Docker ndnfs volume driver
