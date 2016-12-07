@@ -24,6 +24,6 @@ Continue with more examples and [Quick Start Guides](https://github.com/nexenta/
 
 Please join us at the [NexentaEdge Devops community](https://community.nexenta.com/s/topic/0TOU0000000brtXOAQ/nexentaedge) site.
 
-Ask immediate question on <a href="https://nexentaedge.slack.com/messages/general/" target="_blank">NexentaEdge Developers Channel</a>
+Ask immediate question on [NexentaEdge Developers Channel](https://nexentaedge.slack.com/messages/general/)
 
 **Note:**<br/>The full documentation for NexentaEdge Enterprise Edition is [available here](https://nexenta.com/products/nexentaedge).
