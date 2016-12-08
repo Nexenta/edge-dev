@@ -31,17 +31,21 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 Follow below steps to get familiarity with NexentaEdge by trying "all-in-one" deployment where Data and GW functions running in the same single container.
 
 ### Step 1: Setting up Replicast network
-NexentaEdge designed for high performance and massive scalability beyond 1000 servers per single namespace physical cluster. It doesn't need to have central metadata server(s) or coordination server(s). Architecture is true "shared nothing" with metadata and data fully distributed across the cluster. To operate optimally NexentaEdge requires dedicated high-performance network, isolated with VLAN segment, set for use of Jumbo Frames and preferably non-blocking switch with Flow-Control enabled.
+NexentaEdge designed for high performance and massive scalability beyond 1000 servers per single namespace physical cluster. It doesn't need to have central metadata server(s) or coordination server(s). Architecture is true "shared nothing" with metadata and data fully distributed across the cluster. To operate optimally NexentaEdge needs dedicated high-performance network for cluster backend, isolated with VLAN segment, set for use of Jumbo Frames and preferably non-blocking switch with Flow-Control enabled. There are 3 supported options to get Replicast Network configured:
 
-Data Container can be installed either in single or multiple instances per host. When it is installed as a single container, consider to use "--network host" option to simplify networking access for Replicast, Management and Client networks.
+1) Using Docker provided "--network host" start parameter. Please refer to Docker documentation for details. This option is the simplest and that is what we use in our examples below
 
-It is possible to install more then one Data Container and setup custom Replicast, Management and Client networks. Activation script needs to ensure that all networks exists and functional prior to starting container. For Replicast network it is recommended to use macvlan virtualization method. Example to use macvlan as a Replicast L2 bridge:
+2) Can be emulated with Docker macvlan driver. Please refer to Docker documentation for details. Example:
 
 ```
 ifconfig enp0s9 mtu 9000 up
 modprobe macvlan
-docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 repnet
+docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 replicast_net
 ```
+
+3) Use OpenVSwitch bridge. (Instructions coming soon)
+
+Activation script needs to ensure that all networks exists and functional prior to starting container.
 
 ### Step 2: Prepare nesetup.json file, raw disks and set optimal host sysctl parameters
 
