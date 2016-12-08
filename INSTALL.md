@@ -48,10 +48,15 @@ docker network create -d macvlan --subnet 192.168.10.0/24 -o parent=enp0s9 repne
 * edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/single-node/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/single-node/nesetup.json) from "single-node" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
 * adjust broker_interfaces, example eth1. This is backend gateway container interface (Replicast)
 * server_interfaces point to the same name, example eth1. This is also backend but for data container interface (Replicast)
-* adjust rtrd section to point to the devices to be used. Use nezap utility to zap device(s). WARNING: ALL DATA ON SELECTED DISKS WILL BE WIPED OUT. Example:
+* adjust rtrd section to point to the devices to be used. You can identify DEVID and JOURNAL_DEVID names by running this command:
 
 ```
-ls -l /dev/disk/by-id
+ls /dev/disk/by-id|grep -v "\-part"
+```
+
+* Use nezap utility to zap device(s). WARNING: ALL DATA ON SELECTED DISKS WILL BE WIPED OUT. Example:
+
+```
 docker run --rm --privileged=true -v /dev:/dev nexenta/nedge /opt/nedge/sbin/nezap --do-as-i-say DEVID [JOURNAL_DEVID]
 ```
 Make sure to zap all the devices you listed in nesetup.json. Use optional JOURNAL_DEVID parameter to additionally zap journal/cache SSD.
