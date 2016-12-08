@@ -27,7 +27,7 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 
 
 
-## Example of single node setup, running S3 service
+## Example of single node setup (one Data+GW container), running S3 service
 Follow below steps to get familiarity with NexentaEdge by trying "all-in-one" deployment where Data and GW functions running in the same single container.
 
 ### Step 1: Setting up Replicast network
