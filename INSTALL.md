@@ -31,6 +31,12 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 ## Example of single node setup (one Data+GW container), running S3 service
 Follow below steps to get familiarity with NexentaEdge by trying "all-in-one" deployment where Data and GW functions running in the same single container.
 
+Before you start, please verify and decide:
+
+* You have a baremetal server or virtual machine which satisfies the above requirements. If you planning to use VirtulBox then please make sure to use VirtIO networking interface for Replicast
+
+* If you planning to build multi-host network for 3-node cluster setup, ensure that networking is setup correctly. I.e. at the very minimum you will need to provide two networking interfaces, one for the client I/O and the other one (VLAN isolated) for the backend I/O. NexentaEdge using high-performance IPv6 UDP (Unicast and optionally Multicast) to achieve low latency and high throughput storage I/O transfers. Ensure that backend network is reliably connected, isolated, set to use jumbo frames and optionally flow-control enabled
+
 ### Step 1: Setting up Replicast network
 NexentaEdge designed for high performance and massive scalability beyond 1000 servers per single namespace physical cluster. It doesn't need to have central metadata server(s) or coordination server(s). Architecture is true "shared nothing" with metadata and data fully distributed across the cluster. To operate optimally NexentaEdge needs dedicated high-performance network for cluster backend, isolated with VLAN segment, set for use of Jumbo Frames and preferably non-blocking switch with Flow-Control enabled. There are 3 supported options to get Replicast Network configured:
 
