@@ -14,8 +14,10 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 |Docker Version|1.12 or higher|
 |CPU|4 cores minimally recommended|
 |Memory|16GB Minimum|
-|Network|Dedicated, VLAN isolated networking interface for Replicast I/O|
-|Minimum Disk size|1GB|
+|Management Network|Connected to management 1G switch (optional)|
+|Client I/O Network|Shared with clients network, 1G - 100G|
+|Replicast I/O Network|Dedicated, VLAN isolated networking, MTU 9000, 1G - 100G|
+|Minimum individual Disk size|1GB|
 |Minimal number of disks per Data Container | 4 |
 
 
@@ -24,7 +26,6 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 | Max Total Logical Used Capacity| 16TB |
 | Max Number of Data Containers | 3 |
 | Max raw capacity per Data Container|up to 132TB|
-
 
 
 ## Example of single node setup (one Data+GW container), running S3 service
