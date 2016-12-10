@@ -18,7 +18,8 @@ NexentaEdge DevOps Edition provides the latest advanced storage features of Nexe
 * Inline cluster wide deduplication and compression
 * Micro-services for data access to Scale-Out File (NFS), Scale-Out Block (NBD/iSCSI), and Object (S3/SWIFT) services
 * Quality of Service for storage services
-* Multi-site high-performance bi-directional replication
+* Multi-site high-performance bi-directional continuous and "one-shot" replication
+* High performance Raw Disk backend designed for All-Flash, Hybrid (HDD/SSD) and large capacity HDDs
 
 Continue with more examples and [Quick Start Guides](https://github.com/nexenta/edge-dev/blob/master/INSTALL.md)
 
