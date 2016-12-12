@@ -5,7 +5,7 @@
 # NexentaEdge DevOps Edition
 NexentaEdge DevOps Edition is a purpose built and packaged solution for providing a scale-out infrastructure for containerized applications. It is designed to make it easy to integrate an enterprise class storage system with existing networking and compute services into a single solution.
 
-NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtual hosts, pooling all their storage capacity and presenting it as native block devices, NFS shares, or S3 objects to containerized applications running on the same servers.  All storage services are managed through standard Docker tools, for greater agility and scalability.
+NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtual hosts, pooling all their storage capacity and presenting it as native block devices, NFS shares, or S3/SWIFT objects to containerized applications running on the same servers.  All storage services are managed through standard Docker tools, for greater agility and scalability.
 
 ![fig1: deplyoment](https://raw.githubusercontent.com/nexenta/nedge-dev/master/images/container-converged.png)
 
