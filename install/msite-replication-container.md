@@ -90,6 +90,7 @@ Example of isgw configuration is as follows:
 neadm service create isgw backup-client
 neadm service configure backup-client X-ISGW-Basic-Auth admin:admin
 neadm service configure backup-client X-ISGW-Remote 172.20.10.5:14000
+neadm service serve backup-client company-branch/departments/finance
 ```
 Restart the container after confguration is complete.
 ```
@@ -114,6 +115,6 @@ s3cmd put <file> s3://finance/
 s3cmd ls s3://finance/
 ```
 
-Check the 'finance' container on the HQ container
+Check the 'finance' bucket on the HQ container
 ```
 s3cmd ls s3://finance/
