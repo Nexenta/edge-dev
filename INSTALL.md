@@ -24,7 +24,7 @@ It is highly recommended that you run NexentaEdge DevOps Edition on a system wit
 | Resource | Limit |
 |------------|-------|
 | Max Total Logical Used Capacity| 16TB |
-| Max Number of Data Containers | 3 |
+| Max Number of Data Containers | 4 |
 | Max raw capacity per Data Container|up to 132TB|
 
 
