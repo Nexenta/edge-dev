@@ -25,7 +25,7 @@
 				"device": "/dev/sdb",
 				"readahead": 1024,
 				"wal_disabled": 1,
-				"plevel_override": 4,
+				"plevel_override": 1,
 				"sync": 0
 			},
 			{
@@ -33,7 +33,7 @@
 				"device": "/dev/sdc",
 				"readahead": 1024,
 				"wal_disabled": 1,
-				"plevel_override": 4,
+				"plevel_override": 1,
 				"sync": 0
 			},
 			{
@@ -41,7 +41,7 @@
 				"device": "/dev/sdd",
 				"readahead": 1024,
 				"wal_disabled": 1,
-				"plevel_override": 4,
+				"plevel_override": 1,
 				"sync": 0
 			},
 			{
@@ -49,7 +49,7 @@
 				"device": "/dev/sde",
 				"readahead": 1024,
 				"wal_disabled": 1,
-				"plevel_override": 4,
+				"plevel_override": 1,
 				"sync": 0
 			}
 		]
