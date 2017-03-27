@@ -52,19 +52,23 @@ echo "Management IP  $CCOW_MGMTIPV4"
 if test ! x"$NETIF_REPNET" = x; then
 	docker network create -d macvlan --subnet 192.168.211.0/24 \
 		       -o parent=$NETIF_REPNET $CCOW_REPNET 1>/dev/null 2>/dev/null
+	echo "ReplicastNet   $CCOW_CLNET (192.168.211.0/24)"
 else
 	echo "ReplicastNet   $CCOW_REPNET"
 fi
 if test ! x"$NETIF_CLNET" = x; then
-	docker network create -d macvlan --subnet 192.168.211.0/24 \
+	docker network create -d macvlan --subnet 192.168.212.0/24 \
 		       -o parent=$NETIF_CLNET $CCOW_CLNET 1>/dev/null 2>/dev/null
 	docker network create --subnet 192.168.210.0/24 $CCOW_MGMTNET 1>/dev/null 2>/dev/null
-	echo "ClientNet      $CCOW_CLNET (192.168.210.0/24)"
+	echo "ClientNet      $CCOW_CLNET (192.168.212.0/24)"
 	echo "MgmtNet        $CCOW_MGMTNET (192.168.210.0/24)"
 else
 	echo "ClientNet      $CCOW_CLNET"
 	echo "MgmtNet        $CCOW_MGMTNET"
 fi
+
+modprobe nbd nbds_max=64
+mount --make-shared /
 
 docker run --ipc host --network $CCOW_REPNET --name nedge-$NAME --net-alias nedge-$NAME \
 	-e HOST_HOSTNAME=$(hostname) $OPTS -d -t -i --privileged=true \
