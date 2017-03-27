@@ -127,7 +127,7 @@ docker run --ipc host --network host --name nedge-data-s3 \
 ```
 source /root/c0/.bash_completion
 docker pull nexenta/nedge-neadm
-alias neadm="docker run -i -t --rm --network host nexenta/nedge-neadm /opt/neadm/neadm"
+alias neadm="docker run -i -t --rm -v /root/c0/.neadmrc:/opt/neadm/.neadmrc --network host nexenta/nedge-neadm /opt/neadm/neadm"
 ```
 
 * use NEADM management tool to verify that data container(s) are online
