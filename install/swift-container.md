@@ -15,7 +15,7 @@ There are example configuration files (see conf directory) to modify. Adjust net
 Use NEADM management tool to setup service parameters
 ```
 neadm service create swift swiftsvc1
-neadm service serve company-branch1
+neadm service serve swiftsvc1 company-branch1
 ```
 
 ### Step 4: Run NexentaEdge GW SWIFT Object service across cluster
