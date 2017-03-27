@@ -15,7 +15,7 @@ There are example configuration files (see conf directory) to modify. Adjust net
 Use NEADM management tool to setup service parameters
 ```
 neadm service create s3 s3finance
-neadm service serve company-branch1/finance
+neadm service serve s3finance company-branch1/finance
 ```
 
 ### Step 4: Run NexentaEdge GW S3 Object service across cluster
