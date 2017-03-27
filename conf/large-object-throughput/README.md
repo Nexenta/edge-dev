@@ -1,1 +1,1 @@
-This profile derived from default. For HDD only, modifies rtrd: WAL disabled, Read-Ahead set to 1MB. Optional sync=0 (async commit)
+This profile derived from default. For HDD only, modifies rtrd: WAL disabled, Read-Ahead set to 1MB. Optional sync=0 (async commit, may cause disk inconsistency in case of ungraceful reboot). Default sync=1.
