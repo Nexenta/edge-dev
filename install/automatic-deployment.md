@@ -1,5 +1,5 @@
-## Fully Automatic deployment of NexentaEdge Container-Converged environment (EXPERIMENTAL)
-This procedure describes Enterprise grade mechanism to deploy Containers for production usage. Deployment is pre-checking environment and ensures that destination target meets requirements. It also sets most optimal configuration and provides a way to select profile whie deploying.
+## Fully Automatic deployment of NexentaEdge Container-Converged environment
+This procedure describes mechanism to deploy Storage and Networking infrastructure for Docker Containers for production usage. Deployment tool pre-checking environment and ensures that destination targets meets all the requirements. It also sets most optimal configuration and provides a way to select profile whie deploying.
 
 ### Step 1: Install NEDEPLOY management tool
 NexentaEdge defines set of well described Chef Cookbooks which provides easy way to deploy complex cluster infrastructure excluding possible human error.
@@ -8,6 +8,12 @@ To enable NEDEPLOY tool set the following or similar alias:
 ```
 alias nedeploy="docker run --network host -it nexenta/nedge-nedeploy /opt/nedeploy/nedeploy"
 ```
+
+Follow installation and user guide to get your infrastructure provisioned:
+
+[Installation Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-IG_20160629.pdf)
+
+[User Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-UG_20160629.pdf)
 
 ### Step 2: Designing cluster network
 
