@@ -1,4 +1,4 @@
-## Installing and Running NexentaEdge Scale-Out Shared NameSpace iSCSI protocol compatible service container (EXPERIMENTAL)
+## Installing and Running NexentaEdge Scale-Out Shared NameSpace iSCSI protocol compatible service container
 
 ### Step 1: Setting up Replicast network
 NexentaEdge design for high performance and massive scalability beyound 1000 servers per cluster. It doesn't have central metadata server or coordination server. Its design is shared nothing with metadata and data fully distributed across the cluster. To work optimally NexentaEdge requires dedicated backend high-performance network, isolated with VLAN segment and set for Jumbo Frames.
@@ -44,11 +44,54 @@ neadm bucket create company-branch1/finance/databases
 Create 8gb LUN with 128K chunk size and replication count 2:
 
 ```
-neadm iscsi create isc1 company-branch1/finance/databases/LUN1 8G -s 128K -r 2
+neadm iscsi create iscsi-mongodb company-branch1/finance/databases/LUN1 8G -s 128K -r 2
 ```
 
 At this point you will have iSCSI block service running and exporting LUN to serve MongoDB database
 
 ### Step 6: Verify that service is running
 
-TODO
+Check that LUNs registered with target database:
+
+```
+neadm iscsi status iscsi-mongodb
+Server: 20E16ED70A3A946AAE7DF0CF8823F508:
+Target 23008: iqn.2005-11.nexenta.com:23008
+    System information:
+        Driver: iscsi
+        State: ready
+    I_T nexus information:
+    LUN information:
+        LUN: 0
+            Type: controller
+            SCSI ID: IET     59e00000
+            SCSI SN: beaf230080
+            Size: 0 MB, Block size: 1
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: null
+            Backing store path: None
+            Backing store flags:
+        LUN: 1
+            Type: disk
+            SCSI ID: 64CF2A0D808C6D1A
+            SCSI SN: beaf230081
+            Size: 8590 MB, Block size: 4096
+            Online: Yes
+            Removable media: Yes
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+	    Thin-provisioning: Yes
+            Backing store type: ccowbd
+            Backing store path: cltest/test/bk1/LUN1
+            Backing store flags:
+```
+
+Check that service is listening for incoming iSCSI initiator requests:
+
+netstat -ant|grep "3260"|grep LISTEN
