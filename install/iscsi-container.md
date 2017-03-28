@@ -3,7 +3,7 @@
 ### Step 1: Setting up Replicast network
 NexentaEdge design for high performance and massive scalability beyound 1000 servers per cluster. It doesn't have central metadata server or coordination server. Its design is shared nothing with metadata and data fully distributed across the cluster. To work optimally NexentaEdge requires dedicated backend high-performance network, isolated with VLAN segment and set for Jumbo Frames.
 
-Follow guide lines from from Data Container with regards of setting up Replicast network.
+Follow guide lines from installation guide with regards of setting up [Replicast network](https://github.com/Nexenta/edge-dev/blob/master/INSTALL.md#step-1-setting-up-replicast-network).
 
 ### Step 2: Prepare local host configuration for Data Container
 There are example configuration files (see conf directory) to modify. Adjust networking interface. Typicaly first port assigned will be eth0.
@@ -11,10 +11,11 @@ There are example configuration files (see conf directory) to modify. Adjust net
 * edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/gateway/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/gateway/nesetup.json) from "gateway" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
 
 ### Step 3: Create service configuration
-Use NEADM management tool to setup service parameters
+Use NEADM management tool to setup service parameters and create at least one bucket to serve iSCSI objects from
 ```
 neadm service create iscsi iscsi-mongodb
-neadm service serve company-branch1/finance/databases/mongodb
+neadm bucket create company-branch1/finance/databases
+neadm iscsi create isc1 company-branch1/finance/databases/LUN1 8G -s 128K -r 2
 ```
 
 ### Step 4: Run NexentaEdge GW iSCSI scale-out block service across cluster
