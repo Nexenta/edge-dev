@@ -11,11 +11,9 @@ There are example configuration files (see conf directory) to modify. Adjust net
 * edit [nesetup.json](https://github.com/Nexenta/nedge-dev/blob/master/conf/gateway/nesetup.json) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/gateway/nesetup.json) from "gateway" profile (located in conf directory) and copy it over to some dedicated container directory, e.g. /root/c0
 
 ### Step 3: Create service configuration
-Use NEADM management tool to setup service parameters and create at least one bucket to serve iSCSI objects from
+Use NEADM management tool to setup service parameters
 ```
 neadm service create iscsi iscsi-mongodb
-neadm bucket create company-branch1/finance/databases
-neadm iscsi create isc1 company-branch1/finance/databases/LUN1 8G -s 128K -r 2
 ```
 
 ### Step 4: Run NexentaEdge GW iSCSI scale-out block service across cluster
@@ -29,6 +27,24 @@ docker run --ipc host --network host --name nedge-iscsi-mongodb \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
         nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j iscsiserv
+```
+
+At this point you will have iSCSI service running. Add SERVERID (can be found with command "neadm system status") to the service:
+
+```
+neadm service add iscsi-mongodb SERVERID
+```
+
+Create at least one bucket to serve iSCSI objects (LUNs) from:
+
+```
+neadm bucket create company-branch1/finance/databases
+```
+
+Create 8gb LUN with 128K chunk size and replication count 2:
+
+```
+neadm iscsi create isc1 company-branch1/finance/databases/LUN1 8G -s 128K -r 2
 ```
 
 At this point you will have iSCSI block service running and exporting LUN to serve MongoDB database
