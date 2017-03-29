@@ -9,11 +9,14 @@ To enable NEDEPLOY tool set the following or similar alias:
 alias nedeploy="docker run --network host -it nexenta/nedge-nedeploy /opt/nedeploy/nedeploy"
 ```
 
-Follow installation and user guide to get your infrastructure provisioned:
+Get familiar with the tool and run the pre-check utility to ensure that the node(s) meets the requirements for being added to the cluster:
 
-[Installation Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-IG_20160629.pdf)
+```
+nedeploy precheck <ip-address> <username:password> -i <interface>
+   [-t <profile>][-x <disks-to-exclude>][-X <disks-to-reserve>]
+```
 
-[User Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-UG_20160629.pdf)
+See "Prerequisites" section in [Installation Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-IG_20160629.pdf)
 
 ### Step 2: Designing cluster network
 
@@ -41,10 +44,21 @@ A NexentaEdge cluster consists of the following components. A given device may h
 
 * External clients - External clients are end-user application containers that access data stored in the NexentaEdge cluster via gateway nodes. External clients access data in the cluster using APIs of the storage services NexentaEdge supports: Docker volumes (NBD, NFS), Direct NFSv3,v4,v4.1, Block iSCSI/HA, Swift/S3/S3S Object.
 
-### Step 3: Selecting most optimal operational profile
+### Step 3: Selecting most optimal operational profile and provision your cluster
 
-TODO
+From the NexentaEdge deployment workstation, use the following command to deploy the NexentaEdge software to the nodes:
 
-### Step 4: Deploying nodes across cluster
+```
+nedeploy deploy solo <ip-address> <nodename> <username:password>
+    -i <interface> [-I <interface>][-t <profile>][-x <disks-to-exclude>]
+    [-X <disks-to-reserve>][-z <zone>][-F <filesytem-type>][-m]
+    [--docker][--P <number-of-partitions>][--upgrade]
+```
+
+Ensure that option "--docker" is specified, so that it will automatically provision ready to use OpenvSwitch-based networking infrastructure and preset Gateway container images.
+
+Consult with "Installing NexentaEdge" section in [Installation Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-IG_20160629.pdf)
+
+### Step 4: Deploying management GUI
 
 TODO
