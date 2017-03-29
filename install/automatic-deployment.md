@@ -1,24 +1,7 @@
 ## Fully Automatic deployment of NexentaEdge Container-Converged environment
 This procedure describes mechanism to deploy Storage and Networking infrastructure for Docker Containers for production usage. Deployment tool pre-checking environment and ensures that destination targets meets all the requirements. It also sets most optimal configuration and provides a way to select profile whie deploying.
 
-### Step 1: Install NEDEPLOY management tool
-NexentaEdge defines set of well described Chef Cookbooks which provides easy way to deploy complex cluster infrastructure excluding possible human error.
-
-To enable NEDEPLOY tool set the following or similar alias:
-```
-alias nedeploy="docker run --network host -it nexenta/nedge-nedeploy /opt/nedeploy/nedeploy"
-```
-
-Get familiar with the tool and run the pre-check utility to ensure that the node(s) meets the requirements for being added to the cluster:
-
-```
-nedeploy precheck <ip-address> <username:password> -i <interface>
-   [-t <profile>][-x <disks-to-exclude>][-X <disks-to-reserve>]
-```
-
-See "Prerequisites" section in [Installation Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-IG_20160629.pdf)
-
-### Step 2: Designing cluster network
+### Step 1: Designing cluster network
 
 From a physical perspective, a NexentaEdge cluster is a collection of server devices connected via a high-performance 10,25,40,etc Gigabit switch. From a logical perspective, a NexentaEdge cluster consists of data nodes and gateway nodes running as containers that communicate over a Replicast network. The cluster provides storage services over an external network using the protocols that NexentaEdge supports. A NexentaEdge deployment consists of a single physical cluster and one or more logical cluster namespaces. Each logical cluster namespace may have multiple different tenants.
 
@@ -44,20 +27,52 @@ A NexentaEdge cluster consists of the following components. A given device may h
 
 * External clients - External clients are end-user application containers that access data stored in the NexentaEdge cluster via gateway nodes. External clients access data in the cluster using APIs of the storage services NexentaEdge supports: Docker volumes (NBD, NFS), Direct NFSv3,v4,v4.1, Block iSCSI/HA, Swift/S3/S3S Object.
 
+### Step 2: Install NEDEPLOY and NEADM management tools
+NexentaEdge defines set of well described Chef Cookbooks which provides easy way to deploy complex cluster infrastructure excluding possible human error.
+
+To enable NEDEPLOY tool set the following or similar alias:
+```
+alias nedeploy="docker run --network host -it nexenta/nedge-nedeploy /opt/nedeploy/nedeploy"
+```
+
+Get familiar with the tool and run the pre-check utility to ensure that the node(s) meets the requirements for being added to the cluster:
+
+```
+nedeploy precheck <ip-address> <username:password> -i <interface>
+   [-t <profile>][-x <disks-to-exclude>][-X <disks-to-reserve>]
+```
+
+To enable NEADM tool stup the following or similar alias:
+
+```
+alias neadm="docker run -i -t --rm -v ~/.neadmrc:/opt/neadm/.neadmrc --network host nexenta/nedge-neadm /opt/neadm/neadm"
+```
+
+Copy [.neadmrc](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.neadmrc) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/.neadmrc) from "default" profile (located in conf directory) to ~/. If you planning to use neadm tool on a different host, you'll need to adjust API_URL to point to the right management IPv4 address. Default management port is 8080.
+
+Optionally source [.bash_completion](https://github.com/Nexenta/nedge-dev/blob/master/conf/default/.bash_completion) - [download](https://raw.githubusercontent.com/Nexenta/nedge-dev/master/conf/default/.bash_completion) from "default" profile (located in conf directory).
+
+See "Prerequisites" section in [Installation Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-IG_20160629.pdf)
+
 ### Step 3: Selecting most optimal operational profile and provision your cluster
 
 From the NexentaEdge deployment workstation, use the following command to deploy the NexentaEdge software to the nodes:
 
 ```
-nedeploy deploy solo <ip-address> <nodename> <username:password>
-    -i <interface> [-I <interface>][-t <profile>][-x <disks-to-exclude>]
-    [-X <disks-to-reserve>][-z <zone>][-F <filesytem-type>][-m]
+nedeploy deploy solo <ip-address> <nodename> <username:password> -i <interface>
+    [-t <profile>][-x <disks-to-exclude>][-X <disks-to-reserve>][-z <zone>][-F <filesytem-type>][-m]
     [--docker][--P <number-of-partitions>][--upgrade]
 ```
 
 Ensure that option "--docker" is specified, so that it will automatically provision ready to use OpenvSwitch-based networking infrastructure and preset Gateway container images.
 
 Consult with "Installing NexentaEdge" section in [Installation Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-IG_20160629.pdf)
+
+Verify that cluster gets installed and nodes appearing in NEADM output. From the NexentaEdge management workstation, use the following command to see the status of installing cluster:
+
+```
+neadm system status
+```
 
 ### Step 4: Deploying management GUI
 
