@@ -16,12 +16,16 @@ NexentaEdge DevOps Edition provides the latest advanced storage features of Nexe
 * Scale-out high performance metadata layer with global Name Spaces and built-in multi-tenancy support
 * Unlimited number of space optimized snapshots and clones
 * Inline cluster wide deduplication and compression
+* Off-line "Quick" Erasure Coding without performance penalty on writes or reads with distributed rebuild
 * Micro-services for data access to Scale-Out File (NFS), Scale-Out Block (NBD/iSCSI), and Object (S3/SWIFT) services
-* Quality of Service for storage services
+* Protocol transparency. Objects/Files/LUNs can be accessed from any protocol - NFS, S3 or SWIFT
+* Quality of Service for storage services (per-tenant controlled rate limiting)
 * Multi-site high-performance bi-directional continuous and "one-shot" replication
 * High performance Raw Disk backend designed for All-Flash, Hybrid (HDD/SSD) and large capacity HDDs
 
-Continue with more examples and [Quick Start Guides](https://github.com/nexenta/edge-dev/blob/master/INSTALL.md)
+Deploy Container-Converged infrastructure following [automatic procedure](https://github.com/nexenta/edge-dev/blob/master/install/automatic-deployment.md) (Enterprise style)
+
+Or continue with more examples and deploy [Quick Start Guides](https://github.com/nexenta/edge-dev/blob/master/INSTALL.md) (DevOps style)
 
 Please join us at the [NexentaEdge Devops community](https://community.nexenta.com/s/topic/0TOU0000000brtXOAQ/nexentaedge) site.
 
