@@ -42,7 +42,7 @@ nedeploy precheck <ip-address> <username:password> -i <interface>
    [-t <profile>][-x <disks-to-exclude>][-X <disks-to-reserve>]
 ```
 
-To enable NEADM tool stup the following or similar alias:
+To enable NEADM tool setup the following or similar alias:
 
 ```
 alias neadm="docker run -i -t --rm -v ~/.neadmrc:/opt/neadm/.neadmrc --network host nexenta/nedge-neadm /opt/neadm/neadm"
@@ -76,4 +76,14 @@ neadm system status
 
 ### Step 4: Deploying management GUI
 
-TODO
+To simplify infrastructure management and get familiarity with the solution quicker, please deploy management GUI. On the NexentaEdge management workstation, use the following command to deploy the NexentaEdge GUI software:
+
+```
+docker run -d -P -p 3000:3000 -e API_ENDPOINT=%ADDR% nexenta/nedgeui:2.0.0
+```
+
+Replace %ADDR% with http://IP:PORT pointing to management endpoint. Example: http://192.168.1.1:8080.
+
+Using compatible browser (certified with Firefox and Chrome), login to the URL exposed on NexentaEdge management workstation running GUI docker image.
+
+Consult with "Starting the NexentaEdge GUI" section in [Installation Guide](https://nexenta.com/sites/default/files/docs/ReleaseNotes/NEdge-1.1.0-FP3-IG_20160629.pdf)
