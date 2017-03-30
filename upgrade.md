@@ -32,4 +32,10 @@ docker run --rm --privileged=true -v /dev:/dev nexenta/nedge /opt/nedge/sbin/nez
 
 Make sure to zap all the devices you listed in nesetup.json. Use optional JOURNAL_DEVID parameter to additionally zap journal/cache SSD.
 
+Additionally prior to restart, clean up "var" directory for each data container, example:
+
+```
+rm -f /root/c0/var/*
+```
+
 Re-run your regular starting sequence
