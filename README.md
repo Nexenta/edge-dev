@@ -34,4 +34,4 @@ Please join us at the [NexentaEdge Devops community](https://community.nexenta.c
 
 Ask immediate question on [NexentaEdge Developers Channel](https://nexentaedge.slack.com/messages/general/)
 
-**Note:**<br/>The full documentation for NexentaEdge Enterprise Edition is [available here](https://nexenta.com/products/nexentaedge).
+**Note:** The full documentation for NexentaEdge Enterprise Edition is [available here](https://nexenta.com/products/nexentaedge).
