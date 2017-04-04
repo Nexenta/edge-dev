@@ -7,7 +7,7 @@ NexentaEdge DevOps Edition is a purpose built and packaged software stack for pr
 
 NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtual hosts, pooling all their storage capacity and presenting it as native block devices (NBD), iSCSI, NFS shares, or fully compatbile S3/SWIFT object access for containerized applications running on the same servers.  All storage services are managed through standard Docker tools, for greater agility and scalability.
 
-NexentaEdge purpose built Software Stack enables third-party vendors to deliver final end-user solution with benefits of component re-usability and unique feature set.
+NexentaEdge purpose built Software Stack enables third-party vendors to deliver complete end-user solutions with benefits of component re-usability and unique feature set.
 
 ![fig1: deplyoment](https://raw.githubusercontent.com/nexenta/nedge-dev/master/images/container-converged.png)
 
