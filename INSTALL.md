@@ -231,7 +231,7 @@ And start ngnix proxy container:
 ```
 docker run -td -p 80:9980 --name nginx-proxy \
 	-v /var/run/docker.sock:/tmp/docker.sock:ro \
-	-v /root/ngnix/nedge.conf:/etc/nginx/conf.d/nedge.conf:ro \
+	-v /root/nginx/nedge.conf:/etc/nginx/conf.d/nedge.conf:ro \
 	jwilder/nginx-proxy
 ```
 
