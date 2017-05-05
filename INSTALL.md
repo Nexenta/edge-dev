@@ -211,6 +211,7 @@ Assuming that Edge containers running on servers with public IPv4 addresses (10.
 mkdir /root/nginx
 cat << EOF > /root/nginx/nedge.conf
 upstream servers {
+    ip_hash;
     server 10.1.1.10:9982; 
     server 10.1.1.11:9982;
     server 10.1.1.12:9982;
@@ -218,6 +219,9 @@ upstream servers {
 
 server {
     listen 9980;
+    client_max_body_size 0;
+    proxy_http_version 1.1;
+    proxy_request_buffering off;
 
     location / {
         proxy_pass http://servers;
