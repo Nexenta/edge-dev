@@ -209,19 +209,21 @@ The goal is to set up an installation that has an Nginx reverse proxy server at 
 Assuming that Edge containers running on servers with public IPv4 addresses (10.1.1.10, 10.1.1.11, 10.1.1.12), create simple reverse proxy configuration file:
 ```
 mkdir /root/nginx
-# echo "upstream servers {
-server 10.1.1.10:9982;
-server 10.1.1.11:9982;
-server 10.1.1.12:9982;
+cat << EOF > /root/nginx/nedge.conf
+upstream servers {
+    server 10.1.1.10:9982; 
+    server 10.1.1.11:9982;
+    server 10.1.1.12:9982;
 }
 
 server {
-listen 9980;
+    listen 9980;
 
-location / {
-proxy_pass http://servers;
+    location / {
+        proxy_pass http://servers;
+    }
 }
-}" > /root/nginx/nedge.conf
+EOF
 ```
 
 And start ngnix proxy container:
