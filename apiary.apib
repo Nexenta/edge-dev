@@ -1,0 +1,233 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# EdgeX API
+
+This API provides access to advanced Edge Object interfaces, such as access to Key-Value
+store, Object Append mode, Object RW mode, Object Stream Session mode.
+
+## Key-Value store [/{bucket}/{blob}{?comp,key,maxresults,values}]
+
+Extends access to object as scale-out, high-performance NoSQL key-value pairs blob database.
+Default value format is in JSON. Raw format is supported if `key` parameter is specified.
+
++ Parameters
+    + bucket - bucket name
+    + blob - key value sharded blob
+
+### List Key Values [GET]
+
+List all keys and corresponding values in key-value blob. If `key` specified and result is unique,
+then only one value will be returned at a time with response content type
+`application/octet-stream`. If `key` is omited or result is not unique, then response will
+be `application/json` containing json object with both keys and values specified.
+
+Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
+`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
+Client has to specify same exactly btree parameters on each request. Otherwise, the request may
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+
++ Parameters
+    + comp (`kvlist`) - component
+    + key (optional) - return only pairs which starts with this key 
+    + maxresults (number, optional) - number of key-value pairs to return in one response
+        + Default: `1000`
+    + values (number, optional) - return values if specified
+        + Default: `0`
+        
++ Request
+    + Headers
+    
+            x-ccow-block-btree-order: 640
+            x-ccow-block-btree-chunk-size: 4194304
+
++ Response 200 (application/json)
+
+        {
+            "1": {"id":"avon-and-somerset","name":"Avon and Somerset Constabulary"},
+            "2": {"id":"bedfordshire","name":"Bedfordshire Police"},
+            "3": {"id":"cambridgeshire","name":"Cambridgeshire Constabulary"}
+        }
+
+### Insert Key Value Pairs [POST]
+
+Insert new key value pair or update existing one in key-value blob. If `key` specified then
+request body will be considered as value, can be of any type and only one key will be inserted
+or updated at a time. In case of missing `key`, request body has to be of content
+`application/json` and need to contain a json object with one more more keys to insert or
+update.
+
+Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
+`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
+Client has to specify same exactly btree parameters on each request. Otherwise, the request may
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+
++ Parameters
+    + comp (`kvput`) - component
+    + key (optional) - new or existing key to insert or update 
+    
++ Request
+    + Headers
+    
+            x-ccow-block-btree-order: 640
+            x-ccow-block-btree-chunk-size: 4194304
+
++ Request (application/json)
+
+        {
+            "3": {"id":"cleveland","name":"Cleveland Police"},
+            "4": {"id":"cumbria","name":"Cumbria Constabulary"}
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /{bucket}/{blob}?comp=kvput
+
+### Delete Key Value Pairs [DELETE]
+
+Delete existing key value pair in key-value blob
+
+Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
+`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
+Client has to specify same exactly btree parameters on each request. Otherwise, the request may
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+
++ Parameters
+    + comp (`kvdel`) - component
+    + key (optional) - existing key to delete
+
++ Request
+    + Headers
+    
+            x-ccow-block-btree-order: 640
+            x-ccow-block-btree-chunk-size: 4194304
+            
++ Request (application/json)
+
+        {
+            "3",
+            "4"
+        }
+        
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /{bucket}/{blob}?comp=kvput
+
+## Extended Object Access [/{bucket}/{object}{?comp}]
+
+Extends access to object with append and random I/O modes
+
++ Parameters
+    + bucket - bucket name
+    + object - object name
+
+### Edit Object [POST]
+
+Operation commits a new block of data to existing or new object. In case of `appendblock`
+it appends block to the end of object. In case of `randomblock` it overwrites existing block
+or creates new one, where `x-ccow-block-offset` specifies start offset for the block to be
+written.
+
+If `x-ccow-block-condition-append-offset` specified then `appendblock` request succeeds only
+if the current offset matches that specified by the client. Otherwise, the request fails
+with the `AppendOffsetConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+
+Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
+`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
+Client has to specify same exactly btree parameters on each request. Otherwise, the request may
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+
++ Parameters
+    + comp (`appendblock`, `randomblock`) - component
+    
++ Request
+    + Headers
+    
+            x-ccow-block-offset: 0
+            x-ccow-block-btree-order: 640
+            x-ccow-block-btree-chunk-size: 4194304
+            x-ccow-block-condition-append-offset: 0
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /{bucket}/{object}?comp=appendblock
+        
+## Stream Session Object Access [/{bucket}/{object}{?comp,ssid,cancel,finalize}]
+
+Extends access to object with high performance Stream Session I/O mode. Data blocks can be
+added to object at the highest speed prior to version finalization.
+
++ Parameters
+    + bucket - bucket name
+    + object - object name
+    + comp (`streamsession`) - component
+    + ssid (optional) - stream session identificator
+
+### High Performance Streamed Read [GET]
+
+Operation reads a set of blocks of data from an existing object.
+Header parameter `x-ccow-block-offset` specifies start offset for the blocks to be read and
+`x-ccow-block-length` specifies the length of data to be returned.
+
+This operation can be intermixed with `Streamed Write` at any time.
+
+Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
+`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
+Client has to specify same exactly btree parameters on each request. Otherwise, the request may
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+
+If `ssid` query parameter omited then this operation will initiate new stream and will return
+`SSID` header parameter. Session will stay active for 30 seconds. It is responsibility of a
+client appilcation to finalize or cancel it by supplying `finalize` or `cancel` query parameter.
+
++ Parameters
+    + cancel (optional) - cancel existig stream session
+    
++ Request
+    + Headers
+    
+            x-ccow-block-offset: 0
+            x-ccow-block-length: 16384
+            x-ccow-block-btree-order: 640
+            x-ccow-block-btree-chunk-size: 4194304
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /{bucket}/{object}?comp=streamsession
+
+### High Performance Streamed Write [POST]
+
+Operation commits a new set of blocks of data to existing or new object.
+Header parameter `x-ccow-block-offset` specifies start offset for the blocks to be written to.
+Supplied total data size has to be multiple of `x-ccow-block-btree-chunk-size`.
+
+This operation can be intermixed with `Streamed Read` at any time.
+
+Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
+`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
+Client has to specify same exactly btree parameters on each request. Otherwise, the request may
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+
++ Parameters
+    + finalize (optional) - finalize existig stream session and create new object version
+
++ Request
+    + Headers
+    
+            x-ccow-block-offset: 0
+            x-ccow-block-btree-order: 640
+            x-ccow-block-btree-chunk-size: 4194304
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /{bucket}/{object}?comp=streamsession
