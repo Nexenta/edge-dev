@@ -4,12 +4,25 @@ HOST: http://polls.apiblueprint.org/
 # EdgeX API
 
 This API provides access to advanced Edge Object interfaces, such as access to Key-Value
-store, Object Append mode, Object RW mode, Object Stream Session mode.
+store, Object Append mode, Object RW mode and Object Stream Session mode.
+
+A Stream Session encompasses a series of edits to one object made by one source that are
+saved as one or more versions during a specific finite time duration. A Stream Session must
+be isolated while it is open. That is, users working through this session will not see
+updates to this object from other sessions.
+
+Stream Session allows high-performance access to an object and thus it is beneficial for
+client applications to use HTTP/1.1 Persistent Connection extensions, to minimize latency
+between updates or reads.
 
 ## Key-Value store [/{bucket}/{blob}{?comp,key,maxresults,values}]
 
 Extends access to object as scale-out, high-performance NoSQL key-value pairs blob database.
 Default value format is in JSON. Raw format is supported if `key` parameter is specified.
+
+Key-Value store supports two modes of operations. Immediately versioned and Stream Session.
+In case of Stream Session, client's `Session-Id` will be used to temporarily keep on-going
+session parameteres.
 
 + Parameters
     + bucket - bucket name
@@ -27,6 +40,11 @@ Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
 Client has to specify same exactly btree parameters on each request. Otherwise, the request may
 fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
 
+Optionally, if `Session-Id` header parameter specified but missing `SSID` prefix then it will
+initiate new stream and will return `SSID` header parameter. Session will stay active
+for 30 seconds. It is responsibility of a client appilcation to finalize or cancel it by
+supplying `finalize` or `cancel` query parameter.
+
 + Parameters
     + comp (`kvlist`) - component
     + key (optional) - return only pairs which starts with this key 
@@ -40,7 +58,8 @@ fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Preconditio
     
             x-ccow-block-btree-order: 640
             x-ccow-block-btree-chunk-size: 4194304
-
+            Session-Id: SSID:j6oAOxCWZh
+            
 + Response 200 (application/json)
 
         {
@@ -62,6 +81,11 @@ Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
 Client has to specify same exactly btree parameters on each request. Otherwise, the request may
 fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
 
+Optionally, if `Session-Id` header parameter specified but missing `SSID` prefix then it will
+initiate new stream and will return `SSID` header parameter. Session will stay active
+for 30 seconds. It is responsibility of a client appilcation to finalize or cancel it by
+supplying `finalize` or `cancel` query parameter.
+
 + Parameters
     + comp (`kvput`) - component
     + key (optional) - new or existing key to insert or update 
@@ -71,6 +95,7 @@ fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Preconditio
     
             x-ccow-block-btree-order: 640
             x-ccow-block-btree-chunk-size: 4194304
+            Session-Id: SSID:j6oAOxCWZh
 
 + Request (application/json)
 
@@ -94,6 +119,11 @@ Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
 Client has to specify same exactly btree parameters on each request. Otherwise, the request may
 fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
 
+Optionally, if `Session-Id` header parameter specified but missing `SSID` prefix then it will
+initiate new stream and will return `SSID` header parameter. Session will stay active
+for 30 seconds. It is responsibility of a client appilcation to finalize or cancel it by
+supplying `finalize` or `cancel` query parameter.
+
 + Parameters
     + comp (`kvdel`) - component
     + key (optional) - existing key to delete
@@ -103,6 +133,7 @@ fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Preconditio
     
             x-ccow-block-btree-order: 640
             x-ccow-block-btree-chunk-size: 4194304
+            Session-Id: SSID:j6oAOxCWZh
             
 + Request (application/json)
 
@@ -158,18 +189,20 @@ fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Preconditio
 
             Location: /{bucket}/{object}?comp=appendblock
         
-## Stream Session Object Access [/{bucket}/{object}{?comp,ssid,cancel,finalize}]
+## Stream Session Object Access [/{bucket}/{object}{?comp,cancel,finalize}]
 
 Extends access to object with high performance Stream Session I/O mode. Data blocks can be
 added to object at the highest speed prior to version finalization.
+
+It is recommend to use HTTP/1.1 clients to support persistent connections and avoid unnecessary
+TCP/IP handshakes and re-connects.
 
 + Parameters
     + bucket - bucket name
     + object - object name
     + comp (`streamsession`) - component
-    + ssid (optional) - stream session identificator
 
-### High Performance Streamed Read [GET]
+### Streamed Read [GET]
 
 Operation reads a set of blocks of data from an existing object.
 Header parameter `x-ccow-block-offset` specifies start offset for the blocks to be read and
@@ -180,11 +213,13 @@ This operation can be intermixed with `Streamed Write` at any time.
 Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
 `x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
 Client has to specify same exactly btree parameters on each request. Otherwise, the request may
-fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed). HTTP
+server will cache initially supplied btree parameters in on going `Session-Id`.
 
-If `ssid` query parameter omited then this operation will initiate new stream and will return
-`SSID` header parameter. Session will stay active for 30 seconds. It is responsibility of a
-client appilcation to finalize or cancel it by supplying `finalize` or `cancel` query parameter.
+If `Session-Id` header parameter specified but missing `SSID` prefix then it will initiate
+new stream and will return `SSID` header parameter. Session will stay active for 30 seconds.
+It is responsibility of a client appilcation to finalize or cancel it by
+supplying `finalize` or `cancel` query parameter. This is not optional.
 
 + Parameters
     + cancel (optional) - cancel existig stream session
@@ -196,6 +231,7 @@ client appilcation to finalize or cancel it by supplying `finalize` or `cancel` 
             x-ccow-block-length: 16384
             x-ccow-block-btree-order: 640
             x-ccow-block-btree-chunk-size: 4194304
+            Session-Id: SSID:j6oAOxCWZh
 
 + Response 201 (application/json)
 
@@ -203,7 +239,7 @@ client appilcation to finalize or cancel it by supplying `finalize` or `cancel` 
 
             Location: /{bucket}/{object}?comp=streamsession
 
-### High Performance Streamed Write [POST]
+### Streamed Write [POST]
 
 Operation commits a new set of blocks of data to existing or new object.
 Header parameter `x-ccow-block-offset` specifies start offset for the blocks to be written to.
@@ -214,7 +250,12 @@ This operation can be intermixed with `Streamed Read` at any time.
 Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
 `x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
 Client has to specify same exactly btree parameters on each request. Otherwise, the request may
-fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).HTTP
+server will cache initially supplied btree parameters in on going `Session-Id`.
+
+New `Session-Id` has to be initialized with `GET` request. Session will stay active for
+30 seconds. It is responsibility of a client appilcation to finalize or cancel it by
+supplying `finalize` or `cancel` query parameter. This is not optional.
 
 + Parameters
     + finalize (optional) - finalize existig stream session and create new object version
@@ -225,6 +266,7 @@ fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Preconditio
             x-ccow-block-offset: 0
             x-ccow-block-btree-order: 640
             x-ccow-block-btree-chunk-size: 4194304
+            Session-Id: SSID:j6oAOxCWZh
 
 + Response 201 (application/json)
 
