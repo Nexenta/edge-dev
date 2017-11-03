@@ -1,28 +1,40 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://edge.nexenta.com/
 
-# EdgeX API
+# Edge-X S3-compatible API
 
-This API provides access to advanced Edge Object interfaces, such as access to Key-Value
-store, Object Append mode, Object RW mode and Object Stream Session mode.
+The API provides access to advanced Edge Object interfaces, such as access to Key-Value
+store, S3 Object Append mode, S3 Object RW mode and S3 Object Stream Session
+(POSIX compatible) mode.
 
 A Stream Session encompasses a series of edits to one object made by one source that are
 saved as one or more versions during a specific finite time duration. A Stream Session must
 be isolated while it is open. That is, users working through this session will not see
 updates to this object from other sessions.
 
-Stream Session allows high-performance access to an object and thus it is beneficial for
-client applications to use HTTP/1.1 Persistent Connection extensions, to minimize latency
-between updates or reads.
+Stream Session allows high-performance POSIX-style access to an object and thus it is
+beneficial for client applications to use HTTP/1.1 Persistent Connection extensions,
+to minimize latency between updates or reads.
 
-## Key-Value store [/{bucket}/{blob}{?comp,key,maxresults,values}]
+To enable POSIX access please install edgefs package: https://github.com/Nexenta/edge-fuse
+
+Quick summary of differences between AWS S3, Azure Blob, GCP Object and Edge-X:
+
+<img src="https://github.com/Nexenta/edge-dev/blob/master/images/EdgeVsS3.png?raw=true" alt="EdgeVsS3.png">
+
+## Key-Value store [/{bucket}/{blob}{?comp,key,maxresults,values,cancel,finalize}]
 
 Extends access to object as scale-out, high-performance NoSQL key-value pairs blob database.
 Default value format is in JSON. Raw format is supported if `key` parameter is specified.
 
 Key-Value store supports two modes of operations. Immediately versioned and Stream Session.
-In case of Stream Session, client's `Session-Id` will be used to temporarily keep on-going
+In case of Stream Session, client's `x-session-id` will be used to temporarily keep on-going
 session parameteres.
+
+If `x-session-id` header parameter specified (returned as a result of previous
+insert or delete response) then it will continue on going stream session and will continue
+streaming operation. Session will stay active for 30 seconds. It is responsibility of a client
+appilcation to finalize or cancel it by supplying `finalize` or `cancel` query parameter.
 
 + Parameters
     + bucket - bucket name
@@ -31,36 +43,20 @@ session parameteres.
 ### List Key Values [GET]
 
 List all keys and corresponding values in key-value blob. If `key` specified and result is unique,
-then only one value will be returned at a time with response content type
+then the only value will be returned at a time with response content type
 `application/octet-stream`. If `key` is omited or result is not unique, then response will
 be `application/json` containing json object with both keys and values specified.
 
-Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
-`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
-Client has to specify same exactly btree parameters on each request. Otherwise, the request may
-fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
-
-Optionally, if `Session-Id` header parameter specified but missing `SSID` prefix then it will
-initiate new stream and will return `SSID` header parameter. Session will stay active
-for 30 seconds. It is responsibility of a client appilcation to finalize or cancel it by
-supplying `finalize` or `cancel` query parameter.
-
 + Parameters
-    + comp (`kvlist`) - component
+    + comp (`kvget`) - component
     + key (optional) - return only pairs which starts with this key 
     + maxresults (number, optional) - number of key-value pairs to return in one response
         + Default: `1000`
     + values (number, optional) - return values if specified
         + Default: `0`
         
-+ Request
-    + Headers
-    
-            x-ccow-block-btree-order: 640
-            x-ccow-block-btree-chunk-size: 4194304
-            Session-Id: SSID:j6oAOxCWZh
             
-+ Response 200 (application/json)
++ Response 206 (application/json)
 
         {
             "1": {"id":"avon-and-somerset","name":"Avon and Somerset Constabulary"},
@@ -76,26 +72,17 @@ or updated at a time. In case of missing `key`, request body has to be of conten
 `application/json` and need to contain a json object with one more more keys to insert or
 update.
 
-Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
-`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
-Client has to specify same exactly btree parameters on each request. Otherwise, the request may
-fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
-
-Optionally, if `Session-Id` header parameter specified but missing `SSID` prefix then it will
-initiate new stream and will return `SSID` header parameter. Session will stay active
-for 30 seconds. It is responsibility of a client appilcation to finalize or cancel it by
-supplying `finalize` or `cancel` query parameter.
 
 + Parameters
-    + comp (`kvput`) - component
+    + comp (`kv`) - component
     + key (optional) - new or existing key to insert or update 
+    + cancel (optional) - cancel existig stream session
+    + finalize (optional) - finalize existig stream session and create new object version 
     
 + Request
     + Headers
     
-            x-ccow-block-btree-order: 640
-            x-ccow-block-btree-chunk-size: 4194304
-            Session-Id: SSID:j6oAOxCWZh
+            x-session-id: j6oAOxCWZh
 
 + Request (application/json)
 
@@ -104,42 +91,33 @@ supplying `finalize` or `cancel` query parameter.
             "4": {"id":"cumbria","name":"Cumbria Constabulary"}
         }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
-            Location: /{bucket}/{blob}?comp=kvput
+            x-session-id: j6oAOxCWZh
 
 ### Delete Key Value Pairs [DELETE]
 
-Delete existing key value pair in key-value blob
-
-Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
-`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
-Client has to specify same exactly btree parameters on each request. Otherwise, the request may
-fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
-
-Optionally, if `Session-Id` header parameter specified but missing `SSID` prefix then it will
-initiate new stream and will return `SSID` header parameter. Session will stay active
-for 30 seconds. It is responsibility of a client appilcation to finalize or cancel it by
-supplying `finalize` or `cancel` query parameter.
+Delete existing key value pair in key-value blob. If `key` is not specified then
+request body will be considered as `application/json` input of keys to be deleted.
 
 + Parameters
-    + comp (`kvdel`) - component
+    + comp (`kv`) - component
     + key (optional) - existing key to delete
+    + cancel (optional) - cancel existig stream session
+    + finalize (optional) - finalize existig stream session and create new object version 
 
 + Request
     + Headers
     
-            x-ccow-block-btree-order: 640
-            x-ccow-block-btree-chunk-size: 4194304
-            Session-Id: SSID:j6oAOxCWZh
+            x-session-id: j6oAOxCWZh
             
 + Request (application/json)
 
         {
-            "3",
-            "4"
+            "3": "",
+            "4": ""
         }
         
 + Response 201 (application/json)
@@ -159,43 +137,55 @@ Extends access to object with append and random I/O modes
 ### Edit Object [POST]
 
 Operation commits a new block of data to existing or new object. In case of `appendblock`
-it appends block to the end of object. In case of `randomblock` it overwrites existing block
-or creates new one, where `x-ccow-block-offset` specifies start offset for the block to be
-written.
+it appends block to the end of object. In case of `randwrblock` it overwrites existing block
+or creates new one, where `x-ccow-offset` specifies start offset for the block to be
+written and `x-ccow-length` the length of the block in bytes.
 
-If `x-ccow-block-condition-append-offset` specified then `appendblock` request succeeds only
+Each edit is versioned and will create new CCOW universal version identifier which consists
+of generation id and timestamp.
+
+If `x-ccow-condition-append-offset` specified then `appendblock` request succeeds only
 if the current offset matches that specified by the client. Otherwise, the request fails
 with the `AppendOffsetConditionNotMet` error (HTTP status code 412 – Precondition Failed).
 
-Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
-`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
-Client has to specify same exactly btree parameters on each request. Otherwise, the request may
-fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).
-
 + Parameters
-    + comp (`appendblock`, `randomblock`) - component
+    + comp (`appendblock`, `randwrlock`) - component
     
 + Request
     + Headers
     
-            x-ccow-block-offset: 0
-            x-ccow-block-btree-order: 640
-            x-ccow-block-btree-chunk-size: 4194304
-            x-ccow-block-condition-append-offset: 0
+            x-ccow-offset: 0
+            x-ccow-length: 62144
+            x-ccow-condition-append-offset: 0
 
-+ Response 201 (application/json)
++ Response 200
 
-    + Headers
-
-            Location: /{bucket}/{object}?comp=appendblock
         
 ## Stream Session Object Access [/{bucket}/{object}{?comp,cancel,finalize}]
 
 Extends access to object with high performance Stream Session I/O mode. Data blocks can be
-added to object at the highest speed prior to version finalization.
+added/removed/edited to object at the highest speed prior to version finalization.
+
+Each finalization is versioned and will create new CCOW universal version identifier which
+consists of generation id and timestamp.
 
 It is recommend to use HTTP/1.1 clients to support persistent connections and avoid unnecessary
 TCP/IP handshakes and re-connects.
+
+Optionally client can specify `x-ccow-chunkmap-btree-order` (32-640) and/or
+`x-ccow-chunkmap-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
+Client has to specify same exactly btree parameters on each request. Otherwise, the request may
+fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed). HTTP
+server will cache initially supplied btree parameters in on going `x-session-id`.
+
+New `x-session-id` has to be initialized with `POST`, `PUT`, `GET` or `HEAD` (stat) request by
+not supplying `finalize` or `cancel` query parameter.
+
+If `x-session-id` header parameter specified (returned as a result of previous read or write
+response) then it will continue on going stream session and will return same header parameter.
+Session will stay active for 30 seconds. It is responsibility of a client appilcation to
+finalize or cancel it by supplying `finalize` or `cancel` query parameter.
+
 
 + Parameters
     + bucket - bucket name
@@ -205,71 +195,43 @@ TCP/IP handshakes and re-connects.
 ### Streamed Read [GET]
 
 Operation reads a set of blocks of data from an existing object.
-Header parameter `x-ccow-block-offset` specifies start offset for the blocks to be read and
-`x-ccow-block-length` specifies the length of data to be returned.
+Header parameter `x-ccow-offset` specifies start offset for the blocks to be read and
+`x-ccow-length` specifies the length of data to be returned.
 
 This operation can be intermixed with `Streamed Write` at any time.
 
-Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
-`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
-Client has to specify same exactly btree parameters on each request. Otherwise, the request may
-fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed). HTTP
-server will cache initially supplied btree parameters in on going `Session-Id`.
-
-If `Session-Id` header parameter specified but missing `SSID` prefix then it will initiate
-new stream and will return `SSID` header parameter. Session will stay active for 30 seconds.
-It is responsibility of a client appilcation to finalize or cancel it by
-supplying `finalize` or `cancel` query parameter. This is not optional.
-
 + Parameters
     + cancel (optional) - cancel existig stream session
+    + finalize (optional) - finalize existig stream session and create new object version
     
 + Request
     + Headers
     
-            x-ccow-block-offset: 0
-            x-ccow-block-length: 16384
-            x-ccow-block-btree-order: 640
-            x-ccow-block-btree-chunk-size: 4194304
-            Session-Id: SSID:j6oAOxCWZh
+            x-ccow-offset: 0
+            x-ccow-length: 16384
+            x-session-id: j6oAOxCWZh
 
-+ Response 201 (application/json)
++ Response 206 (application/json)
 
-    + Headers
-
-            Location: /{bucket}/{object}?comp=streamsession
 
 ### Streamed Write [POST]
 
 Operation commits a new set of blocks of data to existing or new object.
-Header parameter `x-ccow-block-offset` specifies start offset for the blocks to be written to.
-Supplied total data size has to be multiple of `x-ccow-block-btree-chunk-size`.
+Header parameter `x-ccow-offset` specifies start offset for the blocks to be written to and
+`x-ccow-length` specifies the length of block in bytes.
 
 This operation can be intermixed with `Streamed Read` at any time.
 
-Optionally client can specify `x-ccow-block-btree-order` (16-640) and/or
-`x-ccow-block-btree-chunk-size` (power of 2, 4096 - 4194304) to optimize read/write operations.
-Client has to specify same exactly btree parameters on each request. Otherwise, the request may
-fail with the `BtreeConditionNotMet` error (HTTP status code 412 – Precondition Failed).HTTP
-server will cache initially supplied btree parameters in on going `Session-Id`.
-
-New `Session-Id` has to be initialized with `GET` request. Session will stay active for
-30 seconds. It is responsibility of a client appilcation to finalize or cancel it by
-supplying `finalize` or `cancel` query parameter. This is not optional.
 
 + Parameters
+    + cancel (optional) - cancel existig stream session
     + finalize (optional) - finalize existig stream session and create new object version
 
 + Request
     + Headers
     
-            x-ccow-block-offset: 0
-            x-ccow-block-btree-order: 640
-            x-ccow-block-btree-chunk-size: 4194304
-            Session-Id: SSID:j6oAOxCWZh
+            x-ccow-offset: 0
+            x-ccow-length: 16384
+            session-id: Sj6oAOxCWZh
 
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /{bucket}/{object}?comp=streamsession
++ Response 200
