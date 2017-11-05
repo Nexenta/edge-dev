@@ -52,7 +52,7 @@ The following are the steps to initialize, setup region namespace, tenant, servi
     alias neadm="docker exec -it s3data neadm"
     
     # verify that service is running
-    docker exec -it s3data neadm system status
+    neadm system status
     
     # initialize and setup devops license
     neadm system init
