@@ -11,18 +11,18 @@ NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtu
 
 NexentaEdge Extended S3 API provides unique benefits which can be useful for Machine Deep Learning, Big Data and IoT frameworks:
 
-•	Mount S3 objects for fast File/POSIX access avoid unnecessary copy, fetch only needed datasets
-•	Extended S3 feature set Append, Range Writes, Object/Bucket snapshots, Key-Value Object access
-•	Data Reduction with global inline de-duplication, compression and erasure encoding
-•	Cost Reduction File/Block/DB access with S3 economics 
+* Mount S3 objects for fast File/POSIX access avoid unnecessary copy, fetch only needed datasets
+* Extended S3 feature set Append, Range Writes, Object/Bucket snapshots, Key-Value Object access
+* Data Reduction with global inline de-duplication, compression and erasure encoding
+* Cost Reduction File/Block/DB access with S3 economics 
 
 Use cases details:
 
-•	Advanced Versioned S3 Object Append and RW "Object as File" access
-•	S3 Object as a Key-Value database, including integrations w/ Caffe, TensorFlow, Spark, Kafka, etc
-•	High-performance Versioned S3 Object Stream Session (RW), including FUSE library to mount an object
-•	Management API for Snapshots and Clones, including Bucket instantaneous snapshots
-•	Transparent NFS to/from S3 bucket access, “ingest via NFS, read via S3” or vice-versa
+* Advanced Versioned S3 Object Append and RW "Object as File" access
+* S3 Object as a Key-Value database, including integrations w/ Caffe, TensorFlow, Spark, Kafka, etc
+* High-performance Versioned S3 Object Stream Session (RW), including FUSE library to mount an object
+* Management API for Snapshots and Clones, including Bucket instantaneous snapshots
+* Transparent NFS to/from S3 bucket access, “ingest via NFS, read via S3” or vice-versa
 
 Comparision to existing cloud object storage APIs:
 
@@ -87,7 +87,7 @@ Setup GUI for easy on-going management and monitoring:
 
 NexentaEdge purpose built Software Stack enables third-party vendors to deliver complete end-user solutions with benefits of component re-usability and unique feature set.
 
-![fig3: deplyoment](https://raw.githubusercontent.com/nexenta/nedge-dev/master/images/container-converged.png)
+![fig3: deplyoment](https://raw.githubusercontent.com/Nexenta/edge-dev/master/images/nedgeui-s3svc.png)
 
 NexentaEdge DevOps Edition provides advanced storage features of NexentaEdge to containerized applications:
 * Deployed as containers and managed using standard container tools (DevOps style)
