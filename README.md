@@ -87,7 +87,7 @@ Setup GUI for easy on-going management and monitoring:
 
 NexentaEdge purpose built Software Stack enables third-party vendors to deliver complete end-user solutions with benefits of component re-usability and unique feature set.
 
-![fig3: deplyoment](https://raw.githubusercontent.com/Nexenta/edge-dev/master/images/nedgeui-s3svc.png)
+![fig3: deplyoment](https://raw.githubusercontent.com/Nexenta/edge-dev/master/images/container-converged.png)
 
 NexentaEdge DevOps Edition provides advanced storage features of NexentaEdge to containerized applications:
 * Deployed as containers and managed using standard container tools (DevOps style)
