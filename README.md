@@ -12,7 +12,7 @@ NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtu
 NexentaEdge Extended S3 API provides unique benefits which can be useful for Machine Deep Learning, Big Data and IoT frameworks:
 
 * Mount S3 objects for fast File/POSIX access avoid unnecessary copy, fetch only needed datasets
-* Extended S3 feature set Append, Range Writes, Object/Bucket snapshots, Key-Value Object access
+* Extended S3 feature set: Append, Range Writes, Object/Bucket snapshots, Key-Value Object access
 * Data Reduction with global inline de-duplication, compression and erasure encoding
 * Cost Reduction File/Block/DB access with S3 economics 
 
