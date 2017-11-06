@@ -29,7 +29,7 @@ docker run --ipc host --network host --name nedge-s3finance \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowgws3
+        nexenta/nedge start -j ccowgws3
 ```
 Substitute ccowgws3 with ccowgws3s to serve S3 where buckets accessible as subdomain names, e.g. mybucket1.company.com rather then s3.company.com/mybucket1
 

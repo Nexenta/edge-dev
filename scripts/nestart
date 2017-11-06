@@ -80,7 +80,7 @@ docker run --ipc host --network $CCOW_REPNET --name nedge-$NAME --net-alias nedg
 	-v /var/lib/ndnfs:/var/lib/ndnfs:shared \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
- 	$IMAGE /opt/nedge/nmf/nefcmd.sh start $@
+ 	$IMAGE start $@
 
 docker network connect $CCOW_CLNET nedge-$NAME
 docker network connect $CCOW_MGMTNET nedge-$NAME --ip $CCOW_MGMTIPV4 1>/dev/null 2>/dev/null

@@ -22,8 +22,7 @@ docker run --network host --name nedge-msite-hq \
         -v /dev:/dev \
         -v /etc/localtime:/etc/localtime:ro \
         -p 14000:14000 \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start \
-        -j ccowserv -j ccowgws3 -j isgwserv
+        nexenta/nedge start -j ccowserv -j ccowgws3 -j isgwserv
 ```
 
 If you are using port other than 14000, then map that port number (-p port:port).
@@ -67,8 +66,7 @@ docker run --network host --name nedge-msite-branch \
         -v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
         -v /dev:/dev \
         -v /etc/localtime:/etc/localtime:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start \
-        -j ccowserv -j ccowgws3 -j isgwserv
+        nexenta/nedge start -j ccowserv -j ccowgws3 -j isgwserv
 ```
 
 Use NEADM management tool to setup s3 service

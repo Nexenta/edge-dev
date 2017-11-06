@@ -31,7 +31,7 @@ docker run --ipc host --name nedge-nbd-revenue \
 	-v /run/docker/plugins:/run/docker/plugins \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /etc/localtime:/etc/localtime:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j nbdserv -j rest
+        nexenta/nedge start -j nbdserv -j rest
 ```
 
 At this point you will have NBD service running and exporting "ndvol" Docker volume driver.

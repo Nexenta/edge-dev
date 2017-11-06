@@ -26,7 +26,7 @@ docker run --ipc host --network host --name nedge-iscsi-mongodb \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j iscsiserv
+        nexenta/nedge start -j iscsiserv
 ```
 
 At this point you will have iSCSI service running. Add SERVERID (can be found with command "neadm system status") to the service:

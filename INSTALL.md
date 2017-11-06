@@ -115,7 +115,7 @@ docker run --ipc host --network host --name nedge-data-s3 \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowserv -j ccowgws3
+        nexenta/nedge start -j ccowserv -j ccowgws3
 ```
 
 ### Step 4: Initialize cluster and obtain license

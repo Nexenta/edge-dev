@@ -29,7 +29,7 @@ docker run --ipc host --network host --name nedge-data0 \
 	-v /run/docker/plugins:/run/docker/plugins \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /etc/localtime:/etc/localtime:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowserv -j rest
+        nexenta/nedge start -j ccowserv -j rest
 ```
 
 At this point you will have Data Containers running and forming cluster. Networking configuration for backend is automatic IPv6 discovery based.

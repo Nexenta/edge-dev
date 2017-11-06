@@ -29,7 +29,7 @@ docker run --ipc host --network host --name nedge-swift \
 	-v /root/c0/nesetup.json:/opt/nedge/etc/ccow/nesetup.json:ro \
 	-v /dev:/dev \
 	-v /etc/localtime:/etc/localtime:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j ccowgw
+        nexenta/nedge start -j ccowgw
 ```
 
 At this point you will have SWIFT Object service running.

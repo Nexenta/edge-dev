@@ -33,7 +33,7 @@ docker run --ipc host --network host --name nedge-nfs-finance \
 	-v /run/docker/plugins:/run/docker/plugins \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /etc/localtime:/etc/localtime:ro \
-        nexenta/nedge /opt/nedge/nmf/nefcmd.sh start -j nfsserv
+        nexenta/nedge start -j nfsserv
 ```
 
 At this point you will have NFS service running. Add SERVERID (can be found with command "neadm system status") to the service:
