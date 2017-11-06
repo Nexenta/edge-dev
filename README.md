@@ -3,9 +3,9 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/nexenta/nedge.svg)](https://hub.docker.com/r/nexenta/nedge)
 
 # NexentaEdge DevOps Edition
-NexentaEdge DevOps Edition is a purpose built and packaged software stack for providing a scale-out infrastructure for containerized applications. It is designed to make it easy to integrate an enterprise class storage system with existing networking and compute services into a single solution.
+NexentaEdge DevOps Edition is a purpose built and packaged software stack for providing a scale-out storage infrastructure for containerized applications. It is designed to make it easy to integrate an enterprise class storage system with existing networking and compute services as a solution.
 
-NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtual hosts, pooling all their storage capacity and presenting it as native block devices (NBD), iSCSI, NFS shares, or fully compatbile S3/SWIFT object access for containerized applications running on the same servers.  All storage services are managed through standard Docker tools, for greater agility and scalability.
+NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtual hosts, pooling all their storage capacity and presenting it as fully compatbile S3/SWIFT object access for containerized applications running on the same servers. Additionally data can be accessed as native block devices (NBD), iSCSI (with HA), NFS shares (with HA). All storage services are managed through standard Docker tools, for greater agility and scalability.
 
 # NexentaEdge Extended S3-compatible API
 
@@ -31,12 +31,12 @@ Comparision to existing cloud object storage APIs:
 Give Edge-X S3 a try in easy to run single command installation:
 
 ```console
-    # location where to keep blobs
-    mkdir /var/tmp/data
+# location where to keep blobs
+mkdir /var/tmp/data
     
-    # start nexenta/nedge daemon and Edge-X S3 compatible service
-    docker run --name s3data -v /etc/localtime:/etc/localtime:ro -v /var/tmp/data:/data -d \
-            nexenta/nedge start -j ccowserv -j ccowgws3
+# start nexenta/nedge daemon and Edge-X S3 compatible service
+docker run --name s3data -v /etc/localtime:/etc/localtime:ro -v /var/tmp/data:/data -d \
+    nexenta/nedge start -j ccowserv -j ccowgws3
 
 ```
 
@@ -48,35 +48,35 @@ Follow up with our Community! Please join us at the [NexentaEdge Devops communit
 The following are the steps to initialize, setup region namespace, tenant, service:
     
 ```console
-    # setup alias for easy CLI style management
-    alias neadm="docker exec -it s3data neadm"
+# setup alias for easy CLI style management
+alias neadm="docker exec -it s3data neadm"
     
-    # verify that service is running
-    neadm system status
+# verify that service is running
+neadm system status
     
-    # initialize and setup devops license
-    neadm system init
-    neadm system license set online ACTIVATION_KEY
+# initialize and setup devops license
+neadm system init
+neadm system license set online ACTIVATION_KEY
     
-    # setup simple Edge-X S3 service
-    neadm cluster create region1
-    neadm tenant create region1/tenant1
-    neadm service create s3 s3svc
-    neadm service serve s3svc region1/tenant1
-    neadm service add s3svc SERVERID  # use neadm system status to find out 
-    neadm service restart s3svc
-    neadm service show s3svc
+# setup simple Edge-X S3 service
+neadm cluster create region1
+neadm tenant create region1/tenant1
+neadm service create s3 s3svc
+neadm service serve s3svc region1/tenant1
+neadm service add s3svc SID  # use neadm system status to find out server id
+neadm service restart s3svc
+neadm service show s3svc
     
-    # assuming that default Docker bridge address asigned to container
-    # is 172.17.0.3 verify that Edge-X S3 port is listening
-    curl http://172.17.0.3:9982
+# assuming that default Docker bridge address asigned to container
+# is 172.17.0.3 verify that Edge-X S3 port is listening
+curl http://172.17.0.3:9982
 ```
 
 Setup GUI for easy on-going management and monitoring:
 
 ```console
-    docker run -e API_ENDPOINT=http://172.17.0.3:8080 -p 3000:3000 \
-        nexenta/nedgeui:2.1.0
+docker run -e API_ENDPOINT=http://172.17.0.3:8080 -p 3000:3000 \
+    nexenta/nedgeui:2.1.0
 ```
 
 * Point browser to the host's port 3000
