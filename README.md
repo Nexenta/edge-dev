@@ -3,9 +3,13 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/nexenta/nedge.svg)](https://hub.docker.com/r/nexenta/nedge)
 
 # NexentaEdge DevOps Edition
-NexentaEdge DevOps Edition is a purpose built and packaged software stack for providing a scale-out storage infrastructure for containerized applications. It is designed to make it easy to integrate an enterprise class storage system with existing networking and compute services as a solution.
+NexentaEdge DevOps Edition is a purpose built and packaged software stack to enable scale-out storage infrastructure for containerized applications. It is designed to make it easy to integrate an enterprise class storage system with existing networking and compute services as a solution.
 
-NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtual hosts, pooling all their storage capacity and presenting it as fully compatbile S3/SWIFT object access for containerized applications running on the same servers. Additionally data can be accessed as native block devices (NBD), iSCSI (with HA), NFS shares (with HA). All storage services are managed through standard Docker tools, for greater agility and scalability.
+NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtual hosts, pooling all their storage capacity and presenting it as fully compatbile S3/SWIFT object access for containerized applications running on the same or dedicated servers. Additionally data can be accessed as native block devices (NBD), iSCSI (with optional HA), NFS shares (with optional HA) and as High-Performance NOSQL interface. Storage services are managed through standard Docker tools, for greater agility and scalability.
+
+NexentaEdge designed with High-Performance in mind and provides best in class throughput and latency characteristics. In some cases up to 10x better results.
+
+NexentaEdge is ideal solution if you want to consolidate multiple data protocol access into one with globally enabled deduplication across all the high-level protocols: S3, SWIFT, NFS, iSCSI, NBD and NOSQL.
 
 # NexentaEdge Extended S3-compatible API
 
