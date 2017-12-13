@@ -9,7 +9,7 @@ NexentaEdge DevOps Edition nodes are deployed as containers on physical or virtu
 
 NexentaEdge designed with High-Performance in mind and provides best in class throughput and latency characteristics. In some cases up to 10x better results.
 
-NexentaEdge is ideal solution if you want to consolidate multiple data protocol access into one with globally enabled deduplication across all the high-level protocols: S3, SWIFT, NFS, iSCSI, NBD and NOSQL.
+*NexentaEdge is ideal solution if you want to consolidate multiple data protocol access into one with globally enabled deduplication across all the high-level protocols: S3, SWIFT, NFS, iSCSI, NBD and NOSQL*.
 
 # NexentaEdge Extended S3-compatible API
 
