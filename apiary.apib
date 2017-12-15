@@ -48,7 +48,7 @@ then the only value will be returned at a time with response content type
 be `application/json` containing json object with both keys and values specified.
 
 + Parameters
-    + comp (`kvget`) - component
+    + comp (`kv`) - component
     + key (optional) - return only pairs which starts with this key 
     + maxresults (number, optional) - number of key-value pairs to return in one response
         + Default: `1000`
@@ -124,7 +124,7 @@ request body will be considered as `application/json` input of keys to be delete
 
     + Headers
 
-            Location: /{bucket}/{blob}?comp=kvput
+            Location: /{bucket}/{blob}?comp=kv
 
 ## Extended Object Access [/{bucket}/{object}{?comp}]
 
