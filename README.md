@@ -76,6 +76,8 @@ neadm service show s3svc
 curl http://172.17.0.3:9982
 ```
 
+## GUI setup
+
 Setup GUI for easy on-going management and monitoring:
 
 ```console
@@ -108,7 +110,7 @@ NexentaEdge DevOps Edition provides advanced storage features of NexentaEdge to 
 * Multi-site high-performance bi-directional continuous and "one-shot" replication
 * High performance Raw Disk backend designed for All-Flash, Hybrid (HDD/SSD) and large capacity HDDs
 
-# Advanced deployment scenarios:
+## Advanced deployment scenarios:
 
 Deploy Container-Converged infrastructure following [automatic procedure](https://github.com/nexenta/edge-dev/blob/master/install/automatic-deployment.md) (Enterprise style)
 
