@@ -243,7 +243,7 @@ docker run -td -p 80:9980 --name nginx-proxy \
 Observe that ngnix-proxy host (replace with IP address to access proxy) can transparently proxy and load-balance S3 requests to Edge cluster:
 
 ```
-curl http://ngnix-proxy:80/
+curl http://nginx-proxy:80/
 ```
 
 # Contact Us
