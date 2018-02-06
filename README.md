@@ -116,6 +116,6 @@ Deploy Container-Converged infrastructure following [automatic procedure](https:
 
 Or continue with more examples and deploy [Quick Start Guides](https://github.com/nexenta/edge-dev/blob/master/INSTALL.md) (DevOps style)
 
-Ask immediate question on [NexentaEdge Developers Channel](https://nexentaedge.slack.com/messages/general/)
+Ask immediate question on [NexentaEdge Developers Channel](https://join.slack.com/t/nexentaedge/shared_invite/enQtMzEwMjA5MTczNDU3LTVmNjk4NjEwNTVlYThjMjg4NWI0ZWM5NTBjNTE5YzgwZTFjYjhjMWFhMWY4NjYxYWI0YWJmOTFkNTY5MmI1YWI)
 
 **Note:** The full documentation for NexentaEdge Enterprise Edition is [available here](https://nexenta.com/products/nexentaedge).
