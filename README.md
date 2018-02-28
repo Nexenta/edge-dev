@@ -89,8 +89,6 @@ docker run -e API_ENDPOINT=http://172.17.0.3:8080 -p 3000:3000 \
 * Default user/password: admin/nexenta
 * You know show be able to manage and monitor your simple single node cluster!
 
-![fig2: gui-s3svc](https://raw.githubusercontent.com/nexenta/nedge-dev/master/images/nedgeui-s3svc.png)
-
 NexentaEdge purpose built Software Stack enables third-party vendors to deliver complete end-user solutions with benefits of component re-usability and unique feature set.
 
 ![fig3: deplyoment](https://raw.githubusercontent.com/Nexenta/edge-dev/master/images/container-converged.png)
@@ -103,11 +101,11 @@ NexentaEdge DevOps Edition provides advanced storage features of NexentaEdge to 
 * Scale-out high performance metadata layer with global Name Spaces and built-in multi-tenancy support
 * Unlimited number of space optimized snapshots and clones
 * Inline cluster wide deduplication and compression
-* Off-line "Quick" Erasure Coding without performance penalty on writes or reads with distributed rebuild
+* "Quick" Erasure Coding without performance penalty on writes or reads with distributed rebuild
 * Micro-services for data access to Scale-Out File (NFS), Scale-Out Block (NBD/iSCSI), and Object (S3/SWIFT) services
 * Protocol transparency. Objects/Files/LUNs can be accessed from any protocol - NFS, S3 or SWIFT
 * Quality of Service for storage services (per-tenant controlled rate limiting)
-* Multi-site high-performance bi-directional continuous and "one-shot" replication
+* Multi-site high-performance, continuous and "one-shot" replication
 * High performance Raw Disk backend designed for All-Flash, Hybrid (HDD/SSD) and large capacity HDDs
 
 ## Advanced deployment scenarios:
