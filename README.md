@@ -18,6 +18,7 @@ NexentaEdge deployed as containers on physical or virtual hosts, pooling allocat
 
 *Key benefits to consider:*
 
+- **Free as in beer!** quality SDS software stack
 - **Easy of use** with advanced CLI and nice GUI
 - **Enhanced data integrity, availability and reliability** with state of the art Cloud scale Copy-on-Write ("CCOW") architecture and design
 - **Global In-Line Deduplication an compression** across all supported storage protocols
