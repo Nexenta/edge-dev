@@ -70,6 +70,7 @@ curl -s https://raw.githubusercontent.com/Nexenta/edge-dev/install-p_g/prometheu
 curl -s https://raw.githubusercontent.com/Nexenta/edge-dev/install-p_g/prometheus/grafana/prometheus.yml > \
   $DASHBOARD_DIR/grafana/provisioning/datasources/prometheus.yml
 
+sed -i -e 's/${DS_PROMETHEUS}/Prometheus/g' $DASHBOARD_DIR/grafana/provisioning/dashboards/NexentaEdge.json
 sed -i -e "s/PROMETHEUS_IP:PROMETHEUS_PORT/$P_IP:9090/g" $DASHBOARD_DIR/grafana/provisioning/datasources/prometheus.yml
 
 echo "Starting Grafana container"
