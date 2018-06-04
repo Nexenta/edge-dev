@@ -65,7 +65,7 @@
   "gnetId": 917,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1527207518591,
+  "iteration": 1527207518594,
   "links": [],
   "panels": [
     {
@@ -126,7 +126,7 @@
       "interval": "1m",
       "isNew": true,
       "links": [],
-      "mappingType": 1,
+      "mappingType": 2,
       "mappingTypes": [
         {
           "name": "value to text",
@@ -146,9 +146,19 @@
       "prefixFontSize": "50%",
       "rangeMaps": [
         {
+          "from": "1",
+          "text": "DEGRADED",
+          "to": "10000"
+        },
+        {
           "from": "null",
           "text": "N/A",
           "to": "null"
+        },
+        {
+          "from": "0",
+          "text": "HEALTHY",
+          "to": "0"
         }
       ],
       "sparkline": {
@@ -160,7 +170,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "nedge_node_vdevs_degraded",
+          "expr": "nedge_node_degraded",
           "format": "time_series",
           "hide": false,
           "interval": "$interval",
@@ -2366,7 +2376,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Memory Utilization",
+      "title": "Memory Utilization (excl. caches)",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2461,7 +2471,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "CPU Load 1min",
+      "title": "Avg. CPU Load 1min",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -3912,5 +3922,5 @@
   "timezone": "browser",
   "title": "NexentaEdge - Cluster",
   "uid": "nexentaedge",
-  "version": 13
+  "version": 16
 }
