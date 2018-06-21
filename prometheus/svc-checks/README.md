@@ -1,4 +1,4 @@
-## Prometheus exporters for NexentaEdge services
+## Prometheus exporters for NexentaEdge services (Health Monitors)
 NexentaEdge has built-in Prometheus exporter which monitors internal states
 and alerts. It is powerfull enough for majority of use cases.
 
