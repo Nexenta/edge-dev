@@ -2171,12 +2171,385 @@
       "valueName": "current"
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "decimals": null,
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 30
+      },
+      "id": 79,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sideWidth": null,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "minSpan": 2,
+      "nullPointMode": "null as zero",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeat": null,
+      "repeatDirection": "h",
+      "seriesOverrides": [
+        {
+          "alias": "/^service.*$/"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "nedge_nfs_service_status",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "{{service}}",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "ok",
+          "fill": false,
+          "line": true,
+          "op": "gt",
+          "value": 0,
+          "yaxis": "left"
+        },
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": false,
+          "op": "lt",
+          "value": 1,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "NFS Services Status",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": false,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "none",
+          "label": "S T A T E S",
+          "logBase": 1,
+          "max": "1",
+          "min": "-3",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "decimals": null,
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 30
+      },
+      "id": 80,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sideWidth": null,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "minSpan": 2,
+      "nullPointMode": "null as zero",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "seriesOverrides": [
+        {
+          "alias": "/^service.*$/"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "nedge_iscsi_service_status",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "{{service}}",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "ok",
+          "fill": false,
+          "line": true,
+          "op": "gt",
+          "value": 0,
+          "yaxis": "left"
+        },
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": false,
+          "op": "lt",
+          "value": 1,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "iSCSI Services Status",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": false,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "none",
+          "label": "S T A T E S",
+          "logBase": 1,
+          "max": "1",
+          "min": "-1",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "decimals": null,
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 30
+      },
+      "id": 81,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sideWidth": null,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "minSpan": 2,
+      "nullPointMode": "null as zero",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "seriesOverrides": [
+        {
+          "alias": "/^service.*$/"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "nedge_s3_service_status",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "{{service}}",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "ok",
+          "fill": false,
+          "line": true,
+          "op": "gt",
+          "value": 0,
+          "yaxis": "left"
+        },
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": false,
+          "op": "lt",
+          "value": 1,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "S3 Services Status",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": false,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "none",
+          "label": "S T A T E S",
+          "logBase": 1,
+          "max": "1",
+          "min": "-2",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 34
       },
       "id": 55,
       "panels": [],
@@ -2208,7 +2581,7 @@
         "h": 4,
         "w": 2,
         "x": 0,
-        "y": 31
+        "y": 35
       },
       "id": 56,
       "interval": null,
@@ -2297,7 +2670,7 @@
         "h": 4,
         "w": 2,
         "x": 2,
-        "y": 31
+        "y": 35
       },
       "id": 57,
       "interval": null,
@@ -2375,7 +2748,7 @@
         "h": 4,
         "w": 7,
         "x": 4,
-        "y": 31
+        "y": 35
       },
       "id": 66,
       "isNew": true,
@@ -2470,7 +2843,7 @@
         "h": 4,
         "w": 7,
         "x": 11,
-        "y": 31
+        "y": 35
       },
       "id": 77,
       "isNew": true,
@@ -2564,7 +2937,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 31
+        "y": 35
       },
       "id": 67,
       "isNew": true,
@@ -2650,7 +3023,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 35
+        "y": 39
       },
       "id": 36,
       "panels": [],
@@ -2682,7 +3055,7 @@
         "h": 3,
         "w": 2,
         "x": 0,
-        "y": 36
+        "y": 40
       },
       "id": 26,
       "interval": null,
@@ -2772,7 +3145,7 @@
         "h": 3,
         "w": 2,
         "x": 2,
-        "y": 36
+        "y": 40
       },
       "id": 28,
       "interval": null,
@@ -2861,7 +3234,7 @@
         "h": 3,
         "w": 4,
         "x": 4,
-        "y": 36
+        "y": 40
       },
       "id": 64,
       "interval": null,
@@ -2950,7 +3323,7 @@
         "h": 3,
         "w": 4,
         "x": 8,
-        "y": 36
+        "y": 40
       },
       "id": 31,
       "interval": null,
@@ -3039,7 +3412,7 @@
         "h": 3,
         "w": 4,
         "x": 12,
-        "y": 36
+        "y": 40
       },
       "id": 71,
       "interval": null,
@@ -3128,7 +3501,7 @@
         "h": 3,
         "w": 4,
         "x": 16,
-        "y": 36
+        "y": 40
       },
       "id": 62,
       "interval": null,
@@ -3217,7 +3590,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 36
+        "y": 40
       },
       "id": 65,
       "interval": null,
@@ -3287,7 +3660,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 43
       },
       "id": 39,
       "panels": [],
@@ -3318,7 +3691,7 @@
         "h": 4,
         "w": 3,
         "x": 0,
-        "y": 40
+        "y": 44
       },
       "id": 58,
       "interval": "1m",
@@ -3407,7 +3780,7 @@
         "h": 4,
         "w": 3,
         "x": 3,
-        "y": 40
+        "y": 44
       },
       "id": 61,
       "interval": "1m",
@@ -3496,7 +3869,7 @@
         "h": 4,
         "w": 3,
         "x": 6,
-        "y": 40
+        "y": 44
       },
       "id": 59,
       "interval": "1m",
@@ -3574,7 +3947,7 @@
         "h": 4,
         "w": 5,
         "x": 9,
-        "y": 40
+        "y": 44
       },
       "id": 15,
       "isNew": true,
@@ -3665,7 +4038,7 @@
         "h": 4,
         "w": 5,
         "x": 14,
-        "y": 40
+        "y": 44
       },
       "id": 17,
       "isNew": true,
@@ -3761,7 +4134,7 @@
         "h": 4,
         "w": 5,
         "x": 19,
-        "y": 40
+        "y": 44
       },
       "id": 16,
       "isNew": true,
@@ -3932,7 +4305,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {

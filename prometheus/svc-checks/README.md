@@ -2,6 +2,8 @@
 NexentaEdge has built-in Prometheus exporter which monitors internal states
 and alerts. It is powerfull enough for majority of use cases.
 
+![prom-svc-check-example](https://github.com/Nexenta/edge-dev/raw/master/images/nedge-prom-svc-check.png)
+
 In some cases availability of services (iSCSI, S3 and NFS) has to be closely
 monitored. Service monitoring would need to be installed on client machines.
 
