@@ -1,0 +1,200 @@
+#!/usr/bin/env bash
+#
+# Prometheus exporter to monitor NFS clients access
+# Execute with the following command:
+#
+# socat TCP4-LISTEN:8090,reuseaddr,fork EXEC:/path/to/script
+#
+# Reported states:
+#
+#  1	- service fully available
+#  0	- service partially available (likely networking issue)
+# -1	- service unavailable (df command isn't working)
+# -2	- service unavailable (showmount command isn't working)
+# -3	- service unavailable (not mounted)
+#
+# Original idea: Avleen Vig, 2012
+# Adopted by: Nexenta Systems, Inc 2018
+
+declare -A SERVICES
+
+################### CONFIGURATION SECTION ########################
+#
+# NexentaEdge associated service name and local mount
+# point to monitor. Make sure that services all pre-mounted
+#
+SERVICES[nfssvc1]=/mnt/nfssvc1
+SERVICES[nfssvc2]=/mnt/nfssvc2
+
+##################################################################
+
+warn() { echo "WARNING: $@" >&2; }
+recv() { echo "< $@" >&2; }
+send() { echo "> $@" >&2; printf '%s\r\n' "$*"; }
+send_n() { echo "> $@" >&2; printf '%s\n' "$*"; }
+
+DATE=$(date +"%a, %d %b %Y %H:%M:%S %Z")
+declare -a RESPONSE_HEADERS=(
+	"Date: $DATE"
+	"Expires: $DATE"
+	"Server: NexentaEdge NFS client monitor"
+)
+
+add_response_header() {
+	 RESPONSE_HEADERS+=("$1: $2")
+}
+
+declare -a HTTP_RESPONSE=(
+	 [200]="OK"
+	 [400]="Bad Request"
+	 [403]="Forbidden"
+	 [404]="Not Found"
+	 [405]="Method Not Allowed"
+	 [500]="Internal Server Error"
+)
+
+send_response() {
+	 local code=$1
+	 send "HTTP/1.0 $1 ${HTTP_RESPONSE[$1]}"
+	 for i in "${RESPONSE_HEADERS[@]}"; do
+		send "$i"
+	 done
+	 send
+	 while read -r line; do
+		send_n "$line"
+	 done
+}
+
+send_response_ok_exit() { send_response 200; exit 0; }
+
+fail_with() {
+	 send_response "$1" <<< "$1 ${HTTP_RESPONSE[$1]}"
+	 exit 1
+}
+
+serve_static_string() {
+	 add_response_header "Content-Type" "text/plain"
+	 send_response_ok_exit <<< "$1"
+}
+
+on_uri_match() {
+	 local regex=$1
+	 shift
+
+	 [[ $REQUEST_URI =~ $regex ]] && \
+		"$@" "${BASH_REMATCH[@]}"
+}
+
+process_http_req() {
+	# Request-Line HTTP RFC 2616 $5.1
+	read -r line || fail_with 400
+
+	# strip trailing CR if it exists
+	line=${line%%$'\r'}
+	recv "$line"
+
+	read -r REQUEST_METHOD REQUEST_URI REQUEST_HTTP_VERSION <<<"$line"
+
+	[ -n "$REQUEST_METHOD" ] && \
+	[ -n "$REQUEST_URI" ] && \
+	[ -n "$REQUEST_HTTP_VERSION" ] \
+		 || fail_with 400
+
+	# Only GET is supported at this time
+	[ "$REQUEST_METHOD" = "GET" ] || fail_with 405
+
+	declare -a REQUEST_HEADERS
+}
+
+serve_http_req() {
+	while read -r line; do
+		 line=${line%%$'\r'}
+		 recv "$line"
+
+		 # If we've reached the end of the headers, break.
+		 [ -z "$line" ] && break
+
+		 REQUEST_HEADERS+=("$line")
+	done
+
+	fail_with 500
+}
+
+nfs_check() {
+	local svc=$1
+        local path=$2
+	local DFPID
+	local SMPID
+
+        ipaddr=$(mount -l -t nfs,nfs4,nfs2,nfs3 | grep -w "$path" | awk -F'[(|,|=|)]' '{ for(i=1;i<=NF;i++) if ($i == "addr") print $(i+1) }')
+        if [ "$ipaddr" ]; then
+                echo "$ipaddr" |
+                while read line; do
+                        showmount -e $ipaddr &>/dev/null &
+                        SMPID=$!
+                        for (( i=1 ; i< 5 ; i++ )) ; do
+                                if ps -p $SMPID > /dev/null ; then
+                                        sleep 1
+                                else
+                                        break
+                                fi
+                        done
+                        if ps -p $SMPID > /dev/null ; then
+                                $(kill -9 $SMPID &>/dev/null)
+                                echo "-2"
+			else
+				df -k $path &>/dev/null &
+				DFPID=$!
+				for (( i=1 ; i< 5 ; i++ )) ; do
+					if ps -p $DFPID > /dev/null ; then
+						sleep 1
+					else
+						break
+					fi
+				done
+				if ps -p $DFPID > /dev/null ; then
+					$(kill -s SIGTERM $DFPID &>/dev/null)
+					echo "-1"
+				else
+					output=$(rpcinfo -u "$line" nfs | egrep -i "ready|waiting")
+					if [ "$output" ]; then
+						echo 1
+					else
+						echo 0
+					fi
+				fi
+			fi
+                done
+        else
+                echo "-3"
+        fi
+}
+
+nfs_prom_export() {
+	(echo "# HELP nedge_nfs_service_status NFS service client access status"
+	echo "# TYPE nedge_nfs_service_status gauge"
+	for svc in ${!SERVICES[@]}; do
+		echo -n "nedge_nfs_service_status{service=\"${svc}\",path=\"${SERVICES[${svc}]}\",hostname=\"`hostname`\",namespace=\"nedge\"} "
+		nfs_check ${svc} ${SERVICES[${svc}]}
+	done) > $tmpfile
+}
+
+nfs_last_result() {
+	local tmpfile="/tmp/nedge-prom-nfs-check.last"
+	if test -f $tmpfile; then
+		cat $tmpfile
+	fi
+	nfs_prom_export &
+}
+
+nfs_collect() {
+	local out=""
+
+	add_response_header "Content-Type" "text/plain; version=0.0.4"
+	send_response_ok_exit < \
+		<(nfs_last_result);
+}
+
+process_http_req
+on_uri_match '^/metrics$' nfs_collect
+serve_http_req

@@ -1,0 +1,170 @@
+#!/usr/bin/env bash
+#
+# Prometheus exporter to monitor iSCSI client access
+# Execute with the following command:
+#
+# socat TCP4-LISTEN:8090,reuseaddr,fork EXEC:/path/to/script
+#
+# Requires iscsi-ls tool to be preinstalled.
+# RedHat package: libiscsi-utils
+# Debian package: libiscsi-bin
+#
+# Reported states:
+#
+#  1	- service fully available
+#  0	- service LUNs not found
+# -1	- service not discoverable (likely networking issue)
+#
+# Original idea: Avleen Vig, 2012
+# Adopted by: Nexenta Systems, Inc 2018
+
+declare -A SERVICES
+
+################### CONFIGURATION SECTION ########################
+#
+# NexentaEdge associated service name and iSCSI path^lun.
+#
+SERVICES[iscsisvc]=iscsi://10.16.110.214:3260^1
+SERVICES[iscsi-z1]=iscsi://10.16.110.211:3260^1
+
+##################################################################
+
+warn() { echo "WARNING: $@" >&2; }
+recv() { echo "< $@" >&2; }
+send() { echo "> $@" >&2; printf '%s\r\n' "$*"; }
+send_n() { echo "> $@" >&2; printf '%s\n' "$*"; }
+
+DATE=$(date +"%a, %d %b %Y %H:%M:%S %Z")
+declare -a RESPONSE_HEADERS=(
+	"Date: $DATE"
+	"Expires: $DATE"
+	"Server: NexentaEdge NFS client monitor"
+)
+
+add_response_header() {
+	 RESPONSE_HEADERS+=("$1: $2")
+}
+
+declare -a HTTP_RESPONSE=(
+	 [200]="OK"
+	 [400]="Bad Request"
+	 [403]="Forbidden"
+	 [404]="Not Found"
+	 [405]="Method Not Allowed"
+	 [500]="Internal Server Error"
+)
+
+send_response() {
+	 local code=$1
+	 send "HTTP/1.0 $1 ${HTTP_RESPONSE[$1]}"
+	 for i in "${RESPONSE_HEADERS[@]}"; do
+		send "$i"
+	 done
+	 send
+	 while read -r line; do
+		send_n "$line"
+	 done
+}
+
+send_response_ok_exit() { send_response 200; exit 0; }
+
+fail_with() {
+	 send_response "$1" <<< "$1 ${HTTP_RESPONSE[$1]}"
+	 exit 1
+}
+
+serve_static_string() {
+	 add_response_header "Content-Type" "text/plain"
+	 send_response_ok_exit <<< "$1"
+}
+
+on_uri_match() {
+	 local regex=$1
+	 shift
+
+	 [[ $REQUEST_URI =~ $regex ]] && \
+		"$@" "${BASH_REMATCH[@]}"
+}
+
+process_http_req() {
+	# Request-Line HTTP RFC 2616 $5.1
+	read -r line || fail_with 400
+
+	# strip trailing CR if it exists
+	line=${line%%$'\r'}
+	recv "$line"
+
+	read -r REQUEST_METHOD REQUEST_URI REQUEST_HTTP_VERSION <<<"$line"
+
+	[ -n "$REQUEST_METHOD" ] && \
+	[ -n "$REQUEST_URI" ] && \
+	[ -n "$REQUEST_HTTP_VERSION" ] \
+		 || fail_with 400
+
+	# Only GET is supported at this time
+	[ "$REQUEST_METHOD" = "GET" ] || fail_with 405
+
+	declare -a REQUEST_HEADERS
+}
+
+serve_http_req() {
+	while read -r line; do
+		 line=${line%%$'\r'}
+		 recv "$line"
+
+		 # If we've reached the end of the headers, break.
+		 [ -z "$line" ] && break
+
+		 REQUEST_HEADERS+=("$line")
+	done
+
+	fail_with 500
+}
+
+iscsi_check() {
+	local svc=$1
+        local path=$2
+	local lun=${path#*^}
+	local url=${path%^*}
+
+	iscsi-ls -s $url &>/dev/null
+	if test $? -ne 0; then
+		echo "-1"
+        else
+		iscsi-ls -s $url | grep "Lun:$lun" &>/dev/null
+		if test $? -ne 0; then
+			echo "0"
+		else
+                	echo "1"
+		fi
+        fi
+}
+
+iscsi_prom_export() {
+	(echo "# HELP nedge_iscsi_service_status iSCSI service client access status"
+	echo "# TYPE nedge_iscsi_service_status gauge"
+	for svc in ${!SERVICES[@]}; do
+		echo -n "nedge_iscsi_service_status{service=\"${svc}\",path=\"${SERVICES[${svc}]}\",hostname=\"`hostname`\",namespace=\"nedge\"} "
+		iscsi_check ${svc} ${SERVICES[${svc}]}
+	done) > $tmpfile
+}
+
+iscsi_last_result() {
+	local tmpfile="/tmp/nedge-prom-iscsi-check.last"
+	if test -f $tmpfile; then
+		cat $tmpfile
+	fi
+	iscsi_prom_export &
+}
+
+iscsi_collect() {
+	local out=""
+
+	add_response_header "Content-Type" "text/plain; version=0.0.4"
+	send_response_ok_exit < \
+		<(iscsi_last_result);
+}
+
+process_http_req
+on_uri_match '^/metrics$' iscsi_collect
+serve_http_req

@@ -1,0 +1,192 @@
+#!/usr/bin/env bash
+#
+# Prometheus exporter to monitor S3 access from the client servers
+# Execute with the following command:
+#
+# socat TCP4-LISTEN:8090,reuseaddr,fork EXEC:/path/to/script
+#
+# Requires curl, base64 and openssl tools to be preinstalled.
+#
+# Reported states:
+#
+#  1	- service fully available
+#  0	- service bucket HEAD failed
+# -1	- service object HEAD failed
+# -2	- service not discoverable (likely networking issue)
+#
+# Original idea: Avleen Vig, 2012
+# Adopted by: Nexenta Systems, Inc 2018
+
+declare -A SERVICES
+
+################### CONFIGURATION SECTION ########################
+#
+# NexentaEdge associated service name and S3 path.
+#
+# SERVICES[NAME]=URL^KEYID^KEYSECRET
+#
+SERVICES[s3svc1]=http://10.16.110.215:9982/bk1/obj1^9F6RGX8ALBCOM2YJNRQ5^CSzFfqf0j1KxmCuctp8vx1UUKmUr0lSWuT5SSlwp
+
+##################################################################
+
+warn() { echo "WARNING: $@" >&2; }
+recv() { echo "< $@" >&2; }
+send() { echo "> $@" >&2; printf '%s\r\n' "$*"; }
+send_n() { echo "> $@" >&2; printf '%s\n' "$*"; }
+
+DATE=$(date +"%a, %d %b %Y %H:%M:%S %Z")
+declare -a RESPONSE_HEADERS=(
+	"Date: $DATE"
+	"Expires: $DATE"
+	"Server: NexentaEdge NFS client monitor"
+)
+
+add_response_header() {
+	 RESPONSE_HEADERS+=("$1: $2")
+}
+
+declare -a HTTP_RESPONSE=(
+	 [200]="OK"
+	 [400]="Bad Request"
+	 [403]="Forbidden"
+	 [404]="Not Found"
+	 [405]="Method Not Allowed"
+	 [500]="Internal Server Error"
+)
+
+send_response() {
+	 local code=$1
+	 send "HTTP/1.0 $1 ${HTTP_RESPONSE[$1]}"
+	 for i in "${RESPONSE_HEADERS[@]}"; do
+		send "$i"
+	 done
+	 send
+	 while read -r line; do
+		send_n "$line"
+	 done
+}
+
+send_response_ok_exit() { send_response 200; exit 0; }
+
+fail_with() {
+	 send_response "$1" <<< "$1 ${HTTP_RESPONSE[$1]}"
+	 exit 1
+}
+
+serve_static_string() {
+	 add_response_header "Content-Type" "text/plain"
+	 send_response_ok_exit <<< "$1"
+}
+
+on_uri_match() {
+	 local regex=$1
+	 shift
+
+	 [[ $REQUEST_URI =~ $regex ]] && \
+		"$@" "${BASH_REMATCH[@]}"
+}
+
+process_http_req() {
+	# Request-Line HTTP RFC 2616 $5.1
+	read -r line || fail_with 400
+
+	# strip trailing CR if it exists
+	line=${line%%$'\r'}
+	recv "$line"
+
+	read -r REQUEST_METHOD REQUEST_URI REQUEST_HTTP_VERSION <<<"$line"
+
+	[ -n "$REQUEST_METHOD" ] && \
+	[ -n "$REQUEST_URI" ] && \
+	[ -n "$REQUEST_HTTP_VERSION" ] \
+		 || fail_with 400
+
+	# Only GET is supported at this time
+	[ "$REQUEST_METHOD" = "GET" ] || fail_with 405
+
+	declare -a REQUEST_HEADERS
+}
+
+serve_http_req() {
+	while read -r line; do
+		 line=${line%%$'\r'}
+		 recv "$line"
+
+		 # If we've reached the end of the headers, break.
+		 [ -z "$line" ] && break
+
+		 REQUEST_HEADERS+=("$line")
+	done
+
+	fail_with 500
+}
+
+s3_check() {
+	local svc=$1
+        local path=$2
+	local url=${path%%^*}
+	local bkurl=${url%/*}
+	local _bkobj=${url#*/*/*/}
+	local bucket=${_bkobj%/*}
+	local obj=${_bkobj#*/}
+	local _opts_2=${path#*^}
+	local key_id=${_opts_2%^*}
+	local key_secret=${_opts_2#*^}
+	local date="$(LC_ALL=C date -u +"%a, %d %b %Y %X %z")"
+	local sig
+
+	# object HEAD
+	sig="$(printf "HEAD\n\n\n$date\n/$bucket/$obj" | openssl sha1 -binary -hmac "$key_secret" | base64)"
+	curl -I $url \
+	    -H "Date: $date" \
+	    -H "Authorization: AWS $key_id:$sig" 2>&1|grep "200 OK" &>/dev/null
+	if test $? -ne 0; then
+		# bucket HEAD
+		sig="$(printf "HEAD\n\n\n$date\n/$bucket" | openssl sha1 -binary -hmac "$key_secret" | base64)"
+		curl -I $bkurl \
+		    -H "Date: $date" \
+		    -H "Authorization: AWS $key_id:$sig" 2>&1|grep "200 OK" &>/dev/null
+		if test $? -ne 0; then
+			# service check
+			curl -I $bkurl 2>&1|grep "403 Forbidden" &>/dev/null
+			if test $? -ne 0; then
+				echo "-2"
+			else
+				echo "-1"
+			fi
+		else
+			echo "0"
+		fi
+        else
+               	echo "1"
+        fi
+}
+
+s3_prom_export() {
+	(echo "# HELP nedge_s3_service_status S3 service client access status"
+	echo "# TYPE nedge_s3_service_status gauge"
+	for svc in ${!SERVICES[@]}; do
+		echo -n "nedge_s3_service_status{service=\"${svc}\",path=\"${SERVICES[${svc}]}\",hostname=\"`hostname`\",namespace=\"nedge\"} "
+		s3_check ${svc} ${SERVICES[${svc}]}
+	done) > $tmpfile
+}
+
+s3_last_result() {
+	local tmpfile="/tmp/nedge-prom-s3-check.last"
+	if test -f $tmpfile; then
+		cat $tmpfile
+	fi
+	s3_prom_export &
+}
+
+s3_collect() {
+	local out=""
+
+	add_response_header "Content-Type" "text/plain; version=0.0.4"
+	send_response_ok_exit < \
+		<(s3_last_result);
+}
+
+process_http_req
+on_uri_match '^/metrics$' s3_collect
+serve_http_req
