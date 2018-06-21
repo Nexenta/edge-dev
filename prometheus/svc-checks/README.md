@@ -17,6 +17,7 @@ Adjust prometheus.yml file and add more targets.
 
 ### NFS service health monitor
 
+```
   Reported states:
  
    1    - service fully available
@@ -24,20 +25,25 @@ Adjust prometheus.yml file and add more targets.
   -1    - service unavailable (df command isn't working)
   -2    - service unavailable (showmount command isn't working)
   -3    - service unavailable (not mounted)
+```
 
 ### iSCSI service health monitor
 
+```
   Reported states:
  
    1	- service fully available
    0	- service LUNs not found
   -1	- service not discoverable (likely networking issue)
+```
 
 ### S3 service health monitor
 
+```
   Reported states:
  
    1	- service fully available
    0	- service bucket HEAD failed
   -1	- service object HEAD failed
   -2	- service not discoverable (likely networking issue)
+```
