@@ -132,7 +132,7 @@ nfs_check() {
                 while read line; do
                         showmount -e $ipaddr &>/dev/null &
                         SMPID=$!
-                        for (( i=1 ; i< 5 ; i++ )) ; do
+                        for (( i=1 ; i< 20 ; i++ )) ; do
                                 if ps -p $SMPID > /dev/null ; then
                                         sleep 1
                                 else
@@ -145,7 +145,7 @@ nfs_check() {
 			else
 				df -k $path &>/dev/null &
 				DFPID=$!
-				for (( i=1 ; i< 5 ; i++ )) ; do
+				for (( i=1 ; i< 20 ; i++ )) ; do
 					if ps -p $DFPID > /dev/null ; then
 						sleep 1
 					else
