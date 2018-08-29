@@ -1,4 +1,52 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "5.1.3"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": "5.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "5.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": "5.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": "5.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": "5.0.0"
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -16,7 +64,8 @@
   "editable": true,
   "gnetId": 917,
   "graphTooltip": 0,
-  "iteration": 1529445712656,
+  "id": null,
+  "iteration": 1535503588171,
   "links": [],
   "panels": [
     {
@@ -56,7 +105,8 @@
         "#629e51",
         "#e5ac0e"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Overall cluster status: HEALTY or DEGRADED",
       "editable": true,
       "error": false,
       "format": "none",
@@ -163,7 +213,8 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Calculated Total cluster available space based on current Redaction Ratio",
       "editable": true,
       "error": false,
       "format": "decbytes",
@@ -250,7 +301,8 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Total Raw cluster capacity",
       "editable": true,
       "error": false,
       "format": "decbytes",
@@ -338,7 +390,8 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Total Raw used cluster capacity",
       "editable": true,
       "error": false,
       "format": "decbytes",
@@ -425,8 +478,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
+      "description": "Calculated current data redaction ratio",
       "editable": true,
       "error": false,
       "format": "short",
@@ -513,8 +567,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 0,
+      "description": "In case of SSD offload (hybrid deployment) it displays its current average utilization across all the nodes in the cluster",
       "editable": true,
       "error": false,
       "format": "percentunit",
@@ -602,8 +657,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
+      "description": "Total cluster current utilization",
       "editable": true,
       "error": false,
       "format": "percent",
@@ -687,8 +743,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
+      "description": "Total number of all objects in the cluster including S3 parts",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -786,8 +843,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
+      "description": "Total number of all the object versions in the cluster",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -898,7 +956,8 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Average client I/O 4K normalized latency across all the gateways in the cluster, including mixed and dedicated. For example, 32K transfer would be counted as latency of 8 by 4K blocks.",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -1008,8 +1067,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 0,
+      "description": "Aggregated total and average client I/O IOPS across all the gateways in the cluster, including mixed and dedicated.",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -1123,8 +1183,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 0,
+      "description": "Aggregated total and average client I/O throughput across all the gateways in the cluster, including mixed and dedicated.",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -1225,7 +1286,8 @@
     },
     {
       "columns": [],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Aggregation of activity across top 100 tenants",
       "fontSize": "100%",
       "gridPos": {
         "h": 5,
@@ -1326,7 +1388,8 @@
           "value": "current"
         }
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Aggregation of activity across top 100 buckets",
       "fontSize": "100%",
       "gridPos": {
         "h": 5,
@@ -1427,7 +1490,8 @@
           "value": "current"
         }
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Aggregation of activity across top 100 objects",
       "fontSize": "100%",
       "gridPos": {
         "h": 5,
@@ -1536,7 +1600,8 @@
     },
     {
       "columns": [],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Aggregation of activity across top 100 services",
       "fontSize": "100%",
       "gridPos": {
         "h": 4,
@@ -1639,9 +1704,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
-      "description": "",
+      "description": "Aggregated S3 throughput across all the gateways in the cluster, including mixed and dedicated.",
       "editable": true,
       "error": false,
       "format": "Bps",
@@ -1729,9 +1794,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
-      "description": "",
+      "description": "Aggregated NFS throughput across all the gateways in the cluster, including mixed and dedicated.",
       "editable": true,
       "error": false,
       "format": "Bps",
@@ -1819,9 +1884,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
-      "description": "",
+      "description": "Aggregated iSCSI throughput across all the gateways in the cluster, including mixed and dedicated.",
       "editable": true,
       "error": false,
       "format": "Bps",
@@ -1909,9 +1974,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
-      "description": "",
+      "description": "Aggregated SWIFT throughput across all the gateways in the cluster, including mixed and dedicated.",
       "editable": true,
       "error": false,
       "format": "Bps",
@@ -1999,9 +2064,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
-      "description": "",
+      "description": "Aggregated NBD throughput across all the gateways in the cluster, including mixed and dedicated.",
       "editable": true,
       "error": false,
       "format": "Bps",
@@ -2089,9 +2154,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
-      "description": "",
+      "description": "Aggregated internal I/O, or custom libccow throughput across all the gateways in the cluster, including mixed and dedicated.",
       "editable": true,
       "error": false,
       "format": "Bps",
@@ -2175,8 +2240,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
+      "description": "Reported states:\n \n   1    - service fully available\n   0    - service partially available (likely networking issue)\n  -1    - service unavailable (df command isn't working)\n  -2    - service unavailable (showmount command isn't working)\n  -3    - service unavailable (not mounted)",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -2300,8 +2366,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
+      "description": "Reported states:\n \n   1\t- service fully available\n   0\t- service LUNs not found\n  -1\t- service not discoverable (likely networking issue)",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -2424,8 +2491,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
+      "description": "Reported states:\n \n   1\t- service fully available\n   0\t- service bucket HEAD failed\n  -1\t- service object HEAD failed\n  -2\t- service not discoverable (likely networking issue)",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -2565,7 +2633,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "VDEVS currently in online and available state",
       "editable": true,
       "error": false,
@@ -2654,7 +2722,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "VDEVS currently in Degraded state",
       "editable": true,
       "error": false,
@@ -2739,14 +2807,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "editable": true,
       "error": false,
       "fill": 1,
       "grid": {},
       "gridPos": {
         "h": 4,
-        "w": 7,
+        "w": 5,
         "x": 4,
         "y": 35
       },
@@ -2757,8 +2825,8 @@
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
-        "show": true,
+        "rightSide": false,
+        "show": false,
         "sideWidth": 175,
         "total": false,
         "values": false
@@ -2834,15 +2902,15 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "editable": true,
       "error": false,
       "fill": 1,
       "grid": {},
       "gridPos": {
         "h": 4,
-        "w": 7,
-        "x": 11,
+        "w": 5,
+        "x": 9,
         "y": 35
       },
       "id": 77,
@@ -2852,8 +2920,8 @@
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
-        "show": true,
+        "rightSide": false,
+        "show": false,
         "sideWidth": 175,
         "total": false,
         "values": false
@@ -2928,15 +2996,15 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "editable": true,
       "error": false,
       "fill": 1,
       "grid": {},
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 18,
+        "w": 5,
+        "x": 14,
         "y": 35
       },
       "id": 67,
@@ -2946,8 +3014,8 @@
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
-        "show": true,
+        "rightSide": false,
+        "show": false,
         "sideWidth": 175,
         "total": false,
         "values": false
@@ -3018,6 +3086,95 @@
       }
     },
     {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(50, 172, 45, 0.97)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(245, 54, 54, 0.9)"
+      ],
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Maximum difference between the cluster nodes time",
+      "editable": true,
+      "error": false,
+      "format": "µs",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 19,
+        "y": 35
+      },
+      "id": 71,
+      "interval": null,
+      "isNew": true,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "max(nedge_node_local_timestamp_us)-min(nedge_node_local_timestamp_us)",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": "10000000,30000000",
+      "title": "Time Deviation",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
@@ -3039,7 +3196,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "VDEVS currently in online and available state",
       "editable": true,
       "error": false,
@@ -3129,7 +3286,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "VDEVS currently in Degraded state",
       "editable": true,
       "error": false,
@@ -3218,7 +3375,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Total IOPS  across all VDEVs in the cluster",
       "editable": true,
       "error": false,
@@ -3307,7 +3464,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Average read latency across all VDEVs in the cluster, 4K normalized",
       "editable": true,
       "error": false,
@@ -3396,8 +3553,8 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
-      "description": "Average write latency across all VDEVs in the cluster, 4K normalized",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Average read latency across all VDEVs in the cluster, 4K normalized",
       "editable": true,
       "error": false,
       "format": "µs",
@@ -3414,7 +3571,7 @@
         "x": 12,
         "y": 40
       },
-      "id": 71,
+      "id": 89,
       "interval": null,
       "isNew": true,
       "links": [],
@@ -3464,7 +3621,7 @@
         }
       ],
       "thresholds": "10000,50000",
-      "title": "Avg. Write Latency",
+      "title": "Avg. Read Latency",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -3485,7 +3642,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Total read throughput across all VDEVs in the cluster",
       "editable": true,
       "error": false,
@@ -3574,7 +3731,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Total write throughput across all VDEVs in the cluster",
       "editable": true,
       "error": false,
@@ -3655,12 +3812,615 @@
       "valueName": "avg"
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Bandwidth utilization for all the VDEVs per averaged per node",
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 43
+      },
+      "id": 82,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sideWidth": 175,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(nedge_node_vdev_iostat_busy) by (hostname)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "{{hostname}}",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "IOSTAT Disk Utilization Avg",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Average VDEVs IOPS per node",
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 43
+      },
+      "id": 83,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sideWidth": 175,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(nedge_node_vdev_iostat_r_ios+nedge_node_vdev_iostat_w_ios) by (hostname)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "{{hostname}}",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "IOSTAT Disk IOPS Avg",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "iops",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "90th quantile of VDEVs IO size per node",
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 43
+      },
+      "id": 84,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sideWidth": 175,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "quantile(0.9,nedge_node_vdev_iostat_size_kb) by (hostname)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "{{hostname}}",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "IOSTAT Disk Size Avg",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "deckbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Aggregation of important error counters per VDEV",
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 43
+      },
+      "id": 87,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sideWidth": 175,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "nedge_node_vdev_smart_total_err",
+          "format": "time_series",
+          "hide": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "{{devname}}",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "S.M.A.R.T Error Counters",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Reports Current Temperature of all VDEVs in the cluster",
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 43
+      },
+      "id": 88,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "sideWidth": 175,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "nedge_node_vdev_smart_temperature_current",
+          "format": "time_series",
+          "hide": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "{{devname}}",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "S.M.A.R.T Current Temperature",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "celsius",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "#629e51",
+        "#e5ac0e"
+      ],
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Checks Health Status for all the VDEVs in the cluster. Reports FAIL if at least one has a problem.",
+      "editable": true,
+      "error": false,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 43
+      },
+      "id": 86,
+      "interval": "1m",
+      "isNew": true,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "1",
+          "text": "FAIL",
+          "to": "10000"
+        },
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        },
+        {
+          "from": "0",
+          "text": "OK",
+          "to": "0"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "min(nedge_node_vdev_smart_health_status)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": "0,1",
+      "title": "S.M.A.R.T. Status",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "100%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "HEALTHY",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "DEGRADED",
+          "value": "1"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 47
       },
       "id": 39,
       "panels": [],
@@ -3676,7 +4436,8 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Garbage Collectors approximate progress across cluster",
       "editable": true,
       "error": false,
       "format": "percent",
@@ -3691,7 +4452,7 @@
         "h": 4,
         "w": 3,
         "x": 0,
-        "y": 44
+        "y": 48
       },
       "id": 58,
       "interval": "1m",
@@ -3764,8 +4525,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
+      "description": "Space Reclaim approximate progress across cluster",
       "editable": true,
       "error": false,
       "format": "percent",
@@ -3780,7 +4542,7 @@
         "h": 4,
         "w": 3,
         "x": 3,
-        "y": 44
+        "y": 48
       },
       "id": 61,
       "interval": "1m",
@@ -3853,8 +4615,9 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 1,
+      "description": "Transaction Log time behind current",
       "editable": true,
       "error": false,
       "format": "s",
@@ -3869,7 +4632,7 @@
         "h": 4,
         "w": 3,
         "x": 6,
-        "y": 44
+        "y": 48
       },
       "id": 59,
       "interval": "1m",
@@ -3938,7 +4701,8 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Temporary metadata entries used for background processes (Deduplication, Deletion, Replication)",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -3947,7 +4711,7 @@
         "h": 4,
         "w": 5,
         "x": 9,
-        "y": 44
+        "y": 48
       },
       "id": 15,
       "isNew": true,
@@ -4029,7 +4793,8 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Temporary metadata used by Deduplication background engine",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -4038,7 +4803,7 @@
         "h": 4,
         "w": 5,
         "x": 14,
-        "y": 44
+        "y": 48
       },
       "id": 17,
       "isNew": true,
@@ -4125,7 +4890,8 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Temporary metadata used by Replication background engine",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -4134,7 +4900,7 @@
         "h": 4,
         "w": 5,
         "x": 19,
-        "y": 44
+        "y": 48
       },
       "id": 16,
       "isNew": true,
@@ -4305,7 +5071,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -4334,7 +5100,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "NexentaEdge - Cluster",
+  "title": "NexentaEdge Cluster",
   "uid": "nexentaedge",
-  "version": 1
+  "version": 7
 }
