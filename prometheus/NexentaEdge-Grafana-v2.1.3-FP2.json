@@ -65,7 +65,7 @@
   "gnetId": 917,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1535503588171,
+  "iteration": 1536034380956,
   "links": [],
   "panels": [
     {
@@ -4166,9 +4166,9 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
+      "timeFrom": "24h",
       "timeShift": null,
-      "title": "S.M.A.R.T Error Counters",
+      "title": "S.M.A.R.T Errors",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -4312,7 +4312,7 @@
       "colorValue": true,
       "colors": [
         "rgba(245, 54, 54, 0.9)",
-        "#629e51",
+        "#f9934e",
         "#e5ac0e"
       ],
       "datasource": "${DS_PROMETHEUS}",
@@ -4328,7 +4328,7 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 4,
+        "h": 2,
         "w": 4,
         "x": 20,
         "y": 43
@@ -4357,9 +4357,9 @@
       "prefixFontSize": "50%",
       "rangeMaps": [
         {
-          "from": "1",
+          "from": "0",
           "text": "FAIL",
-          "to": "10000"
+          "to": "0"
         },
         {
           "from": "null",
@@ -4367,9 +4367,9 @@
           "to": "null"
         },
         {
-          "from": "0",
+          "from": "1",
           "text": "OK",
-          "to": "0"
+          "to": "10000"
         }
       ],
       "sparkline": {
@@ -4395,6 +4395,100 @@
       "transparent": false,
       "type": "singlestat",
       "valueFontSize": "100%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "HEALTHY",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "DEGRADED",
+          "value": "1"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "#f9934e",
+        "#e5ac0e"
+      ],
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "Checks Health Status for all the VDEVs in the cluster. Reports FAIL if at least one has a problem.",
+      "editable": true,
+      "error": false,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 20,
+        "y": 45
+      },
+      "id": 90,
+      "interval": "1m",
+      "isNew": true,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "30%",
+      "prefix": "",
+      "prefixFontSize": "30%",
+      "rangeMaps": [],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "devname",
+      "targets": [
+        {
+          "expr": "nedge_node_vdev_smart_health_status == 0",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A",
+          "step": 60
+        }
+      ],
+      "thresholds": "0,1",
+      "title": "Attention VDEV",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "30%",
       "valueMaps": [
         {
           "op": "=",
@@ -5102,5 +5196,5 @@
   "timezone": "browser",
   "title": "NexentaEdge Cluster",
   "uid": "nexentaedge",
-  "version": 7
+  "version": 10
 }
