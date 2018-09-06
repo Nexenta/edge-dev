@@ -1,6 +1,6 @@
 ![logo](https://nexenta.com/rs/nexenta2/images/Nexenta-GL-logo-600-dpi.jpg)
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/nexenta/nedge.svg)](https://hub.docker.com/r/nexenta/nedge)
+[![Docker Pulls](https://img.shields.io/docker/pulls/nexenta/nedge-target.svg)](https://hub.docker.com/r/nexenta/nedge-target)
 
 # NexentaEdge DevOps Edition
 Fast, feature rich and easy to use File, Block and Object storage for your Cloud-Native Applications. It is designed to make use of off the shelf storage and networking infrastructure and present it as enterprise grade SDS (Software-Defined Storage) solution.
