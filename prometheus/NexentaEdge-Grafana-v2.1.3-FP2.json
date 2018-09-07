@@ -214,7 +214,7 @@
         "rgba(50, 172, 45, 0.97)"
       ],
       "datasource": "${DS_PROMETHEUS}",
-      "description": "Calculated Total cluster available space based on current Redaction Ratio",
+      "description": "Calculated Total cluster available space based on current Reduction Ratio",
       "editable": true,
       "error": false,
       "format": "decbytes",
@@ -545,7 +545,7 @@
         }
       ],
       "thresholds": "2,3",
-      "title": "Data Redaction Ratio",
+      "title": "Data Reduction Ratio",
       "transparent": false,
       "type": "singlestat",
       "valueFontSize": "100%",

@@ -540,7 +540,7 @@
         }
       ],
       "thresholds": "2,3",
-      "title": "Data Redaction Ratio",
+      "title": "Data Reduction Ratio",
       "transparent": false,
       "type": "singlestat",
       "valueFontSize": "100%",
