@@ -3554,7 +3554,7 @@
         "rgba(245, 54, 54, 0.9)"
       ],
       "datasource": "${DS_PROMETHEUS}",
-      "description": "Average read latency across all VDEVs in the cluster, 4K normalized",
+      "description": "Average write latency across all VDEVs in the cluster, 4K normalized",
       "editable": true,
       "error": false,
       "format": "µs",
