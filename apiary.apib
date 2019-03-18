@@ -3,9 +3,9 @@ HOST: https://edge.nexenta.com/
 
 # Edge-X S3-compatible API
 
-The API provides access to advanced Edge Object interfaces, such as access to Key-Value
-store, S3 Object Append mode, S3 Object RW mode and S3 Object Stream Session
-(POSIX compatible) mode.
+The API provides access to advanced Edge Object interfaces, such as access to NoSQL Key-Value
+database as an Object, S3 Object Append mode, S3 Object RW mode and S3 Object Stream Session
+(relaxed POSIX) mode.
 
 A Stream Session encompasses a series of edits to one object made by one source that are
 saved as one or more versions during a specific finite time duration. A Stream Session must
@@ -16,7 +16,7 @@ Stream Session allows high-performance POSIX-style access to an object and thus 
 beneficial for client applications to use HTTP/1.1 Persistent Connection extensions,
 to minimize latency between updates or reads.
 
-To enable POSIX access please install edgefs package: https://github.com/Nexenta/edge-fuse
+To enable experimental POSIX file access please install edgefs package: https://github.com/Nexenta/edge-fuse
 
 Quick summary of differences between AWS S3, Azure Blob, GCP Object and Edge-X:
 
@@ -24,17 +24,18 @@ Quick summary of differences between AWS S3, Azure Blob, GCP Object and Edge-X:
 
 ## Key-Value store [/{bucket}/{blob}{?comp,key,maxresults,values,cancel,finalize}]
 
-Extends access to object as scale-out, high-performance NoSQL key-value pairs blob database.
-Default value format is in JSON. Raw format is supported if `key` parameter is specified.
+Extends access to an Object as scale-out, high-performance NoSQL key-value database.
+Default value format is in JSON. Raw format is supported if `key` query parameter is
+specified during insert operation.
 
-Key-Value store supports two modes of operations. Immediately versioned and Stream Session.
+NoSQL key-value store supports two modes of operations. Immediately versioned and Stream Session.
 In case of Stream Session, client's `x-session-id` will be used to temporarily keep on-going
-session parameteres.
+session parameters.
 
 If `x-session-id` header parameter specified (returned as a result of previous
 insert or delete response) then it will continue on going stream session and will continue
-streaming operation. Session will stay active for 30 seconds. It is responsibility of a client
-appilcation to finalize or cancel it by supplying `finalize` or `cancel` query parameter.
+streaming operation. Session will stay active for up to 30 seconds. It is responsibility of a
+client appilcation to finalize or cancel it by supplying `finalize` or `cancel` query parameter.
 
 + Parameters
     + bucket - bucket name
@@ -42,8 +43,8 @@ appilcation to finalize or cancel it by supplying `finalize` or `cancel` query p
 
 ### List Key Values [GET]
 
-List all keys and corresponding values in key-value blob. If `key` specified and result is unique,
-then the only value will be returned at a time with response content type
+List all keys and corresponding values in key-value database. If `key` specified and result is
+unique, then the only value will be returned at a time with response content type
 `application/octet-stream`. If `key` is omited or result is not unique, then response will
 be `application/json` containing json object with both keys and values specified.
 
@@ -66,11 +67,13 @@ be `application/json` containing json object with both keys and values specified
 
 ### Insert Key Value Pairs [POST]
 
-Insert new key value pair or update existing one in key-value blob. If `key` specified then
+Insert new key value pair or update existing one in key-value database. If `key` specified then
 request body will be considered as value, can be of any type and only one key will be inserted
 or updated at a time. In case of missing `key`, request body has to be of content
 `application/json` and need to contain a json object with one more more keys to insert or
-update.
+update. Value cannot exceed 1MB in size. Key-value database on to of Object was designed for
+storing billions of small records. If you need to store larger values, consider to use
+normal S3 Object upload instead.
 
 
 + Parameters
